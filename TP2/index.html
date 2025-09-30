@@ -205,9 +205,46 @@
                 </button>
             </section>
 
+                <!-- Minicarrusel de juegos -->
+                <section class="minicarousel-container">
+
+                    <div class="minicarousel-header">
+                        <img src="images/Iconos juegos y categorias/trending.svg" alt="Icono carrusel" class="minicarousel-icon">
+                        <span class="minicarousel-title">Trending</span>
+                        <a href="#" class="minicarousel-viewmore">Ver más</a>
+                    </div>
+
+                    <div class="minicarousel-scroll">
+                        <!-- Cards de juegos se insertan aca dinámicamente -->
+                    </div>
+                </section>
+
     </main>
 
 </body>
-<script src="js/carousel.js"></script>
+<script src="js/carousel-principal.js"></script>
 <script src="js/sidebar.js"></script>
+<script> 
+    async function cargarCarruselJuegos() {
+        const response = await fetch('https://vj.interfaces.jima.com.ar/api');
+        const juegos = await response.json();
+        const contenedor = document.querySelector('.minicarousel-scroll');
+        contenedor.innerHTML = '';
+        juegos.slice(0, 10).forEach(juego => {
+            const card = document.createElement('div');
+            card.className = 'minicarousel-card';
+            card.innerHTML = `
+                <img class="minicarousel-card-img" src="${juego.background_image}" alt="${juego.name}">
+                <div class="minicarousel-card-info">
+                    <div class="minicarousel-card-title">${juego.name}</div>
+                    <div class="minicarousel-card-status gratis">Gratis</div>
+                    <button class="minicarousel-card-play">Jugar</button>
+                </div>
+            `;
+            contenedor.appendChild(card);
+        });
+    }
+    cargarCarruselJuegos(); 
+</script>
+</main>
 </html>
