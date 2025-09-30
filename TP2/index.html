@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Orbitron:wght@400..900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Press+Start+2P&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -205,46 +208,16 @@
                 </button>
             </section>
 
-                <!-- Minicarrusel de juegos -->
-                <section class="minicarousel-container">
-
-                    <div class="minicarousel-header">
-                        <img src="images/Iconos juegos y categorias/trending.svg" alt="Icono carrusel" class="minicarousel-icon">
-                        <span class="minicarousel-title">Trending</span>
-                        <a href="#" class="minicarousel-viewmore">Ver más</a>
-                    </div>
-
-                    <div class="minicarousel-scroll">
-                        <!-- Cards de juegos se insertan aca dinámicamente -->
-                    </div>
-                </section>
+                <section class="games-section">
+            <!-- Aquí se insertarán las cards dinámicamente -->
+            <div id="games-container" class="games-grid"></div>
+            </section>
 
     </main>
 
 </body>
 <script src="js/carousel-principal.js"></script>
 <script src="js/sidebar.js"></script>
-<script> 
-    async function cargarCarruselJuegos() {
-        const response = await fetch('https://vj.interfaces.jima.com.ar/api');
-        const juegos = await response.json();
-        const contenedor = document.querySelector('.minicarousel-scroll');
-        contenedor.innerHTML = '';
-        juegos.slice(0, 10).forEach(juego => {
-            const card = document.createElement('div');
-            card.className = 'minicarousel-card';
-            card.innerHTML = `
-                <img class="minicarousel-card-img" src="${juego.background_image}" alt="${juego.name}">
-                <div class="minicarousel-card-info">
-                    <div class="minicarousel-card-title">${juego.name}</div>
-                    <div class="minicarousel-card-status gratis">Gratis</div>
-                    <button class="minicarousel-card-play">Jugar</button>
-                </div>
-            `;
-            contenedor.appendChild(card);
-        });
-    }
-    cargarCarruselJuegos(); 
-</script>
+<script src="js/juegos.js"></script>
 </main>
 </html>

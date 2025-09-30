@@ -1,6 +1,7 @@
 body {
     margin: 0;
     font-family: sans-serif;
+    background-color: #1A1A1A;
 }
 
 /* ------------------ Navbar ------------------ */
@@ -168,12 +169,20 @@ body {
 /* ------------------ Contenido principal ------------------ */
 .main-content {
     margin-left: 180px; /* Espacio para que el contenido quede al costado del sidebar */
-    width: calc(100% - 180px); /* Para que el contenido ocupe el resto del ancho espacio */
-    height: 100%; /* Alto de toda la ventana - la altura del navbar */
-
+    flex-grow: 1;
+    height: calc(100vh - 20px);
+    padding: 20px;
     background-color: #1A1A1A;
-
     transition: margin-left 0.3s;
+    /* Elimina el max-width y usa width: calc(100vw - 180px) para ocupar todo el espacio disponible menos el sidebar */
+    width: calc(100vw - 180px);
+    max-width: none;
+    margin-right: 0;
+    margin-left: 180px;
+    box-sizing: border-box;
+    /* Elimina cualquier padding o margen derecho extra */
+    padding-right: 0;
+    margin-right: 0;
 }
 
     /* --------- Sidebar colapsado --------- */
@@ -241,6 +250,7 @@ body {
     justify-content: center;
     width: 100%;
     gap: 24px;
+    margin-bottom: 15px;
 }
 
 .carousel-img {
@@ -281,138 +291,221 @@ body {
     font-weight: 500;
 }
 
-/* ---------------- Minicarrusel container ---------------- */
-.minicarousel-container {
-    height: 346px;
+/* ------------------ Juegos ------------------ */
 
-    background: #181818;
-    display: flex;
-    flex-direction: column;
-    padding: 16px 24px 0 24px;
-}
-
-.minicarousel-header {
+.games-section {
+    width: 100%;          /* que ocupe todo el ancho disponible */
+    max-width: 100%;      /* no se pase del viewport */
+    min-height: 310px;
     display: flex;
     align-items: center;
-    gap: 12px;
-    margin-bottom: 12px;
+    justify-content: center;
+    flex-direction: column;
+    padding: 0 20px;      /* respiro en los bordes */
+    box-sizing: border-box;
+    margin-bottom: 80px;
 }
 
-.minicarousel-icon {
-    width: 30px;
-    height: 30px;
-    object-fit: contain;
+.games-grid {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-top: 0px;
 }
 
-.minicarousel-title {
-    font-size: 20px;
-    font-weight: 600;
-    color: #fff;
-    margin-right: auto;
-}
-
-.minicarousel-viewmore {
-    font-size: 12px;
-    color: #00bfff;
-    text-decoration: none;
-    font-weight: 500;
-    transition: color 0.2s;
-}
-.minicarousel-viewmore:hover {
-    color: #0099cc;
-}
-
-.minicarousel-scroll {
+.games-category-row {
     display: flex;
     flex-direction: row;
-    gap: 18px;
-    overflow-x: auto;
-    padding-bottom: 16px;
-    scrollbar-width: thin;
-    scrollbar-color: #333 #222;
-}
-.minicarousel-scroll::-webkit-scrollbar {
-    height: 8px;
-}
-.minicarousel-scroll::-webkit-scrollbar-thumb {
-    background: #333;
-    border-radius: 4px;
+    gap: 30px;
+    width: 100%;
+    justify-content: flex-start;
 }
 
-.minicarousel-card {
-    flex: 0 0 auto;
-    width: 280px;
-    height: 230px;
-    background: #222;
-    border-radius: 10px;
-    box-shadow: 0 1px 6px rgba(0,0,0,0.10);
+
+/* Contenedor para título y "Ver todos" en la misma línea */
+.carousel-header {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    justify-content: flex-start;
-    overflow: hidden;
-    transition: transform 0.2s;
+    padding: 0 33px;
+    margin-bottom: 30px;
+}
+
+.carousel-header .category-icon {
+  width: 30px;
+  height: 30px;
+  margin-right: 10px;
+}
+
+.games-category-title {
+    font-size: 20px;
+    margin: 20px 0 10px;
+    color: #fff;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: semi-bold;
+    margin: 0; /* Resetear márgenes para el nuevo layout */
+}
+
+.ver-todos-link {
+    font-size: 12px;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: semi-bold;
+    color: #D4D4D4;
+    text-decoration: none;
+    margin-left: 16px; /* Espacio entre el título y el link */
+}
+
+.ver-todos-link:hover{
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.ver-todos-link:active{
+    color: #bbb;
+}
+
+.games-carousel {
     position: relative;
+    margin-bottom: 30px;
+    max-width: 100vw;
+    box-sizing: border-box;
 }
 
-.minicarousel-card-img {
-    width: 100%;
-    height: 120px;
-    object-fit: cover;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
+.recientes-carousel {
+    background: #3A3A3A;   
+    border-radius: 16px;
+    padding: 20px 0;
 }
 
-.minicarousel-card-info {
-    width: 100%;
-    padding: 10px 14px 0 14px;
+.carousel-track {
+    display: flex;
+    gap: 30px;
+    padding-left: 33px;
+    padding-top: 0;
+    padding-bottom: 40px;
+    padding-right: 33PX;
+    scroll-behavior: smooth;
+    max-width: 100vw;
+    box-sizing: border-box;
+    overflow-x: auto;
+}
+
+.carousel-track::-webkit-scrollbar {
+    display: none; /* ocultar scroll si querés */
+}
+
+.games-section:last-child {
+  margin-bottom: 0 !important;
+}
+
+.game-card {
+    background: #D9D9D9;
+    border-radius: 20px;
+    flex-shrink: 0; /* evita que se achique */
+    width: 279px;
+    flex-shrink: 0;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
-    flex: 1;
+    overflow: hidden;
 }
 
-.minicarousel-card-title {
-    font-size: 16px;
-    font-weight: 600;
-    color: #fff;
-    margin-bottom: 4px;
+.game-img {
+    width: 269px;
+    height: 166px;
+    object-fit: cover;
+    padding: 5px;
+    border-radius: 20px;
+}
+
+.game-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding : 0px 5px;
+}
+
+.game-title {
+    font-size: 12px;
+    color: #000000;
+    padding-left: 10px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    width: 100%;
+    font-family: 'Orbitron', sans-serif;
+    margin-bottom: 5px;
 }
 
-.minicarousel-card-status {
-    font-size: 13px;
-    font-weight: 500;
-    margin-bottom: 8px;
-    padding: 2px 8px;
-    border-radius: 6px;
-    background: #eaeaea;
-    color: #111;
-    display: inline-block;
-}
-.minicarousel-card-status.gratis {
-    background: #eaeaea;
-    color: #111;
+.game-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 5px 10px 10px;
 }
 
-.minicarousel-card-play {
-    font-size: 14px;
-    font-weight: 600;
-    background: #00bfff;
-    color: #fff;
+.game-price {
+    font-family: 'Press Start 2P';
+    font-size: 10px;
+    color: #4A4AFF ; 
+}
+
+.play-btn {
+    background: #625FEA;
+    color: #000000;
     border: none;
-    border-radius: 6px;
-    padding: 6px 18px;
+    border-radius: 100px;
+    padding: 6px 10px;
     cursor: pointer;
-    transition: background 0.2s;
-    margin-top: auto;
+    transition: transform 0.2s ease, background 0.3s ease;
+    height: 25px;
+    width: 109.5px;
+    font-family: 'Press Start 2P';
+    font-size: 10px;
+    position: relative;
+    overflow: hidden;
 }
-.minicarousel-card-play:hover {
-    background: #0099cc;
+
+.play-btn:hover {
+    background: #B55300;
+    transform: scale(1.1) rotate(-2deg); /* crece y se inclina un poco */
+}
+
+.play-btn:active {
+    transform: scale(0.9) rotate(0deg);
+}
+
+.play-btn::after {
+    content: "🎮";
+    position: absolute;
+    right: -20px;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0;
+    font-size: 14px;
+    transition: right 0.4s ease, opacity 0.4s ease;
+}
+
+.play-btn:hover::after {
+    right: 10px;   /* entra hacia adentro */
+    opacity: 1;    /* aparece */
+}
+
+.carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0,0,0,0.5);
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 10;
+}
+
+.prev-btn { 
+    left: 10px; 
+}
+.next-btn { 
+    right: 10px; 
 }
 
 @media (max-width: 700px) {
