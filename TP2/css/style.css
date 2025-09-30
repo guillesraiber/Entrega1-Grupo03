@@ -166,23 +166,16 @@ body {
 
 
 
+
 /* ------------------ Contenido principal ------------------ */
 .main-content {
     margin-left: 180px; /* Espacio para que el contenido quede al costado del sidebar */
-    flex-grow: 1;
-    height: calc(100vh - 20px);
-    padding: 20px;
+    width: calc(100% - 180px); /* Para que el contenido ocupe el resto del ancho espacio */
+    height: 100%; /* Alto de toda la ventana - la altura del navbar */
+
     background-color: #1A1A1A;
+
     transition: margin-left 0.3s;
-    /* Elimina el max-width y usa width: calc(100vw - 180px) para ocupar todo el espacio disponible menos el sidebar */
-    width: calc(100vw - 180px);
-    max-width: none;
-    margin-right: 0;
-    margin-left: 180px;
-    box-sizing: border-box;
-    /* Elimina cualquier padding o margen derecho extra */
-    padding-right: 0;
-    margin-right: 0;
 }
 
     /* --------- Sidebar colapsado --------- */
@@ -214,23 +207,23 @@ body {
 /* ------------------ Carrusel ------------------ */
 
 .carousel-container {
-    width: 100%;
+    width: 95%;
     max-width: 1050px; /* Que ocupe todo el ancho que pueda con maximo de 1050px */
+    min-height: 45vh;
     margin: 0px auto 0px auto; /* Centrar el carrusel dentro del contenedor */
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
-    min-height: 310px;
 }
 
 .carousel-arrow {
     background: #222;
     color: #D4D4D4;
     border: none;
-    font-size: 2rem;
-    width: 48px;
-    height: 48px;
+    font-size: 1.5rem;
+    width: 6%;
+    height: 6%;
     border-radius: 50%;
     cursor: pointer;
     display: flex;
@@ -249,20 +242,21 @@ body {
     align-items: center;
     justify-content: center;
     width: 100%;
-    gap: 24px;
-    margin-bottom: 15px;
+    gap: 3%;
+    padding: 4vh 0;
 }
 
 .carousel-img {
-    object-fit: cover; /* Asegura que la imagen entre en el contenedor sin distorsionarse */
+    object-fit: cover; /* asegura que la imagen entre en el contenedor sin distorsionarse */
+    aspect-ratio: 16 / 9; /* mantiene la proporcion de la imagen */
     border-radius: 16px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.2);
     background: #333;
 }
 
 .carousel-img-secondary {
-    width: 213px;
-    height: 140px;
+    width: 21%;
+    height: 30%;
     opacity: 0.5;
     filter: blur(1px);
     transition: opacity 0.3s, filter 0.3s;
@@ -273,11 +267,11 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    width: 45%;
 }
 
 .carousel-img-main {
-    width: 390px;
-    height: 260px;
+    width: 100%;
     opacity: 1;
     filter: none;
     margin-bottom: 10px;
@@ -290,7 +284,6 @@ body {
     margin-top: 4px;
     font-weight: 500;
 }
-
 /* ------------------ Juegos ------------------ */
 
 .games-section {
@@ -301,7 +294,6 @@ body {
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    padding: 0 20px;      /* respiro en los bordes */
     box-sizing: border-box;
     margin-bottom: 80px;
 }
@@ -372,7 +364,6 @@ body {
 
 .recientes-carousel {
     background: #3A3A3A;   
-    border-radius: 16px;
     padding: 20px 0;
 }
 

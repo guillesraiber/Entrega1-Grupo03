@@ -2,14 +2,11 @@
 
 //  arreglo contenedor de imagenes del carrusel principal
 const images = [
-  { src: 'image.png', title: 'Peg Solitare' },
-  { src: 'image.png', title: 'Imagen 2' },
-  { src: 'image.png', title: 'Imagen 3' },
-  { src: 'image.png', title: 'Imagen 4' },
-  { src: 'image.png', title: 'Imagen 5' },
-  { src: 'image.png', title: 'Imagen 6' },
-  { src: 'image.png', title: 'Imagen 7' },
-  { src: 'image.png', title: 'Imagen 8' }
+  { src: './images/carrusel/peg_solitaire.png', title: 'Peg Solitare' },
+  { src: './images/carrusel/zombie_tsunami.png', title: 'Zombie Tsunami' },
+  { src: './images/carrusel/pacman.png', title: 'Pacman' },
+  { src: './images/carrusel/sims4.png', title: 'Sims 4' },
+  { src: './images/carrusel/gta.png', title: 'GTA' },
 ];
 
 // imagen actual

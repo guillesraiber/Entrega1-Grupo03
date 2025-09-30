@@ -47,7 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
     "Shooter": "images/Iconos juegos y categorias/guerra.svg",
     "Puzzle": "images/Iconos juegos y categorias/de_mesa.svg",
     "Adventure": "images/Iconos juegos y categorias/aventuras.svg",
-    "Indie": "images/Iconos juegos y categorias/random.svg",
+    "Indie": "images/Iconos juegos y categorias/para_niños.svg",
     "Platformer": "images/Iconos juegos y categorias/terror.svg",
     "Massively Multiplayer": "images/Iconos juegos y categorias/multijugador.svg",
     "Sports": "images/Iconos juegos y categorias/futbol.svg",
