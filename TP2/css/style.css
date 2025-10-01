@@ -242,12 +242,12 @@ body {
     align-items: center;
     justify-content: center;
     width: 100%;
-    gap: 3%;
-    padding: 4vh 0;
+    gap: 5%;
+    padding: 7vh 0 5vh 0;
 }
 
 .carousel-img {
-    object-fit: cover; /* asegura que la imagen entre en el contenedor sin distorsionarse */
+    object-fit: cover; /*asegura que la imagen entre en el contenedor sin distorsionarse */
     aspect-ratio: 16 / 9; /* mantiene la proporcion de la imagen */
     border-radius: 16px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.2);
@@ -268,6 +268,64 @@ body {
     align-items: center;
     justify-content: center;
     width: 45%;
+    position: relative;
+    z-index: 1;
+    cursor: pointer
+}
+
+#peg-solitaire::after, #zombie-tsunami::after, #pac-man::after, #sims-4::after, #gta::after {
+    --blurLevel: 1rem;
+    content: '';
+    position: absolute;
+    height: 86%;
+    width: 100%;
+    bottom: 12%;
+    border-radius: 16px;
+    z-index: -1;
+    filter: blur(var(--blurLevel));
+    /* animation: glow 1s alternate infinite; */
+}
+
+/* @keyframes glow {
+    0% {
+        --blurLevel: 0.5rem;
+    }
+    20% {
+        --blurLevel: 0.6rem;
+    }
+    40% {
+        --blurLevel: 0.7rem;
+    }
+    60% {
+        --blurLevel: 0.8rem;
+    }
+    80% {
+        --blurLevel: 0.9rem;
+    }
+    100% {
+        --blurLevel: 1rem;
+    }
+} */
+
+#peg-solitaire::after {
+    background-image: conic-gradient(#e04f28, #f2a954,#29465a, #29465a, #637e95, #232e3b, #232e3b, #71797d, #232e3b, #232e3b, #637e95, #29465a, #29465a, #f2a954, #e04f28);
+}
+
+
+#zombie-tsunami::after {
+    background-image: conic-gradient(#46a52e, #439e2c, #526988, #526988, #69544d, #69544d, #1e5997, #2862a0, #1c436c, #526988, #526988, #439e2c, #46a52e);
+}
+
+#pac-man::after {
+    background-image: conic-gradient(#030888, #030888, #da0404, #030888, #030888, #030888, #030888, #030888, #f6db39, #ff8a00, #030888, #a4cada, #030888, #f6db39, #030888);
+}
+
+#sims-4::after {
+    background-image: conic-gradient(#9fecfe, #9fecfe, #14fdff, #0197ec, #0197ec, #9fecfe, #9fecfe, #e04630, #73b8dd, #91787b, #ffbe96, #a76600, #a76600, #0197ec, #0197ec, #0197ec, #0197ec, #0197ec, #0197ec);
+}
+
+#gta::after {
+    background-image: conic-gradient(#dbe7b5, #dbe7b5, #dbe7b5, #dbaa8d, #b16154, #dbaa8d, #6d5444, #685642, #3a0005, #685642, #6c0506, #433a2d, #b3d0a4, #b3d0a4, #b3d0a4, #b3d0a4, #d8e8b9, #d8e8b9);
 }
 
 .carousel-img-main {

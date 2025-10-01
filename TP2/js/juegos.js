@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
   const gamesContainer = document.getElementById("games-container");
 
-  fetch("https://vj.interfaces.jima.com.ar/api")
+  fetch("https://vj.interfaces.jima.com.ar/api/v2")
     .then(response => response.json())
     .then(data => {
       // Carrusel por fecha (más recientes)
@@ -103,7 +103,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     juegos.forEach(juego => {
       const name = juego?.name || "Sin nombre";
-      const img = juego?.background_image || "images/placeholder.png";
+      const img = juego?.background_image_low_res || "images/placeholder.png";
       const priceVal = (typeof juego?.price === "number") ? juego.price : (juego?.price ? Number(juego.price) : 0);
       const precio = (priceVal && !Number.isNaN(priceVal) && priceVal > 0) ? `$${priceVal.toFixed(2)}` : "Gratis";
 
