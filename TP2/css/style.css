@@ -1,6 +1,6 @@
 body {
     margin: 0;
-    font-family: sans-serif;
+    font-family: Orbitron, sans-serif;
     background-color: #1A1A1A;
 }
 
@@ -204,7 +204,7 @@ body {
         transition: margin-left 0.3s;
     }
 
-/* ------------------ Carrusel ------------------ */
+/* ------------------ Carrusel principal ------------------ */
 
 .carousel-container {
     width: 95%;
@@ -270,11 +270,39 @@ body {
     width: 45%;
     position: relative;
     z-index: 1;
-    cursor: pointer
+    cursor: pointer;
 }
 
-#peg-solitaire::after, #zombie-tsunami::after, #pac-man::after, #sims-4::after, #gta::after {
-    --blurLevel: 1rem;
+/* Animación para el glow del borde de la imagen principal*/
+@keyframes glowPulse {
+    0% {
+        filter: blur(1rem);
+        opacity: 0.7;
+    }
+    25% {
+        filter: blur(1.4rem);
+        opacity: 0.85;
+    }
+    50% {
+        filter: blur(1.8rem);
+        opacity: 1;
+    }
+    75% {
+        filter: blur(1.4rem);
+        opacity: 0.85;
+    }
+    100% {
+        filter: blur(1rem);
+        opacity: 0.7;
+    }
+}
+
+
+#peg-solitaire::after, 
+#zombie-tsunami::after, 
+#pac-man::after, 
+#sims-4::after, 
+#gta::after { /* glow inicial de la imagen principal*/
     content: '';
     position: absolute;
     height: 86%;
@@ -282,30 +310,21 @@ body {
     bottom: 12%;
     border-radius: 16px;
     z-index: -1;
-    filter: blur(var(--blurLevel));
-    /* animation: glow 1s alternate infinite; */
+    filter: blur(1rem);
+    opacity: 0.7;
+    transition: filter 0.3s, opacity 0.3s;
 }
 
-/* @keyframes glow {
-    0% {
-        --blurLevel: 0.5rem;
-    }
-    20% {
-        --blurLevel: 0.6rem;
-    }
-    40% {
-        --blurLevel: 0.7rem;
-    }
-    60% {
-        --blurLevel: 0.8rem;
-    }
-    80% {
-        --blurLevel: 0.9rem;
-    }
-    100% {
-        --blurLevel: 1rem;
-    }
-} */
+/* Animación en hover */
+.carousel-img-main-container:hover#peg-solitaire::after,
+.carousel-img-main-container:hover#zombie-tsunami::after,
+.carousel-img-main-container:hover#pac-man::after,
+.carousel-img-main-container:hover#sims-4::after,
+.carousel-img-main-container:hover#gta::after {
+    animation: glowPulse 2s infinite linear;
+    transition: filter 0.3s, opacity 0.3s;
+}
+
 
 #peg-solitaire::after {
     background-image: conic-gradient(#e04f28, #f2a954,#29465a, #29465a, #637e95, #232e3b, #232e3b, #71797d, #232e3b, #232e3b, #637e95, #29465a, #29465a, #f2a954, #e04f28);
