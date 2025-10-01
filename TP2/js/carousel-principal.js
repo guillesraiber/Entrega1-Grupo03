@@ -2,14 +2,11 @@
 
 //  arreglo contenedor de imagenes del carrusel principal
 const images = [
-  { src: 'image.png', title: 'Peg Solitare' },
-  { src: 'image.png', title: 'Imagen 2' },
-  { src: 'image.png', title: 'Imagen 3' },
-  { src: 'image.png', title: 'Imagen 4' },
-  { src: 'image.png', title: 'Imagen 5' },
-  { src: 'image.png', title: 'Imagen 6' },
-  { src: 'image.png', title: 'Imagen 7' },
-  { src: 'image.png', title: 'Imagen 8' }
+  { src: './images/carrusel/peg_solitaire.png', title: 'Peg Solitare', backgroundId: 'peg-solitaire' },
+  { src: './images/carrusel/zombie_tsunami.png', title: 'Zombie Tsunami', backgroundId: 'zombie-tsunami' },
+  { src: './images/carrusel/pacman.png', title: 'Pacman', backgroundId: 'pac-man' },
+  { src: './images/carrusel/sims4.png', title: 'Sims 4', backgroundId: 'sims-4' },
+  { src: './images/carrusel/gta.png', title: 'GTA', backgroundId: 'gta' },
 ];
 
 // imagen actual
@@ -23,17 +20,21 @@ function updateCarousel() {
   const rightIndex = (currentIndex + 1) % images.length;
 
   // cambia valores a la izquierda
-  document.getElementById('carousel-img-secondary-left').src = images[leftIndex].src;
-  document.getElementById('carousel-img-secondary-left').alt = images[leftIndex].title;
+  const imgSecundaryLeft = document.getElementById('carousel-img-secondary-left');
+  imgSecundaryLeft.src = images[leftIndex].src;
+  imgSecundaryLeft.alt = images[leftIndex].title;
 
   // cambia valores al medio
-  document.querySelector('.carousel-img-main').src = images[currentIndex].src;
-  document.querySelector('.carousel-img-main').alt = images[currentIndex].title;
+  const mainImg = document.querySelector('.carousel-img-main');
+  mainImg.src = images[currentIndex].src;
+  mainImg.alt = images[currentIndex].title;
   document.querySelector('.carousel-img-title').textContent = images[currentIndex].title;
+  document.querySelector('.carousel-img-main-container').id = images[currentIndex].backgroundId;
 
   // cambia valores a la derecha
-  document.getElementById('carousel-img-secondary-right').src = images[rightIndex].src;
-  document.getElementById('carousel-img-secondary-right').alt = images[rightIndex].title;
+  const imgSecundaryRight = document.getElementById('carousel-img-secondary-right');
+  imgSecundaryRight.src = images[rightIndex].src;
+  imgSecundaryRight.alt = images[rightIndex].title;
 }
 
 function showPrev() {

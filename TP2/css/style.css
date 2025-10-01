@@ -1,6 +1,6 @@
 body {
     margin: 0;
-    font-family: sans-serif;
+    font-family: Orbitron, sans-serif;
     background-color: #1A1A1A;
 }
 
@@ -45,7 +45,7 @@ body {
     justify-content: center;
 }
 
-.menu-button:hover, .cart-button:hover, .profile-button:hover, .search-button:hover {
+.menu-button:hover, .cart-button:hover, .profile-button:hover {
     background-color: #2c2c2e;
 }
 
@@ -64,7 +64,7 @@ body {
     background-color: #3A3A3A;
 }
 
-#menu-icon {
+.menu-icon {
     width: 24px;
     height: 24px;
 }
@@ -166,23 +166,16 @@ body {
 
 
 
+
 /* ------------------ Contenido principal ------------------ */
 .main-content {
     margin-left: 180px; /* Espacio para que el contenido quede al costado del sidebar */
-    flex-grow: 1;
-    height: calc(100vh - 20px);
-    padding: 20px;
+    width: calc(100% - 180px); /* Para que el contenido ocupe el resto del ancho espacio */
+    height: 100%; /* Alto de toda la ventana - la altura del navbar */
+
     background-color: #1A1A1A;
+
     transition: margin-left 0.3s;
-    /* Elimina el max-width y usa width: calc(100vw - 180px) para ocupar todo el espacio disponible menos el sidebar */
-    width: calc(100vw - 180px);
-    max-width: none;
-    margin-right: 0;
-    margin-left: 180px;
-    box-sizing: border-box;
-    /* Elimina cualquier padding o margen derecho extra */
-    padding-right: 0;
-    margin-right: 0;
 }
 
     /* --------- Sidebar colapsado --------- */
@@ -211,26 +204,26 @@ body {
         transition: margin-left 0.3s;
     }
 
-/* ------------------ Carrusel ------------------ */
+/* ------------------ Carrusel principal ------------------ */
 
 .carousel-container {
-    width: 100%;
+    width: 95%;
     max-width: 1050px; /* Que ocupe todo el ancho que pueda con maximo de 1050px */
+    min-height: 45vh;
     margin: 0px auto 0px auto; /* Centrar el carrusel dentro del contenedor */
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
-    min-height: 310px;
 }
 
 .carousel-arrow {
     background: #222;
     color: #D4D4D4;
     border: none;
-    font-size: 2rem;
-    width: 48px;
-    height: 48px;
+    font-size: 1.5rem;
+    width: 6%;
+    height: 6%;
     border-radius: 50%;
     cursor: pointer;
     display: flex;
@@ -249,20 +242,21 @@ body {
     align-items: center;
     justify-content: center;
     width: 100%;
-    gap: 24px;
-    margin-bottom: 15px;
+    gap: 5%;
+    padding: 7vh 0 5vh 0;
 }
 
 .carousel-img {
-    object-fit: cover; /* Asegura que la imagen entre en el contenedor sin distorsionarse */
+    object-fit: cover; /*asegura que la imagen entre en el contenedor sin distorsionarse */
+    aspect-ratio: 16 / 9; /* mantiene la proporcion de la imagen */
     border-radius: 16px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.2);
     background: #333;
 }
 
 .carousel-img-secondary {
-    width: 213px;
-    height: 140px;
+    width: 21%;
+    height: 30%;
     opacity: 0.5;
     filter: blur(1px);
     transition: opacity 0.3s, filter 0.3s;
@@ -273,11 +267,88 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    width: 45%;
+    position: relative;
+    z-index: 1;
+    cursor: pointer;
+}
+
+/* Animación para el glow del borde de la imagen principal*/
+@keyframes glowPulse {
+    0% {
+        filter: blur(1rem);
+        opacity: 0.7;
+    }
+    25% {
+        filter: blur(1.4rem);
+        opacity: 0.85;
+    }
+    50% {
+        filter: blur(1.8rem);
+        opacity: 1;
+    }
+    75% {
+        filter: blur(1.4rem);
+        opacity: 0.85;
+    }
+    100% {
+        filter: blur(1rem);
+        opacity: 0.7;
+    }
+}
+
+
+#peg-solitaire::after, 
+#zombie-tsunami::after, 
+#pac-man::after, 
+#sims-4::after, 
+#gta::after { /* glow inicial de la imagen principal*/
+    content: '';
+    position: absolute;
+    height: 86%;
+    width: 100%;
+    bottom: 12%;
+    border-radius: 16px;
+    z-index: -1;
+    filter: blur(1rem);
+    opacity: 0.7;
+    transition: filter 0.3s, opacity 0.3s;
+}
+
+/* Animación en hover */
+.carousel-img-main-container:hover#peg-solitaire::after,
+.carousel-img-main-container:hover#zombie-tsunami::after,
+.carousel-img-main-container:hover#pac-man::after,
+.carousel-img-main-container:hover#sims-4::after,
+.carousel-img-main-container:hover#gta::after {
+    animation: glowPulse 2s infinite linear;
+    transition: filter 0.3s, opacity 0.3s;
+}
+
+
+#peg-solitaire::after {
+    background-image: conic-gradient(#e04f28, #f2a954,#29465a, #29465a, #637e95, #232e3b, #232e3b, #71797d, #232e3b, #232e3b, #637e95, #29465a, #29465a, #f2a954, #e04f28);
+}
+
+
+#zombie-tsunami::after {
+    background-image: conic-gradient(#46a52e, #439e2c, #526988, #526988, #69544d, #69544d, #1e5997, #2862a0, #1c436c, #526988, #526988, #439e2c, #46a52e);
+}
+
+#pac-man::after {
+    background-image: conic-gradient(#030888, #030888, #da0404, #030888, #030888, #030888, #030888, #030888, #f6db39, #ff8a00, #030888, #a4cada, #030888, #f6db39, #030888);
+}
+
+#sims-4::after {
+    background-image: conic-gradient(#9fecfe, #9fecfe, #14fdff, #0197ec, #0197ec, #9fecfe, #9fecfe, #e04630, #73b8dd, #91787b, #ffbe96, #a76600, #a76600, #0197ec, #0197ec, #0197ec, #0197ec, #0197ec, #0197ec);
+}
+
+#gta::after {
+    background-image: conic-gradient(#dbe7b5, #dbe7b5, #dbe7b5, #dbaa8d, #b16154, #dbaa8d, #6d5444, #685642, #3a0005, #685642, #6c0506, #433a2d, #b3d0a4, #b3d0a4, #b3d0a4, #b3d0a4, #d8e8b9, #d8e8b9);
 }
 
 .carousel-img-main {
-    width: 390px;
-    height: 260px;
+    width: 100%;
     opacity: 1;
     filter: none;
     margin-bottom: 10px;
@@ -290,7 +361,6 @@ body {
     margin-top: 4px;
     font-weight: 500;
 }
-
 /* ------------------ Juegos ------------------ */
 
 .games-section {
@@ -301,7 +371,6 @@ body {
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    padding: 0 20px;      /* respiro en los bordes */
     box-sizing: border-box;
     margin-bottom: 80px;
 }
@@ -372,7 +441,6 @@ body {
 
 .recientes-carousel {
     background: #3A3A3A;   
-    border-radius: 16px;
     padding: 20px 0;
 }
 
