@@ -23,6 +23,7 @@ function updateCarousel() {
   const imgSecundaryLeft = document.getElementById('carousel-img-secondary-left');
   imgSecundaryLeft.src = images[leftIndex].src;
   imgSecundaryLeft.alt = images[leftIndex].title;
+  imgSecundaryLeft.addEventListener('click', showPrev);
 
   // cambia valores al medio
   const mainImg = document.querySelector('.carousel-img-main');
@@ -35,6 +36,7 @@ function updateCarousel() {
   const imgSecundaryRight = document.getElementById('carousel-img-secondary-right');
   imgSecundaryRight.src = images[rightIndex].src;
   imgSecundaryRight.alt = images[rightIndex].title;
+  imgSecundaryRight.addEventListener('click', showNext)
 }
 
 function showPrev() {
@@ -51,8 +53,10 @@ function showNext() {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-  // click en la flecha izquierda llama a la funcion "showPrev()"
-  document.querySelector('.carousel-arrow-left').addEventListener('click', showPrev);  
+  // click en la flecha izquierda o a la imagen secundaria izquierda llama a la funcion "showPrev()"
+  document.querySelector('.carousel-arrow-left').addEventListener('click', showPrev); 
+  document.getElementById('carousel-img-secondary-left').addEventListener('click', showPrev);
   // click en la flecha derecha llama a la funcion "showNext()"
   document.querySelector('.carousel-arrow-right').addEventListener('click', showNext);
+  document.querySelector('.carrousel-img-secondary-right').addEventListener('click', showNext);
 });
