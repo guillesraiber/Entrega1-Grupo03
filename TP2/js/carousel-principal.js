@@ -23,7 +23,6 @@ function updateCarousel() {
   const imgSecundaryLeft = document.getElementById('carousel-img-secondary-left');
   imgSecundaryLeft.src = images[leftIndex].src;
   imgSecundaryLeft.alt = images[leftIndex].title;
-  imgSecundaryLeft.addEventListener('click', showPrev);
 
   // cambia valores al medio
   const mainImg = document.querySelector('.carousel-img-main');
@@ -36,21 +35,18 @@ function updateCarousel() {
   const imgSecundaryRight = document.getElementById('carousel-img-secondary-right');
   imgSecundaryRight.src = images[rightIndex].src;
   imgSecundaryRight.alt = images[rightIndex].title;
-  imgSecundaryRight.addEventListener('click', showNext)
-}
-
-function showPrev() {
-  // resta uno al index y le suma la longitud del arreglo para evitar negativos,
-  // luego aplica modulo para volver el index al rango del arreglo
-  currentIndex = (currentIndex - 1 + images.length) % images.length;
-  updateCarousel();
 }
 
 function showNext() {
-  // lo mismo que showPrev pero sumando uno
-  currentIndex = (currentIndex + 1) % images.length;
-  updateCarousel();
+    currentIndex = (currentIndex + 1) % images.length;
+    updateCarousel();
 }
+
+function showPrev() {
+    currentIndex = (currentIndex - 1 + images.length) % images.length;
+    updateCarousel();
+}
+
 
 document.addEventListener('DOMContentLoaded', function() {
   // click en la flecha izquierda o a la imagen secundaria izquierda llama a la funcion "showPrev()"

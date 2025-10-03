@@ -1,0 +1,78 @@
+
+/* ----------- Sección del juego principal ----------- */
+.game-section {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	height: 100%;
+}
+
+.game-container {
+	background: #222;
+	border-radius: 18px;
+	box-shadow: 0 4px 24px rgba(0,0,0,0.5);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: clamp(60%, 40rem, 95%); /* Nunca menor al 60% ni mayor al 95% del contenedor en el que esta */
+	margin-top: 2vh;
+	max-height: 87vh;
+	overflow: hidden; /* evitar que crezca y genere scroll independiente */
+}
+
+.game-image-wrapper {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	overflow: hidden;
+}
+
+.game-image {
+	width: 100%;
+	height: auto;
+	max-height: 100%; /* no sobrepasa el wrapper */
+	border-radius: 12px;
+	object-fit: cover; /* recorta sin deformar */
+	aspect-ratio: 10/7;
+	object-position: top center; /* muestra la parte superior cuando se recorta */
+}
+
+.game-info-bar {
+	width: 100%;
+	background: #181818;
+	border-radius: 0 0 18px 18px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 12px 18px;
+	margin-top: 0;
+	box-sizing: border-box;
+	flex: 0 0 auto; /* asegurar que la barra ocupe su espacio sin estirarse */
+}
+
+.game-title {
+	font-family: 'Orbitron', 'Roboto', sans-serif;
+	font-size: 1.2rem;
+	font-weight: 600;
+	color: #D4D4D4;
+}
+
+.game-icons {
+	display: flex;
+	gap: 18px;
+}
+
+.game-icon {
+	width: 28px;
+	height: 28px;
+	object-fit: contain;
+	filter: brightness(1.2);
+	cursor: pointer;
+	transition: transform 0.2s, filter 0.2s;
+}
+.game-icon:hover {
+	transform: scale(1.15);
+	filter: brightness(1.5);
+}

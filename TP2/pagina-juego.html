@@ -3,18 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Orbitron:wght@400..900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Press+Start+2P&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/main-page.css">
     <link rel="stylesheet" href="css/nav-sidebar-main.css">
+    <link rel="stylesheet" href="css/game-page.css">
+    <title>Peg Solitaire</title>
 </head>
 <body>
     <header class="navbar">
         <div class="navbar-left">
             <button class="menu-button">
-                <img src="images/buttons/nav_menu_collapse.svg" alt="Cerrar categorias" class="menu-icon" id="nav-menu-img">
+                <img src="images/buttons/nav_menu_open.svg" alt="Cerrar categarias" class="menu-icon" id="nav-menu-img">
             </button>
             <img src="images/Logo_horizontal.png" alt="Logo de GAMEVERSE" class="logo-full">
         </div>
@@ -40,7 +40,7 @@
     </header>
 
     <main class="main-container">
-        <aside class="sidebar">
+        <aside class="sidebar collapsed">
             <div class="sidebar-content">
 
                 <a href="#" class="category-item">
@@ -179,34 +179,23 @@
             </div>
         </aside>
 
-        <div class="main-content">
-
-            <section class="carousel-container">
-                <button class="carousel-arrow carousel-arrow-left" aria-label="Anterior"> ◀ </button>
-
-                <div class="carousel-images">
-                    <img class="carousel-img carousel-img-secondary" id="carousel-img-secondary-left" src="images/carrusel/gta.png" alt="GTA">
-                    
-                    <div class="carousel-img-main-container" id="peg-solitaire">
-                        <img class="carousel-img carousel-img-main" src="images/carrusel/peg_solitaire.png" alt="Peg Solitaire">
-                        <div class="carousel-img-title">Peg Solitaire</div>
+        <div class="main-content sidebar-collapsed">
+            <section class="game-section">
+                <div class="game-container">
+                    <div class="game-image-wrapper">
+                        <img src="images/fenix-juego.png" alt="Ignis Solitaire" class="game-image">
                     </div>
-                    
-                    <img class="carousel-img carousel-img-secondary" id="carousel-img-secondary-right" src="images/carrusel/zombie_tsunami.png" alt="Zombie Tsunami">
+                    <div class="game-info-bar">
+                        <span class="game-title">El Renacer del Fenix</span>
+                        <div class="game-icons">
+                            <img src="images/buttons/share.png" alt="Compartir" class="game-icon">
+                            <img src="images/buttons/volume.png" alt="Volumen" class="game-icon">
+                            <img src="images/buttons/maximaze.png" alt="Pantalla completa" class="game-icon">
+                        </div>
+                    </div>
                 </div>
-
-                <button class="carousel-arrow carousel-arrow-right" aria-label="Siguiente"> ▶ </button>
             </section>
-
-                <section class="games-section">
-            <!-- Aquí se insertarán las cards dinámicamente -->
-            <div id="games-container" class="games-grid"></div>
-            </section>
-
-    </main>
-
+        </div>
 </body>
-<script src="js/carousel-principal.js"></script>
 <script src="js/sidebar.js"></script>
-<script src="js/juegos.js"></script>
 </html>

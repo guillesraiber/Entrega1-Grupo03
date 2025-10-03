@@ -59,6 +59,8 @@ document.addEventListener("DOMContentLoaded", () => {
     "Fighting": "images/Iconos juegos y categorias/pc.svg",
   }
 
+  const NAV_BUTTON_THRESHOLD = 4;
+
   function renderCarousel(titulo, juegos) {
     const carousel = document.createElement("div");
     carousel.className = "games-carousel";
@@ -125,7 +127,7 @@ document.addEventListener("DOMContentLoaded", () => {
     carousel.appendChild(track);
 
     // Botones de navegación
-    if (juegos.length > 5) {
+    if (juegos.length > NAV_BUTTON_THRESHOLD) {
       const prevBtn = document.createElement("button");
       prevBtn.textContent = "◀";
       prevBtn.className = "carousel-btn prev-btn";
