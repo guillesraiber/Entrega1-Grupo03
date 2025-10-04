@@ -1,5 +1,9 @@
 /* ------------------ Carrusel principal ------------------ */
 
+a {
+    text-decoration: none;
+}
+
 .carousel-container {
     min-height: 45vh;
     margin: 0px auto 0px auto; /* Centrar el carrusel dentro del contenedor */
@@ -84,6 +88,7 @@
     text-align: center;
     margin-top: 4px;
     font-weight: 500;
+    text-decoration: none;
 }
 
 /* Animación para el glow del borde de la imagen principal*/
@@ -247,17 +252,18 @@
 .game-card {
     background: #D9D9D9;
     border-radius: 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+
+    aspect-ratio: 11 / 9; /* Mantener proporción */
     flex-shrink: 0;
     padding: .8%;
-    max-width: 45vh;
     height: fit-content;
-    flex-shrink: 0;
+    width: 22vw; /* Ancho relativo al viewport */
+
     display: flex;
-    overflow: hidden;
-    align-content: center;
     flex-direction: column;
     justify-content: space-between;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -282,7 +288,6 @@
 .game-title {
     font-size: 0.9rem;
     color: #000000;
-    padding-left: 2%;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -294,13 +299,20 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 5px 0 10px;
+    padding: 0 5px 0 5px;
 }
 
 .game-price {
     font-family: 'Press Start 2P';
-    font-size: 10px;
-    color: #4A4AFF ; 
+    font-size: 0.7rem;
+}
+
+.free {
+    color: rgb(5, 114, 5);
+}
+
+.priced, .obtained { 
+    color: rgb(23, 23, 145);
 }
 
 .play-btn {
@@ -310,7 +322,7 @@
     border-radius: 100px;
     padding: 10px;
     cursor: pointer;
-    transition: transform 0.3s ease, background 0.3s ease, padding-right 0.3s ease;
+    transition: transform 0.3s ease, background 0.3s ease, padding-right 0.3s ease, translate 0.3s ease, box-shadow 0.3s ease;
     width: 45%;
     font-family: 'Press Start 2P';
     font-size: 10px;
@@ -322,8 +334,9 @@
 
 .play-btn:hover {
     background: #B55300;
-    transform: scale(1.1) rotate(-2deg); /* crece y se inclina un poco */
+    transform: scale(1.1) rotate(-2.2deg); /* crece y se inclina un poco */
     padding-right: 30px; /* el texto se corre para entrar bien con el emogi */
+    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
 }
 
 .play-btn:active {
