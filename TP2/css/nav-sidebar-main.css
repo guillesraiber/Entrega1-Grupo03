@@ -29,10 +29,6 @@ body {
     align-items: center;
 }
 
-.navbar-right {
-    padding-left: 10%;
-}
-
 .menu-button, .cart-button, .profile-button, .search-button {
     background: none;
     border: none;
