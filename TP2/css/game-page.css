@@ -76,3 +76,121 @@
 	transform: scale(1.15);
 	filter: brightness(1.5);
 }
+
+/* ----------- Información + Publicidad y Carrusel ----------- */
+.info-ad-and-carousel {
+	width: clamp(60%, 48rem, 95%);
+	margin: 20px auto 40px;
+	display: flex;
+	flex-direction: column;
+	gap: 18px;
+}
+
+.info-ad-row {
+	display: flex;
+	gap: 18px;
+	align-items: flex-start;
+	width: 100%;
+}
+
+.game-details {
+	background: #181818;
+	color: #dcdcdc;
+	padding: 18px;
+	border-radius: 12px;
+	flex: 1 1 auto;
+	box-shadow: 0 6px 18px rgba(0,0,0,0.45);
+}
+
+.game-details h2, .game-details h3 {
+	margin: 0 0 8px 0;
+	color: #fff;
+}
+
+.game-details p, .game-details ul {
+	margin: 0 0 12px 0;
+	line-height: 1.45;
+	font-size: 0.95rem;
+}
+
+.ad-panel {
+	width: 220px;
+	flex: 0 0 220px;
+}
+
+.ad-placeholder {
+	background: linear-gradient(180deg,#2a2a2a,#1a1a1a);
+	border-radius: 12px;
+	height: 220px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: #aaa;
+	font-weight: 600;
+	box-shadow: 0 6px 18px rgba(0,0,0,0.45);
+}
+
+/* Carrusel */
+.gallery-carousel {
+	position: relative;
+	width: 100%;
+	overflow: visible;
+}
+
+.carousel-viewport {
+	overflow: hidden;
+	border-radius: 12px;
+	background: #151515;
+	padding: 12px 8px;
+}
+
+.carousel-track {
+	display: flex;
+	gap: 12px;
+	transition: transform 0.4s ease;
+}
+
+.carousel-item {
+	min-width: 180px;
+	height: 120px;
+	flex: 0 0 180px;
+	border-radius: 8px;
+	overflow: hidden;
+	background: #222;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.carousel-item img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.carousel-btn {
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	z-index: 5;
+	background: rgba(0,0,0,0.6);
+	color: #fff;
+	border: none;
+	width: 40px;
+	height: 40px;
+	border-radius: 20px;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 1.4rem;
+}
+
+.carousel-btn.prev { left: -10px; }
+.carousel-btn.next { right: -10px; }
+
+@media (max-width: 900px) {
+	.info-ad-row { flex-direction: column; }
+	.ad-panel { width: 100%; flex: 0 0 auto; }
+	.carousel-item { min-width: 45%; flex: 0 0 45%; }
+}
