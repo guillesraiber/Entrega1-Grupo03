@@ -1,7 +1,8 @@
+
 document.addEventListener("DOMContentLoaded", () => {
   const gamesContainer = document.getElementById("games-container");
 
-  fetch("https://vj.interfaces.jima.com.ar/api")
+  fetch("https://vj.interfaces.jima.com.ar/api/v2")
     .then(response => response.json())
     .then(data => {
       // Carrusel por fecha (más recientes)
@@ -103,9 +104,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
     juegos.forEach(juego => {
       const name = juego?.name || "Sin nombre";
-      const img = juego?.background_image || "images/placeholder.png";
-      const priceVal = (typeof juego?.price === "number") ? juego.price : (juego?.price ? Number(juego.price) : 0);
-      const precio = (priceVal && !Number.isNaN(priceVal) && priceVal > 0) ? `$${priceVal.toFixed(2)}` : "Gratis";
+      const img = juego?.background_image_low_res || "images/placeholder.png";
+      // Decide categoría de precio por probabilidad:
+      // 60% => free, 30% => priced, 10% => obtained
+      const r = Math.random();
+      let priceClass = "free";
+      let priceText = "Gratis";
+      if (r < 0.6) {
+        priceClass = "free";
+        priceText = "Gratis";
+      } else if (r < 0.9) {
+        priceClass = "priced";
+        // Genera un precio aleatorio entre $0.99 y $19.99
+        const priceValue = (Math.random() * (19.99 - 0.99) + 0.99).toFixed(2);
+        priceText = `$${priceValue}`;
+      } else {
+        priceClass = "obtained";
+        priceText = "Obtenido";
+      }
 
       const card = document.createElement("div");
       card.className = "game-card";
@@ -114,7 +130,7 @@ document.addEventListener("DOMContentLoaded", () => {
         <div class="game-info">
           <h4 class="game-title" title="${name}">${name}</h4>
           <div class="game-meta">
-            <span class="game-price">${precio}</span>
+            <span class="game-price ${priceClass}">${priceText}</span>
             <button class="play-btn">Jugar</button>
           </div>
         </div>
@@ -124,8 +140,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     carousel.appendChild(track);
 
+    const NAV_BUTTON_THRESHOLD = 4;
+
     // Botones de navegación
-    if (juegos.length > 5) {
+    if (juegos.length > NAV_BUTTON_THRESHOLD) {
       const prevBtn = document.createElement("button");
       prevBtn.textContent = "◀";
       prevBtn.className = "carousel-btn prev-btn";

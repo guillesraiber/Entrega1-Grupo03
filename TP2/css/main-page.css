@@ -1,0 +1,399 @@
+/* ------------------ Carrusel principal ------------------ */
+
+.carousel-container {
+    min-height: 45vh;
+    margin: 0px auto 0px auto; /* Centrar el carrusel dentro del contenedor */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.carousel-arrow {
+    background: transparent;
+    color: #D4D4D4;
+    border: none;
+    font-size: 1.5rem;
+    width: 6%;
+    height: 6%;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    transition: background 0.2s;
+}
+
+.carousel-arrow:hover {
+    background: #444;
+}
+
+.carousel-images {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    gap: 5%;
+    padding: 7vh 0 5vh 0;
+}
+
+.carousel-img {
+    object-fit: cover; /*asegura que la imagen entre en el contenedor sin distorsionarse */
+    aspect-ratio: 16 / 9; /* mantiene la proporcion de la imagen */
+    border-radius: 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    background: #333;
+}
+
+.carousel-img-secondary {
+    width: 21%;
+    height: 30%;
+    opacity: 0.5;
+    filter: blur(2px);
+    cursor: pointer;
+    transition: transform 0.3s;
+}
+
+.carousel-img-main-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 45%;
+    position: relative;
+    z-index: 1;
+    cursor: pointer;
+    transition: transform 0.3s;
+}
+
+.carousel-img-main-container:hover, .carousel-img-secondary:hover {
+    transform: scale(1.05);
+}
+
+.carousel-img-main {
+    width: 100%;
+    opacity: 1;
+    filter: none;
+    margin-bottom: 10px;
+    transition: all 0.8s;
+}
+
+.carousel-img-title {
+    color: #fff;
+    font-size: 1.2rem;
+    text-align: center;
+    margin-top: 4px;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+/* Animación para el glow del borde de la imagen principal*/
+@keyframes glowPulse {
+    0% {
+        filter: blur(1rem);
+        opacity: 0.7;
+    }
+    25% {
+        filter: blur(1.4rem);
+        opacity: 0.85;
+    }
+    50% {
+        filter: blur(1.8rem);
+        opacity: 1;
+    }
+    75% {
+        filter: blur(1.4rem);
+        opacity: 0.85;
+    }
+    100% {
+        filter: blur(1rem);
+        opacity: 0.7;
+    }
+}
+
+#peg-solitaire::after, 
+#zombie-tsunami::after, 
+#pac-man::after, 
+#sims-4::after, 
+#gta::after { /* glow inicial de la imagen principal*/
+    content: '';
+    position: absolute;
+    height: 86%;
+    width: 100%;
+    bottom: 12%;
+    border-radius: 16px;
+    z-index: -1;
+    filter: blur(1rem);
+    opacity: 0.7;
+    transition: filter 0.3s, opacity 0.3s;
+}
+
+/* Animación en hover de la imagen principal */
+.carousel-img-main-container:hover#peg-solitaire::after,
+.carousel-img-main-container:hover#zombie-tsunami::after,
+.carousel-img-main-container:hover#pac-man::after,
+.carousel-img-main-container:hover#sims-4::after,
+.carousel-img-main-container:hover#gta::after {
+    animation: glowPulse 1.5s infinite linear;
+}
+
+/* Glows de cada imagen */
+#peg-solitaire::after { background-image: conic-gradient(#e04f28, #f2a954,#29465a, #29465a, #637e95, #232e3b, #232e3b, #71797d, #232e3b, #232e3b, #637e95, #29465a, #29465a, #f2a954, #e04f28);}
+#zombie-tsunami::after { background-image: conic-gradient(#46a52e, #439e2c, #526988, #526988, #69544d, #69544d, #1e5997, #2862a0, #1c436c, #526988, #526988, #439e2c, #46a52e);}
+#pac-man::after { background-image: conic-gradient(#030888, #030888, #da0404, #030888, #030888, #030888, #030888, #030888, #f6db39, #ff8a00, #030888, #a4cada, #030888, #f6db39, #030888);}
+#sims-4::after { background-image: conic-gradient(#9fecfe, #9fecfe, #14fdff, #0197ec, #0197ec, #9fecfe, #9fecfe, #e04630, #73b8dd, #91787b, #ffbe96, #a76600, #a76600, #0197ec, #0197ec, #0197ec, #0197ec, #0197ec, #0197ec); }
+#gta::after { background-image: conic-gradient(#dbe7b5, #dbe7b5, #dbe7b5, #dbaa8d, #b16154, #dbaa8d, #6d5444, #685642, #3a0005, #685642, #6c0506, #433a2d, #b3d0a4, #b3d0a4, #b3d0a4, #b3d0a4, #d8e8b9, #d8e8b9);}
+
+
+
+/* ------------------ Juegos ------------------ */
+
+.games-section {
+    width: 100%; /* que ocupe todo el ancho disponible */
+    max-width: 100%; /* no se pase del viewport */
+    min-height: 310px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    box-sizing: border-box;
+    margin-bottom: 80px;
+}
+
+.games-grid {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-top: 0px;
+}
+
+.games-category-row {
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+    width: 100%;
+    justify-content: flex-start;
+}
+
+
+/* Contenedor para título y "Ver todos" en la misma línea */
+.carousel-header {
+    display: flex;
+    align-items: center;
+    padding: 0 33px;
+}
+
+.carousel-header .category-icon {
+  width: 30px;
+  height: 30px;
+  margin-right: 10px;
+}
+
+.games-category-title {
+    font-size: 20px;
+    margin: 20px 0 10px;
+    color: #fff;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: semi-bold;
+    margin: 0; /* Resetear márgenes para el nuevo layout */
+}
+
+.ver-todos-link {
+    font-size: 12px;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: semi-bold;
+    color: #D4D4D4;
+    text-decoration: none;
+    margin-left: 16px; /* Espacio entre el título y el link */
+}
+
+.ver-todos-link:hover{
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.ver-todos-link:active{
+    color: #bbb;
+}
+
+.games-carousel {
+    position: relative;
+    margin-bottom: 30px;
+    max-width: 100vw;
+    box-sizing: border-box;
+}
+
+
+.carousel-track {
+    display: flex;
+    gap: 20px;
+    padding: 30px 3% 3% 3%;
+    scroll-behavior: smooth;
+    max-width: 100vw;
+    height: fit-content;
+    box-sizing: border-box;
+    overflow-x: auto;
+    flex-direction: row;
+}
+
+.carousel-track::-webkit-scrollbar {
+    display: none; /* ocultar la barra de scroll */
+}
+
+.games-section:last-child {
+  margin-bottom: 0;
+}
+
+.game-card {
+    background: #D9D9D9;
+    border-radius: 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+
+    aspect-ratio: 11 / 9; /* Mantener proporción */
+    flex-shrink: 0;
+    padding: .8%;
+    height: fit-content;
+    width: 22vw; /* Ancho relativo al viewport */
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.game-card:hover {
+    transform: scale(1.008);
+    box-shadow: 0 6px 20px rgba(0,0,0,1.6);
+}
+
+.game-img {
+    width: 100%;
+    max-height: 65%;
+    object-fit: cover;
+    border-radius: 20px;
+}
+.game-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding : 0px 5px;
+}
+
+.game-title {
+    font-size: 0.9rem;
+    color: #000000;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-family: 'Orbitron', sans-serif;
+    margin: 5px;
+}
+
+.game-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 5px 0 5px;
+}
+
+.game-price {
+    font-family: 'Press Start 2P';
+    font-size: 0.7rem;
+}
+
+.free {
+    color: rgb(5, 114, 5);
+}
+
+.priced, .obtained { 
+    color: rgb(23, 23, 145);
+}
+
+.play-btn {
+    background: #625FEA;
+    color: #000000;
+    border: none;
+    border-radius: 100px;
+    padding: 10px;
+    cursor: pointer;
+    transition: transform 0.3s ease, background 0.3s ease, padding-right 0.3s ease, translate 0.3s ease, box-shadow 0.3s ease;
+    width: 45%;
+    font-family: 'Press Start 2P';
+    font-size: 10px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+}
+
+.play-btn:hover {
+    background: #B55300;
+    transform: scale(1.1) rotate(-2.2deg); /* crece y se inclina un poco */
+    padding-right: 30px; /* el texto se corre para entrar bien con el emogi */
+    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+}
+
+.play-btn:active {
+    transform: scale(0.9) rotate(0deg);
+}
+
+.play-btn::after {
+    content: "🎮";
+    position: absolute;
+    right: -20px;
+    top: 45%;
+    transform: translateY(-50%);
+    opacity: 0;
+    font-size: 14px;
+    transition: right 0.4s ease, opacity 0.4s ease;
+}
+
+.play-btn:hover::after {
+    right: 15px;   /* entra hacia adentro */
+    opacity: 1;    /* aparece */
+}
+
+.carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0,0,0,0.5);
+    color: white;
+    border: none;
+    padding: 10px 10px 15px 10px;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 10;
+}
+
+.prev-btn { 
+    left: 10px; 
+}
+.next-btn { 
+    right: 10px; 
+}
+
+@media (max-width: 700px) {
+    .minicarousel-card {
+        width: 180px;
+        height: 160px;
+    }
+    .minicarousel-card-img {
+        height: 70px;
+    }
+    .minicarousel-card-title {
+        font-size: 13px;
+    }
+    .minicarousel-card-status {
+        font-size: 11px;
+    }
+    .minicarousel-card-play {
+        font-size: 12px;
+        padding: 4px 10px;
+    }
+    .minicarousel-title {
+        font-size: 16px;
+    }
+}
