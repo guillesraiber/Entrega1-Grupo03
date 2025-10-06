@@ -2,11 +2,11 @@
 
 //  arreglo contenedor de imagenes del carrusel principal
 const images = [
-  { src: './images/carrusel/peg_solitaire.png', title: 'Peg Solitare', backgroundId: 'peg-solitaire', link: 'pagina-juego.html' },
-  { src: './images/carrusel/zombie_tsunami.png', title: 'Zombie Tsunami', backgroundId: 'zombie-tsunami', link: '#' },
-  { src: './images/carrusel/pacman.png', title: 'Pacman', backgroundId: 'pac-man', link: '#' },
-  { src: './images/carrusel/sims4.png', title: 'Sims 4', backgroundId: 'sims-4', link: '#' },
-  { src: './images/carrusel/gta.png', title: 'GTA', backgroundId: 'gta', link: '#' },
+  { src: './images/Carrusel principal/peg_solitaire.png', title: 'Peg Solitare', backgroundId: 'peg-solitaire', link: 'pagina-juego.html' },
+  { src: './images/Carrusel principal/zombie_tsunami.png', title: 'Zombie Tsunami', backgroundId: 'zombie-tsunami', link: '#' },
+  { src: './images/Carrusel principal/pacman.png', title: 'Pacman', backgroundId: 'pac-man', link: '#' },
+  { src: './images/Carrusel principal/sims4.png', title: 'Sims 4', backgroundId: 'sims-4', link: '#' },
+  { src: './images/Carrusel principal/gta.png', title: 'GTA', backgroundId: 'gta', link: '#' },
 ];
 
 // imagen actual

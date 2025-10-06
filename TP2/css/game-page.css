@@ -6,6 +6,7 @@
 	align-items: center;
 	width: 100%;
 	height: 100%;
+	margin: 1.5% 0 4% 0;
 }
 
 .game-container {
@@ -15,8 +16,7 @@
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	width: clamp(60%, 40rem, 95%); /* Nunca menor al 60% ni mayor al 95% del contenedor en el que esta */
-	margin-top: 2vh;
+	width: clamp(60%, 55rem, 95%); /* Nunca menor al 60% ni mayor al 95% del contenedor en el que esta */
 	max-height: 87vh;
 	overflow: hidden; /* evitar que crezca y genere scroll independiente */
 }
@@ -35,7 +35,7 @@
 	max-height: 100%; /* no sobrepasa el wrapper */
 	border-radius: 12px;
 	object-fit: cover; /* recorta sin deformar */
-	aspect-ratio: 10/7;
+	aspect-ratio: 12/7;
 	object-position: top center; /* muestra la parte superior cuando se recorta */
 }
 
@@ -87,7 +87,7 @@
 
 .info-ad-row, .gallery-carousel {
 	width: clamp(70%, 85rem, 95%);
-	margin: 20px auto 40px;
+    margin: 0 0 2% 0;
 }
 
 .info-ad-row {
@@ -95,13 +95,12 @@
     align-items: center;
     justify-content: space-between;
 	height: fit-content;
-	margin: 4% 0 0 0;
 }
 
 .game-details {
 	background: #2E2E2E;
     color: #dcdcdc;
-    padding: 18px 3%;
+    padding: 3%;
     border-radius: 12px;
     width: calc(70% - 3%);
     height: calc(100% - 36px);
@@ -148,6 +147,7 @@
 	width: 25%;
 	height: 100%;
 	border-radius: 12px;
+	padding: 28.5% 0;
 
 	display: flex;
 	align-items: center;
@@ -156,63 +156,68 @@
 	color: #aaa;
 	font-weight: 600;
 	box-shadow: 0 6px 18px rgba(0,0,0,0.45);
-	background: linear-gradient(180deg,#2a2a2a,#1a1a1a);
+	background: #2E2E2E;
 }
 
-/* Carrusel */
+/* ------------------- Carrusel simple horizontal ------------------- */
 .gallery-carousel {
-	position: relative;
-	overflow: visible;
-}
-
-.carousel-viewport {
-	overflow: hidden;
+    display: flex;
+    flex-direction: column;
 	border-radius: 12px;
-	background: #151515;
-	padding: 12px 8px;
+	background: #2E2E2E;
 }
 
-.carousel-track {
-	display: flex;
-	gap: 12px;
-	transition: transform 0.4s ease;
+.gallery-title {
+	color: #dcdcdc;
+	margin: 2% 4% 0 4%;
+	font-size: clamp(0.6rem, 1.7vw, 1.6rem);
+	font-weight: 600;
 }
 
-.carousel-item {
-	min-width: 180px;
-	height: 120px;
-	flex: 0 0 180px;
-	border-radius: 8px;
-	overflow: hidden;
-	background: #222;
-	display: flex;
-	align-items: center;
-	justify-content: center;
+.gallery-track {
+    display: flex;
+    gap: 3%;
+    height: fit-content;
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    padding: 2% 4%;
+    box-sizing: border-box;
 }
 
-.carousel-item img {
-	width: 100%;
-	height: 100%;
-	object-fit: cover;
+.gallery-track::-webkit-scrollbar {
+	height: 10px;
+}
+.gallery-track::-webkit-scrollbar-thumb {
+	background: rgba(255,255,255,0.08);
+	border-radius: 10px;
 }
 
-.carousel-btn {
-	position: absolute;
-	top: 50%;
-	transform: translateY(-50%);
-	z-index: 5;
-	background: rgba(0,0,0,0.6);
-	color: #fff;
-	border: none;
-	width: 40px;
-	height: 40px;
-	border-radius: 20px;
-	cursor: pointer;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	font-size: 1.4rem;
+.gallery-item {
+    flex: 0 0 auto;
+    width: 20vw;
+    aspect-ratio: 1 / 1;
+    display: flex;
+    background: #1f1f1f;
+    align-items: center;
+    justify-content: center;
+    scroll-snap-align: center;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+
+	transition: transform 0.4s, box-shadow 0.4s;
 }
 
-.carousel-btn.prev { left: -10px; }
-.carousel-btn.next { right: -10px; }
+.gallery-item:hover {
+	transform: scale(1.05);
+	box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
