@@ -17,7 +17,7 @@
 	flex-direction: column;
 	align-items: center;
 	width: clamp(60%, 55rem, 95%); /* Nunca menor al 60% ni mayor al 95% del contenedor en el que esta */
-	max-height: 87vh;
+	max-height: 87vw;
 	overflow: hidden; /* evitar que crezca y genere scroll independiente */
 }
 
@@ -46,7 +46,7 @@
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	padding: 12px 18px;
+	padding: 1.5% 3%;
 	margin-top: 0;
 	box-sizing: border-box;
 	flex: 0 0 auto; /* asegurar que la barra ocupe su espacio sin estirarse */
@@ -294,22 +294,15 @@
 	width: 100%;
 }
 
-.comment-compose textarea {
+.comment-compose input {
     background: #242424;
     color: #dcdcdc;
     border: none;
     border-radius: 5px;
     font-family: 'Roboto', sans-serif;
-    width: 90%;
+    width: 85%;
     height: fit-content;
-}
-
-.comment-compose textarea:focus{
-    border: none;
-}
-
-.comment-compose textarea::placeholder{
-    color: #dcdcdc;
+	padding: 1% 2%;
 }
 
 .compose-actions {
@@ -338,6 +331,7 @@
 	background: #1f1f1f;
 	height: 28vw;
 	font-family: 'Roboto';
+	overflow: hidden;
 }
 
 .comments-tabs {
