@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Orbitron:wght@400..900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Press+Start+2P&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="css/nav-sidebar-main-footer.css">
+    <link rel="stylesheet" href="css/game-page.css">
+    <title>Peg Solitaire</title>
+</head>
+
+<body>
+    <header class="navbar">
+        <div class="navbar-left">
+            <button class="menu-button">
+                <img src="images/buttons/nav_menu_open.svg" alt="Cerrar categarias" class="menu-icon" id="nav-menu-img">
+            </button>
+            <a href="index.html"> <img src="images/logo/Logo_horizontal.png" alt="Logo de GAMEVERSE" class="logo-full">
+            </a>
+        </div>
+        <div class="navbar-center">
+            <div class="search-bar">
+                <input type="text" placeholder="Buscar juegos o categorías">
+                <button class="search-button">
+                    <svg class="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <div class="navbar-right">
+            <button class="cart-button menu-button">
+                <img src="images/buttons/cart.png" alt="Carrito" class="menu-icon">
+            </button>
+            <button class="profile-button menu-button">
+                <img src="images/buttons/user.png" alt="Perfil" class="menu-icon">
+            </button>
+        </div>
+    </header>
+
+    <main class="main-container">
+        <aside class="sidebar collapsed">
+            <div class="sidebar-content">
+
+                <a href="#" class="category-item">
+                    <img src="images/Iconos juegos y categorias/nuevos.svg" alt="Icono de Nuevos" class="category-icon">
+                    <span>Nuevos</span>
+                </a>
+
+                <a href="#" class="category-item">
+                    <img src="images/Iconos juegos y categorias/tus_juegos.svg" alt="Icono de Tus juegos"
+                        class="category-icon">
+                    <span>Tus juegos</span>
+                </a>
+
+                <a href="#" class="category-item">
+                    <img src="images/Iconos juegos y categorias/trending.svg" alt="Icono de Trending"
+                        class="category-icon">
+                    <span>Trending</span>
+                </a>
+
+                <a href="#" class="category-item">
+                    <img src="images/Iconos juegos y categorias/recientes.svg" alt="Icono de Recientes"
+                        class="category-icon">
+                    <span>Recientes</span>
+                </a>
+
+                <a href="#" class="category-item">
+                    <img src="images/Iconos juegos y categorias/random.svg" alt="Icono de Random" class="category-icon">
+                    <span>Random</span>
+                </a>
+
+                <div class="divider">
+                    <hr>
+                </div>
+
+                <a href="#" class="category-item">
+                    <img src="images/Iconos juegos y categorias/accion.svg" alt="Icono de accion" class="category-icon">
+                    <span>Accion</span>
+                </a>
+
+                <a href="#" class="category-item">
+                    <img src="images/Iconos juegos y categorias/aventuras.svg" alt="Icono de aventuras"
+                        class="category-icon">
+                    <span>Aventura</span>
+                </a>
+
+                <a href="#" class="category-item">
+                    <img src="images/Iconos juegos y categorias/2_jugadorea.svg" alt="Icono de dos jugadores"
+                        class="category-icon">
+                    <span>Dos jugadores</span>
+                </a>
+
+                <a href="#" class="category-item">
+                    <img src="images/Iconos juegos y categorias/multijugador.svg" alt="Icono de multijugador"
+                        class="category-icon">
+                    <span>Multijugador</span>
+                </a>
+
+                <a href="#" class="category-item">
+                    <img src="images/Iconos juegos y categorias/para_niños.svg" alt="Icono de niños"
+                        class="category-icon">
+                    <span>Para niños</span>
+                </a>
+
+                <a href="#" class="category-item">
+                    <img src="images/Iconos juegos y categorias/carreras.svg" alt="Icono de carreras"
+                        class="category-icon">
+                    <span>Carreras</span>
+                </a>
+
+                <a href="#" class="category-item">
+                    <img src="images/Iconos juegos y categorias/clasicos.svg" alt="Icono de arcade"
+                        class="category-icon">
+                    <span>Arcade</span>
+                </a>
+
+                <a href="#" class="category-item">
+                    <img src="images/Iconos juegos y categorias/de_mesa.svg" alt="Icono de de mesa"
+                        class="category-icon">
+                    <span>De mesa</span>
+                </a>
+
+                <a href="#" class="category-item">
+                    <img src="images/Iconos juegos y categorias/motos.svg" alt="Icono de motos" class="category-icon">
+                    <span>Motos</span>
+                </a>
+
+                <a href="#" class="category-item">
+                    <img src="images/Iconos juegos y categorias/pc.svg" alt="Icono de pc" class="category-icon">
+                    <span>Pc</span>
+                </a>
+
+                <a href="#" class="category-item">
+                    <img src="images/Iconos juegos y categorias/terror.svg" alt="Icono de terror" class="category-icon">
+                    <span>Terror</span>
+                </a>
+
+                <a href="#" class="category-item">
+                    <img src="images/Iconos juegos y categorias/Autos.svg" alt="Icono de autos" class="category-icon">
+                    <span>Autos</span>
+                </a>
+
+                <a href="#" class="category-item">
+                    <img src="images/Iconos juegos y categorias/de_cartas.svg" alt="Icono de cartas"
+                        class="category-icon">
+                    <span>Cartas</span>
+                </a>
+
+                <a href="#" class="category-item">
+                    <img src="images/Iconos juegos y categorias/de_vestir.svg" alt="Icono de vestir"
+                        class="category-icon">
+                    <span>De vestir</span>
+                </a>
+
+                <a href="#" class="category-item">
+                    <img src="images/Iconos juegos y categorias/escape.svg" alt="Icono de escape" class="category-icon">
+                    <span>Escape</span>
+                </a>
+
+                <a href="#" class="category-item">
+                    <img src="images/Iconos juegos y categorias/futbol.svg" alt="Icono de futbol" class="category-icon">
+                    <span>Futbol</span>
+                </a>
+
+                <a href="#" class="category-item">
+                    <img src="images/Iconos juegos y categorias/guerra.svg" alt="Icono de guerra" class="category-icon">
+                    <span>Guerra</span>
+                </a>
+
+                <a href="#" class="category-item">
+                    <img src="images/Iconos juegos y categorias/matematicas.svg" alt="Icono de matematica"
+                        class="category-icon">
+                    <span>Matematica</span>
+                </a>
+
+                <a href="#" class="category-item">
+                    <img src="images/Iconos juegos y categorias/tesoros.svg" alt="Icono de tesoros"
+                        class="category-icon">
+                    <span>Tesoros</span>
+                </a>
+
+                <a href="#" class="category-item">
+                    <img src="images/Iconos juegos y categorias/estrategia.svg" alt="Icono de estrategia"
+                        class="category-icon">
+                    <span>Estrategia</span>
+                </a>
+
+                <a href="#" class="category-item">
+                    <img src="images/Iconos juegos y categorias/pintar.svg" alt="Icono de pintar" class="category-icon">
+                    <span>Pintar</span>
+                </a>
+            </div>
+        </aside>
+
+        <main class="main-content sidebar-collapsed">
+
+            <section class="game-section">
+                <div class="game-container">
+                    <div class="game-image-wrapper">
+                        <img src="images/Peg solitaire/fenix-juego.png" alt="Ignis Solitaire" class="game-image">
+                    </div>
+                    <div class="game-info-bar">
+                        <span class="game-title">El Renacer del Fenix</span>
+                        <div class="game-icons">
+                            <img src="images/buttons/share.png" alt="Compartir" class="game-icon">
+                            <img src="images/buttons/volume.png" alt="Volumen" class="game-icon">
+                            <img src="images/buttons/maximaze.png" alt="Pantalla completa" class="game-icon">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Información del juego + Publicidad (los dos en un contenedor) -->
+            <section class="info-ad-row">
+                <div class="game-details">
+                    <div class="navegation-position">
+                        <a href="index.html">
+                            <h2>Home</h2>
+                        </a>
+                        <h2>></h2>
+                        <a href="#">
+                            <h2>De mesa</h2>
+                        </a>
+                        <h2>></h2>
+                        <a href="#">
+                            <h2>Tematico</h2>
+                        </a>
+                        <h2>></h2>
+                        <a href="#">
+                            <h2>El Renacer del Fenix</h2>
+                        </a>
+                    </div>
+                    <h2>📖 Historia</h2>
+                    <p>Cuenta la leyenda que el Ave Fénix, guardiana del fuego eterno, cada cierto tiempo debe
+                        consumirse en llamas para renacer más fuerte y majestuosa. Pero su renacimiento no es sencillo:
+                        cuando el ave arde, su cuerpo se fragmenta en miles de chispas de fuego caótico que se dispersan
+                        en todas direcciones.
+                        Ayuda al fénix a purificar sus llamas, guiando las chispas para que se consuman unas a otras
+                        hasta que quede solo una chispa pura en el centro del tablero: el núcleo ardiente del que el
+                        fénix volverá a surgir.</p>
+
+                    <h3>🏆 Cómo jugar</h3>
+                    <ul>
+                        <li>Cada bolita del tablero representa una ficha de fuego caótico.</li>
+                        <li>Al mover una ficha, esta puede saltar sobre otra en línea recta (horizontal o vertical), y
+                            la ficha que fue saltada se elimina.</li>
+                        <li>Elimina las fichas dejando una en el centro del tablero para que el ave fénix pueda renacer.
+                        </li>
+                    </ul>
+
+                    <h3>🕹️ Controles</h3>
+                    <p>Mouse: Arrastrar y soltar para interactuar con las fichas.</p>
+                </div>
+
+                <aside class="ad-panel">
+                    <span>Publicidad</span>
+                </aside>
+            </section>
+
+            <!-- Carrusel de imágenes de juego y gameplay -->
+            <section class="gallery-carousel">
+                <h3 class="gallery-title">🎮 Fotos y Gameplays</h3>
+                <div class="gallery-track" role="list">
+                    <div class="gallery-item" role="listitem">
+                        <img src="images/Peg solitaire/img-descriptiva-1.png" alt="Imagen 1">
+                    </div>
+                    <div class="gallery-item" role="listitem">
+                        <img src="images/Peg solitaire/video-descriptivo-1.png" alt="Imagen 2">
+                    </div>
+                    <div class="gallery-item" role="listitem">
+                        <img src="images/Peg solitaire/video-descriptivo-2.png" alt="Imagen 3">
+                    </div>
+                    <div class="gallery-item" role="listitem">
+                        <img src="images/Peg solitaire/img-descriptiva-2.png" alt="Imagen 4">
+                    </div>
+                    <div class="gallery-item" role="listitem">
+                        <img src="images/Peg solitaire/img-descriptiva-3.png" alt="Imagen 5">
+                    </div>
+                </div>
+            </section>
+
+            <!-- Comentarios + publicidad -->
+            <section class="info-ad-row">
+
+                <!-- Panel de comentarios -->
+                <div class="comments-panel">
+                    <div class="comments-header">
+                        <img src="images/Iconos comentarios/comentarios.png" alt="icono-comentarios" class="icon-small">
+                        <h3>Comentarios</h3>
+                    </div>
+
+                    <hr class="comment-section-divider">
+
+                    <div class="comment-compose">
+                        <div class="main-user">
+                            <img src="images/Iconos comentarios/avatares/avatar.png" alt="avatar-usuario" class="avatar-small">
+                            <h3> Tu </h3>
+                        </div>
+                        <hr class="divider-white">
+                        <div class="compose-actions">
+                            <input placeholder="Escribí tu comentario..." type="text">
+                            <button class="btn-send">Enviar</button>
+                        </div>
+                    </div>
+
+                    <div class="general-comments">
+                        <div class="comments-tabs">
+                            <button class="tab active">
+                                <img src="images/Iconos comentarios/recientes.png" alt="icono-ultimos" class="icon-tab"> Últimos comentarios
+                            </button>
+                            <button class="tab">
+                                <img src="images/Iconos comentarios/destacados.png" alt="icono-destacados" class="icon-tab"> Comentarios destacados
+                            </button>
+                        </div>
+
+                        <!-- Comentarios de los usuarios -->
+                        <div class="comments-list">
+
+                            <article class="comment-item">
+                                <div class="comment-item-header">
+                                    <img src="images/Iconos comentarios/avatares/usuario1.png" alt="avatar" class="avatar-small">
+                                    <h3> TomiCrack123 </h3>
+                                    <div class="comment-actions">
+                                        <img src="images/Iconos comentarios/like.png" alt="icono-like" class="icon-action">
+                                        <img src="images/Iconos comentarios/dislike.png" alt="icono-dislike" class="icon-action">
+                                    </div>
+                                </div>
+                                <hr class="comment-divider">
+                                <div class="comment-body">
+                                    <p>Me encanto el jueguito. Es simple a más no poder: solo fichas, mover y pensar un poco, pero eso es lo que lo 
+                                        hace tan adictivo. Arranqué diciendo "juego una partidita y listo" y me quedé como media hora tratando de dejar una sola ficha en el medio jajajaja.
+                                        Es de esos juegos que no necesitan gráficos locos ni nada raro (aunque los tiene), solo te atrapan porque 
+                                        querés superar tu propio récord. Si bien a veces te frustrás porque quedás trabado y no hay forma de ganar, cuando finalmente te sale, la sensación de victoria es tremenda.</p>
+                                    <div class="comment-meta">
+                                        <p>14/03/2025</p>
+                                        <a href="#"> Denunciar </a>
+                                    </div>
+                                </div>
+                            </article>
+
+                            <article class="comment-item">
+                                <div class="comment-item-header">
+                                    <img src="images/Iconos comentarios/avatares/usuario2.png" alt="avatar" class="avatar-small">
+                                    <h3> Usuario1379421384 </h3>
+                                    <div class="comment-actions">
+                                        <img src="images/Iconos comentarios/like.png" alt="icono-like" class="icon-action">
+                                        <img src="images/Iconos comentarios/dislike.png" alt="icono-dislike" class="icon-action">
+                                    </div>
+                                </div>
+                                <hr class="comment-divider">
+                                <div class="comment-body">
+                                    <p> Está muy bueno para pasar el rato. No parece difícil al principio pero después 
+                                        te das cuenta que hay que pensar bien dónde mover. Cuando logro dejar una sola 
+                                        ficha me siento un crack jaja</p>
+                                    <div class="comment-meta">
+                                        <p>22/01/1902</p>
+                                        <a href="#"> Denunciar </a>
+                                    </div>
+                                </div>
+                            </article>
+
+                            <article class="comment-item">
+                                <div class="comment-item-header">
+                                    <img src="images/Iconos comentarios/avatares/usuario3.png" alt="avatar" class="avatar-small">
+                                    <h3> joacoLoco992 </h3>
+                                    <div class="comment-actions">
+                                        <img src="images/Iconos comentarios/like.png" alt="icono-like" class="icon-action">
+                                        <img src="images/Iconos comentarios/dislike.png" alt="icono-dislike" class="icon-action">
+                                    </div>
+                                </div>
+                                <hr class="comment-divider">
+                                <div class="comment-body">
+                                    <p> Malisimo. </p>
+                                    <div class="comment-meta">
+                                        <p>15/12/2008</p>
+                                        <a href="#"> Denunciar </a>
+                                    </div>
+                                </div>
+                            </article>
+
+                            <article class="comment-item">
+                                <div class="comment-item-header">
+                                    <img src="images/Iconos comentarios/avatares/usuario4.png" alt="avatar" class="avatar-small">
+                                    <h3> MariaPro2 </h3>
+                                    <div class="comment-actions">
+                                        <img src="images/Iconos comentarios/like.png" alt="icono-like" class="icon-action">
+                                        <img src="images/Iconos comentarios/dislike.png" alt="icono-dislike" class="icon-action">
+                                    </div>
+                                </div>
+                                <hr class="comment-divider">
+                                <div class="comment-body">
+                                    <p>La verdad no me convenció mucho. Entiendo que es un clásico y que a mucha gente le gusta, 
+                                        pero a mí me terminó aburriendo bastante rápido. Es siempre lo mismo: mover fichas, eliminar 
+                                        otras y tratar de que quede una sola. No hay niveles, no hay nada que te motive a seguir más 
+                                        allá de repetir lo mismo una y otra vez. Encima, si te equivocás en un movimiento medio temprano 
+                                        ya quedás condenado a perder y tenés que arrancar de cero, lo cual se vuelve bastante frustrante. 
+                                        Capaz para matar 5 minutos está bien, pero no me atrapó para jugar seguido</p>
+                                    <div class="comment-meta">
+                                        <p>28/03/2016</p>
+                                        <a href="#"> Denunciar </a>
+                                    </div>
+                                </div>
+                            </article>
+
+                            <article class="comment-item">
+                                <div class="comment-item-header">
+                                    <img src="images/Iconos comentarios/avatares/usuario5.png" alt="avatar" class="avatar-small">
+                                    <h3> Usuario5555255 </h3>
+                                    <div class="comment-actions">
+                                        <img src="images/Iconos comentarios/like.png" alt="icono-like" class="icon-action">
+                                        <img src="images/Iconos comentarios/dislike.png" alt="icono-dislike" class="icon-action">
+                                    </div>
+                                </div>
+                                <hr class="comment-divider">
+                                <div class="comment-body">
+                                    <p>El juego está bien, cumple. No es nada espectacular pero tampoco malo. 
+                                        Es más que nada para jugar un rato cuando estás aburrido, pensar un poco 
+                                        y listo. Si buscás algo más dinámico, capaz no es para vos</p>
+                                    <div class="comment-meta">
+                                        <p>10/06/2020</p>
+                                        <a href="#"> Denunciar </a>
+                                    </div>
+                                </div>
+                            </article>
+
+                        </div>
+                    </div>
+                </div>
+
+                <aside class="ad-panel">
+                    <span>Publicidad</span>
+                </aside>
+            </section>
+
+            <footer class="site-footer">
+                <!-- 2 columnas de datos + logo -->
+                <div class="footer-main-row">
+                    <div id="footer-main-cols">
+                        <div class="footer-main-col footer-main-center">
+                            <h3>Sobre la Empresa</h3>
+                            <ul>
+                                <li><a href="#">Eventos corporativos</a></li>
+                                <li><a href="#">Nuestro equipo</a></li>
+                                <li><a href="#">Oportunidades de carrera</a></li>
+                                <li><a href="#">Quiénes somos</a></li>
+                                <li><a href="#">Trabaja con nosotros</a></li>
+                                <li><a href="#">Valores corporativos</a></li>
+                            </ul>
+                        </div>
+                        <div class="footer-main-col footer-main-center">
+                            <h3>Comunidad</h3>
+                            <ul>
+                                <li><a href="#">Asistencia Técnica</a></li>
+                                <li><a href="#">Blog</a></li>
+                                <li><a href="#">Comunidad</a></li>
+                                <li><a href="#">Foro de la comunidad</a></li>
+                                <li><a href="#">Guías y Tutoriales</a></li>
+                                <li><a href="#">Historias Cautivadoras</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="footer-logo footer-main-logo">
+                        <img src="images/logo/Logo-circular.png" alt="Logo Gameverse">
+                    </div>
+                    <div class="footer-main-col footer-main-center">
+                        <h3>Categoría de juegos</h3>
+                        <ul class="footer-games-list">
+                            <li><a href="#">Acción</a></li>
+                            <li><a href="#">Deportivos</a></li>
+                            <li><a href="#">Mundo abierto</a></li>
+                            <li><a href="#">Arcades</a></li>
+                            <li><a href="#">De mesa</a></li>
+                            <li><a href="#">Multijugador</a></li>
+                            <li><a href="#">Aventura</a></li>
+                            <li><a href="#">Dos jugadores</a></li>
+                            <li><a href="#">Princesas</a></li>
+                            <li><a href="#">Autos</a></li>
+                            <li><a href="#">Estrategia / Táctica</a></li>
+                            <li><a href="#">Puzzle / Rompecabezas</a></li>
+                            <li><a href="#">Carreras</a></li>
+                            <li><a href="#">Fantasía / Mágicos</a></li>
+                            <li><a href="#">RPG / Rol</a></li>
+                            <li><a href="#">Cartas</a></li>
+                            <li><a href="#">Horror / Terror</a></li>
+                            <li><a href="#">Shooter / Disparos</a></li>
+                            <li><a href="#">Deportes</a></li>
+                            <li><a href="#">Motos</a></li>
+                            <li><a href="#">Simulación / Creativos</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Franja newsletter + redes sociales -->
+                <div class="footer-newsletter-social">
+                    <div class="footer-newsletter-block">
+                        <h3>NEWSLETTER</h3>
+                        <p class="newsletter-border">¡Sé el primero en enterarte de nuestros lanzamientos!</p>
+                        <form>
+                            <input type="email" placeholder="Ingresá tu mail">
+                            <button type="submit">Suscribirme</button>
+                        </form>
+                    </div>
+                    <div class="footer-social-block">
+                        <h3>Seguinos en nuestras redes</h3>
+                        <div class="footer-social-icons">
+                            <a href="#"><img src="images/iconos redes sociales/instagram-logo.png" alt="Instagram"></a>
+                            <a href="#"><img src="images/iconos redes sociales/facebook-logo.png" alt="Facebook"></a>
+                            <a href="#"><img src="images/iconos redes sociales/twitter-logo.png" alt="Twitter"></a>
+                            <a href="#"><img src="images/iconos redes sociales/youtube-logo.png" alt="YouTube"></a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3 columnas inferiores -->
+                <div class="footer-bottom-row">
+                    <div class="footer-bottom-col">
+                        <h3>Soporte</h3>
+                        <ul>
+                            <li><a href="#">Ayuda en Línea</a></li>
+                            <li><a href="#">Centro de aprendizaje</a></li>
+                            <li><a href="#">Centro de soporte</a></li>
+                            <li><a href="#">Chat en vivo</a></li>
+                            <li><a href="#">Guías y tutoriales</a></li>
+                            <li><a href="#">Preguntas frecuentes (FAQ)</a></li>
+                            <li><a href="#">Reportar problema</a></li>
+                            <li><a href="#">Seguridad de la cuenta</a></li>
+                            <li><a href="#">Soporte Técnico</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-bottom-col">
+                        <h3>Links de Interés</h3>
+                        <ul>
+                            <li><a href="#">Alianzas Estratégicas</a></li>
+                            <li><a href="#">Colaboraciones</a></li>
+                            <li><a href="#">Contacto directo</a></li>
+                            <li><a href="#">Equipo de Innovación</a></li>
+                            <li><a href="#">Noticias y actualizaciones</a></li>
+                            <li><a href="#">Partnerships</a></li>
+                            <li><a href="#">Relación con inversionistas</a></li>
+                            <li><a href="#">Representante Social</a></li>
+                            <li><a href="#">Socios externos</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-bottom-col">
+                        <h3>Legal y Privacidad</h3>
+                        <ul>
+                            <li><a href="#">Administración de Cuentas</a></li>
+                            <li><a href="#">Configuración de cookies</a></li>
+                            <li><a href="#">Derechos de Propiedad</a></li>
+                            <li><a href="#">Gestionar preferencias</a></li>
+                            <li><a href="#">Opciones de Accesibilidad</a></li>
+                            <li><a href="#">Políticas de uso</a></li>
+                            <li><a href="#">Preferencias de Privacidad</a></li>
+                            <li><a href="#">Propiedad intelectual</a></li>
+                            <li><a href="#">Términos y Condiciones</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Copyright -->
+                <div class="footer-copyright">
+                    <p>© 2025 Games y compañía. Todos los derechos reservados. |Política de privacidad. |Términos y
+                        Condiciones</p>
+                </div>
+            </footer>
+
+        </main>
+
+</body>
+
+</html>
+<script src="js/sidebar.js"></script>
+
+</html>

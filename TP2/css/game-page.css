@@ -1,0 +1,435 @@
+
+/* ----------- Sección del juego principal ----------- */
+.game-section {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	height: 100%;
+	margin: 1.5% 0 4% 0;
+}
+
+.game-container {
+	background: #222;
+	border-radius: 18px;
+	box-shadow: 0 4px 24px rgba(0,0,0,0.5);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: clamp(60%, 55rem, 95%); /* Nunca menor al 60% ni mayor al 95% del contenedor en el que esta */
+	max-height: 87vw;
+	overflow: hidden; /* evitar que crezca y genere scroll independiente */
+}
+
+.game-image-wrapper {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	overflow: hidden;
+}
+
+.game-image {
+	width: 100%;
+	height: auto;
+	max-height: 100%; /* no sobrepasa el wrapper */
+	border-radius: 12px;
+	object-fit: cover; /* recorta sin deformar */
+	aspect-ratio: 12/7;
+	object-position: top center; /* muestra la parte superior cuando se recorta */
+}
+
+.game-info-bar {
+	width: 100%;
+	background: #2E2E2E;
+	border-radius: 0 0 18px 18px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 1.5% 3%;
+	margin-top: 0;
+	box-sizing: border-box;
+	flex: 0 0 auto; /* asegurar que la barra ocupe su espacio sin estirarse */
+}
+
+.game-title {
+	font-family: 'Orbitron', 'Roboto', sans-serif;
+	font-size: 1.2rem;
+	font-weight: 600;
+	color: #D4D4D4;
+}
+
+.game-icons {
+	display: flex;
+	gap: 18px;
+}
+
+.game-icon {
+	width: 28px;
+	height: 28px;
+	object-fit: contain;
+	filter: brightness(1.2);
+	cursor: pointer;
+	transition: transform 0.2s, filter 0.2s;
+}
+.game-icon:hover {
+	transform: scale(1.15);
+	filter: brightness(1.5);
+}
+
+
+/* ------------------- Información del juego ------------------- */
+
+.info-ad-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+	height: fit-content;
+}
+
+.info-ad-and-carousel {
+	display: flex;
+	flex-direction: column;
+	gap: 18px;
+}
+
+.info-ad-row, .gallery-carousel {
+	width: clamp(70%, 85rem, 95%);
+    margin: 0 0 2% 0;
+}
+
+
+.game-details {
+	background: #2E2E2E;
+    color: #dcdcdc;
+    padding: 3%;
+    border-radius: 24px;
+    width: calc(70% - 3%);
+    height: calc(100% - 36px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
+}
+
+.navegation-position {
+	display: flex;
+	align-items: space-between;
+	justify-content: center;
+	flex-direction: row;
+
+	gap: 2%;
+}
+
+.game-details .navegation-position h2 {
+    margin: 0 0 0 0;
+    font-size: clamp(0.7rem, 1.8vw, 2rem);
+}
+
+.game-details .navegation-position a:hover {
+	text-decoration: underline #dcdcdc;
+}
+
+.game-details h2, .game-details h3 {
+    color: #dcdcdc;
+    margin: 2% 0 1% 0;
+    font-size: clamp(0.6rem, 1.7vw, 1.6rem);
+}
+
+.game-details h2 {
+    margin: 4% 0 1% 0;
+}
+
+.game-details p, .game-details ul {
+    line-height: 1.45;
+    font-size: 1.5vw;
+    font-family: 'Roboto';
+}
+
+/* ------------------- Publicidad ------------------- */
+
+.ad-panel {
+	width: 25%;
+	height: 100%;
+	border-radius: 24px;
+	padding: 28.5% 0;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	
+	color: #aaa;
+	font-weight: 600;
+	box-shadow: 0 6px 18px rgba(0,0,0,0.45);
+	background: #2E2E2E;
+}
+
+/* ------------------- Carrusel simple horizontal ------------------- */
+.gallery-carousel {
+    display: flex;
+    flex-direction: column;
+	border-radius: 24px;
+	background: #2E2E2E;
+}
+
+.gallery-title {
+	color: #dcdcdc;
+	margin: 2% 4% 0 4%;
+	font-size: clamp(0.6rem, 1.7vw, 1.6rem);
+	font-weight: 600;
+}
+
+.gallery-track {
+    display: flex;
+    gap: 3%;
+    height: fit-content;
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    padding: 2% 4%;
+    box-sizing: border-box;
+}
+
+.gallery-track::-webkit-scrollbar {
+	height: 10px;
+}
+.gallery-track::-webkit-scrollbar-thumb {
+	background: rgba(255,255,255,0.08);
+	border-radius: 10px;
+}
+
+.gallery-item {
+    flex: 0 0 auto;
+    width: 20vw;
+    aspect-ratio: 1 / 1;
+    display: flex;
+    background: #1f1f1f;
+    align-items: center;
+    justify-content: center;
+    scroll-snap-align: center;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+
+	transition: transform 0.4s, box-shadow 0.4s;
+}
+
+.gallery-item:hover {
+	transform: scale(1.05);
+	box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+
+
+/* ------------------- Comentarios ------------------- */
+.comments-panel {
+    background: #2E2E2E;
+    color: #dcdcdc;
+    padding: 3%;
+    border-radius: 24px;
+    width: calc(70% - 3%);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
+    display: flex
+;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.comments-header {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+}
+
+.icon-small {
+	width: 5%;
+    height: 5%;
+	object-fit: cover;
+	border-radius: 6px;
+}
+
+.comment-section-divider {
+	border: none;
+	border-top: 1px solid #4DA6FF;
+	margin: 1% 0;
+}
+
+.comment-compose {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    
+    width: calc(100% - 4%);
+	gap: 1%;
+    padding: 1% 2% 1% 2%;
+
+    border-radius: 8px;
+    background-color: #242424;
+}
+
+.main-user {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 3%;
+
+    width: 100%;
+}
+
+.avatar-small {
+    width: 6%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.divider-white {
+	border: none;
+	border-top: 1px solid #dcdcdc;
+	width: 100%;
+}
+
+.comment-compose input {
+    background: #242424;
+    color: #dcdcdc;
+    border: none;
+    border-radius: 5px;
+    font-family: 'Roboto', sans-serif;
+    width: 85%;
+    height: fit-content;
+	padding: 1% 2%;
+}
+
+.compose-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+	width: 100%;
+}
+
+.btn-send {
+    background: #4DA6FF;
+    color: white;
+    border: none;
+    padding: 1% 2%;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+/* Tipo de comentarios (recientes - destacados) */
+
+.general-comments {
+    padding: 1% 2% 0 2%;
+	border-radius: 12px;
+	background: #1f1f1f;
+	height: 28vw;
+	font-family: 'Roboto';
+	overflow: hidden;
+}
+
+.comments-tabs {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.tab {
+    display: flex;
+    align-items: center;
+    background: none;
+    color: #d4d4d4;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    width: 40%;
+    gap: 3%;
+    font-size: clamp(1.3rem, 1.4vw, 1.7rem);
+}
+
+.icon-tab {
+	width: 15%;
+	object-fit: cover;
+}
+
+/* Comentarios de los usuarios */
+.comments-list {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    
+	gap: 10px;
+	height: 80%;
+
+	overflow-y: scroll;
+	scrollbar-color: #3A3A3A #222;
+  	scrollbar-width: thin;
+	scroll-behavior: smooth;
+}
+
+.comment-item {
+    display: flex;
+    flex-direction: column;
+
+    padding: 1%;
+    border-radius: 12px;
+
+	color: #2E2E2E;
+    background: #D4D4D4;
+}
+
+.comment-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.comment-actions {
+	display: flex;
+	gap: 10%;
+}
+
+.icon-action {
+	width: 30%;
+	height: 30%;
+	cursor: pointer;
+}
+
+.comment-divider {
+	border: none;
+	border-top: 1px solid #2E2E2E;
+	margin: 1% 0;
+}
+
+.comment-body {
+	padding: 0 1%;
+}
+
+.comment-body p {
+	margin-bottom: 0;
+}
+
+.comment-meta {
+    display: flex;
+	align-items: center;
+    flex-direction: row;
+    justify-content: space-between;
+
+	font-size: 0.85rem;
+    color: #2E2E2E;
+}
+
+.comment-meta a {
+	text-decoration: none;
+    color: #2E2E2E;
+}
+
+.comment-meta a:hover {
+	text-decoration: underline;
+}
