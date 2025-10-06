@@ -156,10 +156,8 @@ a {
 .sidebar-content {
   height: 100%;
   /* El contenedor interior ocupa toda la altura de su contenedor padre (.sidebar) */
-  overflow-y: auto;
-  /* Lo que hace que se scrolle */
+  overflow-y: auto;  /* Lo que hace que se scrolle */
   overflow-x: hidden;
-  /* Oculta el scroll horizontal */
   padding: 10px 0;
   scrollbar-color: #222 #222;
   scrollbar-width: thin;
