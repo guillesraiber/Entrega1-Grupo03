@@ -79,10 +79,6 @@
     transition: all 0.8s;
 }
 
-.carousel-img-main:hover {
-	object-position: top center; /* muestra la parte superior cuando se recorta */ 
-}
-
 .carousel-img-title {
     color: #fff;
     font-size: 1.2rem;
@@ -115,7 +111,6 @@
         opacity: 0.7;
     }
 }
-
 
 #peg-solitaire::after, 
 #zombie-tsunami::after, 
