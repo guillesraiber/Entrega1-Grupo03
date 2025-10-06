@@ -41,7 +41,7 @@
 
 .game-info-bar {
 	width: 100%;
-	background: #181818;
+	background: #2E2E2E;
 	border-radius: 0 0 18px 18px;
 	display: flex;
 	align-items: center;
@@ -77,63 +77,95 @@
 	filter: brightness(1.5);
 }
 
-/* ----------- Información + Publicidad y Carrusel ----------- */
+/* ----------- Información del juego ----------- */
 .info-ad-and-carousel {
-	width: clamp(60%, 48rem, 95%);
-	margin: 20px auto 40px;
+
 	display: flex;
 	flex-direction: column;
 	gap: 18px;
 }
 
+.info-ad-row, .gallery-carousel {
+	width: clamp(70%, 85rem, 95%);
+	margin: 20px auto 40px;
+}
+
 .info-ad-row {
-	display: flex;
-	gap: 18px;
-	align-items: flex-start;
-	width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+	height: clamp(500px, 55vw, 700px);
+	margin: 4% 0 0 0;
 }
 
 .game-details {
-	background: #181818;
-	color: #dcdcdc;
-	padding: 18px;
-	border-radius: 12px;
-	flex: 1 1 auto;
-	box-shadow: 0 6px 18px rgba(0,0,0,0.45);
+	background: #2E2E2E;
+    color: #dcdcdc;
+    padding: 18px 3%;
+    border-radius: 12px;
+    width: calc(70% - 3%);
+    height: calc(100% - 36px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
+}
+
+.navegation-position {
+	display: flex;
+	align-items: space-between;
+	justify-content: center;
+	flex-direction: row;
+
+	gap: 2%;
+}
+
+.game-details .navegation-position h2 {
+    margin: 0 0 0 0;
+    font-size: clamp(0.7rem, 1.8vw, 2rem);
+}
+
+.game-details .navegation-position a:hover {
+	text-decoration: underline #dcdcdc;
 }
 
 .game-details h2, .game-details h3 {
-	margin: 0 0 8px 0;
-	color: #fff;
+    color: #dcdcdc;
+    margin: 2% 0 1% 0;
+    font-size: clamp(0.6rem, 1.7vw, 1.6rem);
+}
+
+.game-details h2 {
+    margin: 4% 0 1% 0;
 }
 
 .game-details p, .game-details ul {
-	margin: 0 0 12px 0;
-	line-height: 1.45;
-	font-size: 0.95rem;
+    line-height: 1.45;
+    font-size: 1.5vw;
+    font-family: 'Roboto';
 }
 
+/* ------------------- Publicidad ------------------- */
+
 .ad-panel {
-	width: 220px;
-	flex: 0 0 220px;
+	width: 25%;
+	height: 100%;
 }
 
 .ad-placeholder {
-	background: linear-gradient(180deg,#2a2a2a,#1a1a1a);
 	border-radius: 12px;
-	height: 220px;
+	height: 100%;
+
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	
 	color: #aaa;
 	font-weight: 600;
 	box-shadow: 0 6px 18px rgba(0,0,0,0.45);
+	background: linear-gradient(180deg,#2a2a2a,#1a1a1a);
 }
 
 /* Carrusel */
 .gallery-carousel {
 	position: relative;
-	width: 100%;
 	overflow: visible;
 }
 

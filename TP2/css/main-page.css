@@ -1,9 +1,5 @@
 /* ------------------ Carrusel principal ------------------ */
 
-a {
-    text-decoration: none;
-}
-
 .carousel-container {
     min-height: 45vh;
     margin: 0px auto 0px auto; /* Centrar el carrusel dentro del contenedor */
@@ -80,6 +76,11 @@ a {
     opacity: 1;
     filter: none;
     margin-bottom: 10px;
+    transition: all 0.8s;
+}
+
+.carousel-img-main:hover {
+	object-position: top center; /* muestra la parte superior cuando se recorta */ 
 }
 
 .carousel-img-title {

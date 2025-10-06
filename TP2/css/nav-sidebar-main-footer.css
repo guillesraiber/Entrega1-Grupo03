@@ -4,6 +4,10 @@ body {
     background-color: #1A1A1A;
 }
 
+a {
+    text-decoration: none;
+}
+
 /* ------------------ Navbar ------------------ */
 .navbar {
     position: fixed; /* Mantiene la barra de navegación en su lugar */
@@ -187,7 +191,7 @@ body {
 
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    align-items: center;
 }
 
     /* --------- Sidebar colapsado --------- */
