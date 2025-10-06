@@ -91,7 +91,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // "Ver todos"
     const verTodosGenero = document.createElement("a");
-    verTodosGenero.className = "ver-todos-link";
+    verTodosGenero.className = "view-all-link";
     verTodosGenero.href = "#"; // Aquí se pondría el enlace real
     verTodosGenero.textContent = "Ver todos";
     headerContainer.appendChild(verTodosGenero);

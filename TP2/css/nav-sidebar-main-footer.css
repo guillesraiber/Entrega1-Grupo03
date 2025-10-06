@@ -176,7 +176,23 @@ a {
   text-decoration: none;
   font-size: 110%;
   color: #ccc;
-  transition: background-color 0.3s ease;
+  position: relative;
+}
+
+.category-item::before {
+  background: #3A3A3A;
+  content: "";
+  inset: 0;
+  position: absolute;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s cubic-bezier(0.82,-0.19, 0.29, 0.93);
+  z-index: -1;
+}
+
+.category-item:hover::before {
+  transform: scaleX(1);
+  transform-origin: left;
 }
 
 .category-item span {
@@ -184,10 +200,10 @@ a {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-
+/* 
 .category-item:hover {
   background-color: #3A3A3A;
-}
+} */
 
 .divider {
   margin: 0 10%;  /* Linea divisoria del sidebar */
@@ -515,4 +531,10 @@ a {
   background-color: #232f3e;
   width: 100%;
   box-sizing: border-box;
+}
+
+a {
+  color: #000;
+  position: relative;
+  text-decoration: none;
 }

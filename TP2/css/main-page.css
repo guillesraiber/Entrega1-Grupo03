@@ -195,26 +195,33 @@
     margin: 20px 0 10px;
     color: #fff;
     font-family: 'Orbitron', sans-serif;
-    font-weight: semi-bold;
     margin: 0; /* Resetear márgenes para el nuevo layout */
 }
 
-.ver-todos-link {
-    font-size: 12px;
+.view-all-link {
+    font-size: clamp(0.8rem, 1vw, 1.3rem);
     font-family: 'Orbitron', sans-serif;
-    font-weight: semi-bold;
-    color: #D4D4D4;
     text-decoration: none;
-    margin-left: 16px; /* Espacio entre el título y el link */
+    margin-left: 2%; /* Espacio entre el título y el link */
+    color: #D4D4D4;
+    position: relative;
+    transition: all 0.3s ease-in-out;
 }
 
-.ver-todos-link:hover{
-    text-decoration: underline;
-    cursor: pointer;
+.view-all-link:before{
+    content: '';
+    background: #D4D4D4;
+    display: block;
+    position: absolute;
+    border-radius: 10px;
+    bottom: -3px;
+    width: 0;
+    height: 3px;
+    transition: all 0.3s ease-in-out;
 }
 
-.ver-todos-link:active{
-    color: #bbb;
+.view-all-link:hover::before{
+    width: 100%;
 }
 
 .games-carousel {
