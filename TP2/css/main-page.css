@@ -13,20 +13,12 @@
     background: transparent;
     color: #D4D4D4;
     border: none;
-    font-size: 1.5rem;
-    width: 6%;
-    height: 6%;
-    border-radius: 50%;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 2;
     transition: background 0.2s;
-}
-
-.carousel-arrow:hover {
-    background: #444;
 }
 
 .carousel-images {
@@ -39,8 +31,8 @@
 }
 
 .carousel-img {
-    object-fit: cover; /*asegura que la imagen entre en el contenedor sin distorsionarse */
-    aspect-ratio: 16 / 9; /* mantiene la proporcion de la imagen */
+    object-fit: cover;
+    aspect-ratio: 16 / 9;
     border-radius: 16px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.2);
     background: #333;
@@ -257,7 +249,6 @@
     border-radius: 20px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.3);
 
-    aspect-ratio: 11 / 9; /* Mantener proporción */
     flex-shrink: 0;
     padding: .8%;
     height: fit-content;
@@ -289,7 +280,7 @@
 }
 
 .game-title {
-    font-size: 0.9rem;
+    font-size:  clamp(0.7rem, 1.35vw, 1.4rem);;
     color: #000000;
     white-space: nowrap;
     overflow: hidden;
@@ -307,7 +298,7 @@
 
 .game-price {
     font-family: 'Press Start 2P';
-    font-size: 0.7rem;
+    font-size: clamp(0.5rem, 0.9vw, 1.3rem);
 }
 
 .free {
@@ -323,12 +314,12 @@
     color: #000000;
     border: none;
     border-radius: 100px;
-    padding: 10px;
+    padding: 4% 0;
     cursor: pointer;
-    transition: transform 0.3s ease, background 0.3s ease, padding-right 0.3s ease, translate 0.3s ease, box-shadow 0.3s ease;
+    transition: all 0.3s ease;
     width: 45%;
     font-family: 'Press Start 2P';
-    font-size: 10px;
+    font-size: clamp(0.5rem, 0.9vw, 1.3rem);
     position: relative;
     overflow: hidden;
     display: flex;
@@ -369,7 +360,7 @@
     background-color: rgba(0,0,0,0.5);
     color: white;
     border: none;
-    padding: 10px 10px 15px 10px;
+    padding: 10px 10px 10px 10px;
     border-radius: 50%;
     cursor: pointer;
     z-index: 10;

@@ -154,8 +154,7 @@ a {
 }
 
 .sidebar-content {
-  height: 100%;
-  /* El contenedor interior ocupa toda la altura de su contenedor padre (.sidebar) */
+  height: 100%;  /* El contenedor interior ocupa toda la altura de su contenedor padre (.sidebar) */
   overflow-y: auto;  /* Lo que hace que se scrolle */
   overflow-x: hidden;
   padding: 10px 0;
