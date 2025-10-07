@@ -9,8 +9,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Orbitron:wght@400..900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Press+Start+2P&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/main-page.css">
     <link rel="stylesheet" href="css/nav-sidebar-main-footer.css">
+    <link rel="stylesheet" href="css/loading.css">
+
 </head>
 <body>
+    <div id="loader">
+        <div class="spinner"></div>
+        <div id="progress">0%</div>
+    </div>
     <header class="navbar">
         <div class="navbar-left">
             <button class="menu-button">
@@ -337,6 +343,7 @@
     </main>
 
 </body>
+<script src="js/loading.js"></script>
 <script src="js/carousel-principal.js"></script>
 <script src="js/sidebar.js"></script>
 <script src="js/juegos.js"></script>
