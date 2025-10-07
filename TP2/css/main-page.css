@@ -1,142 +1,107 @@
 /* ------------------ Carrusel principal ------------------ */
 
 .carousel-container {
-    min-height: 45vh;
-    margin: 0px auto 0px auto; /* Centrar el carrusel dentro del contenedor */
+    height: 50vh;
+    width: 100%;
+    margin: 4%;
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
+    overflow: hidden;
 }
 
-.carousel-arrow {
-    background: transparent;
-    color: #D4D4D4;
-    border: none;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 2;
-    transition: background 0.2s;
+.items {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  user-select: none;
+  width: 100%;
+  height: 100%;
 }
 
-.carousel-images {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    gap: 5%;
-    padding: 7vh 0 5vh 0;
+.items .item {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 23vw;
+  aspect-ratio: 16/9;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 300ms ease-in-out;
+  z-index: -1;
+  opacity: 0;
 }
 
-.carousel-img {
-    object-fit: cover;
-    aspect-ratio: 16 / 9;
-    border-radius: 16px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-    background: #333;
+.item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
-.carousel-img-secondary {
-    width: 21%;
-    height: 30%;
-    opacity: 0.5;
-    filter: blur(2px);
-    cursor: pointer;
-    transition: transform 0.3s;
-}
-
-.carousel-img-main-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 45%;
-    position: relative;
-    z-index: 1;
-    cursor: pointer;
-    transition: transform 0.3s;
-}
-
-.carousel-img-main-container:hover, .carousel-img-secondary:hover {
-    transform: scale(1.05);
-}
-
-.carousel-img-main {
-    width: 100%;
+.item.active {
     opacity: 1;
-    filter: none;
-    margin-bottom: 10px;
-    transition: all 0.8s;
+    width: max(40%, 35vw);
+    box-shadow: 0px 0px 105px -35px rgba(0, 0, 0, 0.75); 
+    z-index: 99;
 }
 
-.carousel-img-title {
-    color: #fff;
-    font-size: 1.2rem;
-    text-align: center;
-    margin-top: 4px;
-    font-weight: 500;
-    text-decoration: none;
+.item.prev {
+  z-index: 2;
+  opacity: 0.25;
+  transform: translate(-160%, -50%);
 }
 
-/* Animación para el glow del borde de la imagen principal*/
-@keyframes glowPulse {
-    0% {
-        filter: blur(1rem);
-        opacity: 0.7;
-    }
-    25% {
-        filter: blur(1.4rem);
-        opacity: 0.85;
-    }
-    50% {
-        filter: blur(1.8rem);
-        opacity: 1;
-    }
-    75% {
-        filter: blur(1.4rem);
-        opacity: 0.85;
-    }
-    100% {
-        filter: blur(1rem);
-        opacity: 0.7;
-    }
+.item.next {
+  z-index: 2;
+  opacity: 0.25;
+  transform: translate(60%, -50%);
 }
 
-#peg-solitaire::after, 
-#zombie-tsunami::after, 
-#pac-man::after, 
-#sims-4::after, 
-#gta::after { /* glow inicial de la imagen principal*/
-    content: '';
-    position: absolute;
-    height: 86%;
-    width: 100%;
-    bottom: 12%;
-    border-radius: 16px;
-    z-index: -1;
-    filter: blur(1rem);
-    opacity: 0.7;
-    transition: filter 0.3s, opacity 0.3s;
+.items .button-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 70%;
+  display: flex;
+  justify-content: space-between;
+  z-index: 100;
 }
 
-/* Animación en hover de la imagen principal */
-.carousel-img-main-container:hover#peg-solitaire::after,
-.carousel-img-main-container:hover#zombie-tsunami::after,
-.carousel-img-main-container:hover#pac-man::after,
-.carousel-img-main-container:hover#sims-4::after,
-.carousel-img-main-container:hover#gta::after {
-    animation: glowPulse 1.5s infinite linear;
+.button-container .carousel-button {
+    background-color: rgba(0, 0, 0, 1);
+    border-radius: 50%;
+    cursor: pointer;
+    position: relative;
+    opacity: 0.75;
+    transition: all 300ms ease-in-out;
 }
 
-/* Glows de cada imagen */
-#peg-solitaire::after { background-image: conic-gradient(#e04f28, #f2a954,#29465a, #29465a, #637e95, #232e3b, #232e3b, #71797d, #232e3b, #232e3b, #637e95, #29465a, #29465a, #f2a954, #e04f28);}
-#zombie-tsunami::after { background-image: conic-gradient(#46a52e, #439e2c, #526988, #526988, #69544d, #69544d, #1e5997, #2862a0, #1c436c, #526988, #526988, #439e2c, #46a52e);}
-#pac-man::after { background-image: conic-gradient(#030888, #030888, #da0404, #030888, #030888, #030888, #030888, #030888, #f6db39, #ff8a00, #030888, #a4cada, #030888, #f6db39, #030888);}
-#sims-4::after { background-image: conic-gradient(#9fecfe, #9fecfe, #14fdff, #0197ec, #0197ec, #9fecfe, #9fecfe, #e04630, #73b8dd, #91787b, #ffbe96, #a76600, #a76600, #0197ec, #0197ec, #0197ec, #0197ec, #0197ec, #0197ec); }
-#gta::after { background-image: conic-gradient(#dbe7b5, #dbe7b5, #dbe7b5, #dbaa8d, #b16154, #dbaa8d, #6d5444, #685642, #3a0005, #685642, #6c0506, #433a2d, #b3d0a4, #b3d0a4, #b3d0a4, #b3d0a4, #d8e8b9, #d8e8b9);}
+.carousel-button-left {
+    padding: 1% 1% 1% 2%;
+}
 
+.carousel-button-right {
+    padding: 1% 1% 1% 1.5%;
+}
+
+.button-container .carousel-button:hover {
+  opacity: 1;
+}
+
+.button-container .carousel-button:before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 50px;
+  height: 50px;
+  z-index: -99;
+}
 
 
 /* ------------------ Juegos ------------------ */

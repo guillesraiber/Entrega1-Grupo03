@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="css/main-page.css">
     <link rel="stylesheet" href="css/nav-sidebar-main-footer.css">
     <link rel="stylesheet" href="css/loading.css">
-
+    <link rel="stylesheet" href="css/carrusel-principal.css">
 </head>
 <body>
     <div id="loader">
@@ -188,20 +188,27 @@
         <div class="main-content">
 
             <section class="carousel-container">
-                <button class="carousel-arrow carousel-arrow-left" aria-label="Anterior" > <img src="images/buttons/arrow_back_ios_26dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.svg" alt="Navegar izquierda"> </button>
-
-                <div class="carousel-images">
-                    <img class="carousel-img carousel-img-secondary" id="carousel-img-secondary-left" src="images/Carrusel principal/gta.png" alt="GTA">
-                        
-                        <a href="pagina-juego.html" class="carousel-img-main-container" id="peg-solitaire">
-                            <img class="carousel-img carousel-img-main" src="images/Carrusel principal/peg_solitaire.png" alt="Peg Solitaire">
-                            <div class="carousel-img-title">Peg Solitaire</div>
-                        </a>
-                    
-                    <img class="carousel-img carousel-img-secondary" id="carousel-img-secondary-right" src="images/Carrusel principal/zombie_tsunami.png" alt="Zombie Tsunami">
-                </div>
-
-                <button class="carousel-arrow carousel-arrow-right" aria-label="Siguiente"> <img src="images/buttons/arrow_forward_ios_26dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.svg" alt="Navegar derecha"> </button>
+                <div class="items">
+                    <div class="item active">
+                        <img src="images/Carrusel principal/peg_solitaire.png">
+                    </div>
+                    <div class=" item next">
+                        <img src="images/Carrusel principal/pacman.png">
+                    </div>
+                    <div class="item">
+                        <img src="images/Carrusel principal/gta.png">
+                    </div>
+                    <div class="item">
+                        <img src="images/Carrusel principal/sims4.png">
+                    </div>
+                    <div class="item prev">
+                        <img src="images/Carrusel principal/zombie_tsunami.png">
+                    </div>
+                    <div class="button-container">
+                        <div class="carousel-button carousel-button-left"><img src="images/buttons/arrow_back_ios_26dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.svg" alt="Navegar izquierda"></div>
+                        <div class="carousel-button carousel-button-right"><img src="images/buttons/arrow_forward_ios_26dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.svg" alt="Navegar derecha"></div>
+                    </div>
+	            </div>
             </section>
 
                 <section class="games-section">
