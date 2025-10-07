@@ -537,3 +537,72 @@ a {
   position: relative;
   text-decoration: none;
 }
+
+/* ------------------ MOBILE VERSION ------------------ */
+@media (max-width: 768px) {
+
+  .navbar{
+    padding: 0px;
+  }
+
+  /* Ocultar barra de búsqueda */
+  .navbar-center {
+    display: none;
+  }
+
+  /* Hacer sidebar más angosto */
+  .sidebar {
+    display: none;
+  }
+
+  .sidebar.open {
+     display: block;
+     position: fixed;
+     width: 80px;
+     height: 100vh;
+     margin-top:40px ;
+     top: 0;
+     background-color: #222;
+     z-index: 999;
+  }
+
+  /* Mostrar solo iconos, ocultar textos */
+  .sidebar .category-item span {
+    display: none;
+  }
+
+  .sidebar .category-item {
+    justify-content: center;
+    padding: 10px 0;
+  }
+
+  .sidebar .category-icon {
+    margin-right: 0;
+    width: 22px;
+    height: 22px;
+  }
+
+  /* Ajustar contenido principal al nuevo ancho */
+  .main-content {
+    margin-left: 60px;
+    width: calc(100% - 60px);
+  }
+
+  /* Ajustar footer para que no quede desplazado */
+  .site-footer {
+    margin-left: 0;
+    width: 100%;
+  }
+  
+    /* Ajustar contenido principal al nuevo ancho si el sidebar está abierto */
+    .main-content {
+      margin-left: 85px;
+      width: calc(100% - 80px);
+      transition: margin-left 0.3s, width 0.3s;
+    }
+    /* Cuando el sidebar está cerrado, ocupar todo el ancho */
+    .sidebar:not(.open) ~ .main-content {
+      margin-left: 0 !important;
+      width: 100% !important;
+    }
+}
