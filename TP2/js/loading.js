@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
         progress++;
         progressText.textContent = `${progress}%`;
 
-        if (progress >= 100) {
+        if (progress >= 1) {
             clearInterval(loadingInterval);
             loader.style.display = 'none'; 
             //content.style.display = 'block'; 

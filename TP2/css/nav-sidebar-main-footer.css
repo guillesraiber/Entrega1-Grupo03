@@ -541,68 +541,98 @@ a {
 /* ------------------ MOBILE VERSION ------------------ */
 @media (max-width: 768px) {
 
-  .navbar{
-    padding: 0px;
+  .main-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: clamp(40px, 4vw, 70px);
+    /* Para crear espacio para el navbar fijo */
   }
 
-  /* Ocultar barra de búsqueda */
-  .navbar-center {
-    display: none;
-  }
-
-  /* Hacer sidebar más angosto */
   .sidebar {
     display: none;
   }
 
-  .sidebar.open {
-     display: block;
-     position: fixed;
-     width: 80px;
-     height: 100vh;
-     margin-top:40px ;
-     top: 0;
-     background-color: #222;
-     z-index: 999;
-  }
-
-  /* Mostrar solo iconos, ocultar textos */
-  .sidebar .category-item span {
-    display: none;
-  }
-
-  .sidebar .category-item {
-    justify-content: center;
+  .sidebar-content {
+    height: 100%;  /* El contenedor interior ocupa toda la altura de su contenedor padre (.sidebar) */
+    overflow-y: auto;  /* Lo que hace que se scrolle */
+    overflow-x: hidden;
     padding: 10px 0;
+    scrollbar-color: #222 #222;
+    scrollbar-width: thin;
+    scroll-behavior: smooth;
+    transition: all 0.3s;
   }
 
-  .sidebar .category-icon {
-    margin-right: 0;
-    width: 22px;
-    height: 22px;
+  .divider {
+    margin: 0 10%;  /* Linea divisoria de categorias */
   }
 
-  /* Ajustar contenido principal al nuevo ancho */
+  /* ------------------ Contenido principal ------------------ */
   .main-content {
-    margin-left: 60px;
-    width: calc(100% - 60px);
+    width: 100%;
+    height: 100%;
+
+    background-color: #1A1A1A;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
-  /* Ajustar footer para que no quede desplazado */
-  .site-footer {
-    margin-left: 0;
-    width: 100%;
+  /* --------- Sidebar colapsado --------- */
+  .sidebar.collapsed {
+      display: block;
+      width: clamp(150px, 19vw, 200px);
+      height: calc(100% - clamp(40px, 4vw, 70px));
+      /* Altura de la ventana - la altura del navbar */
+      background-color: #222;
+      color: #D4D4D4;
+      position: fixed;
+      top: clamp(40px, 4vw, 70px);
+      /* Empieza abajo (donde termina) del navbar */
+      left: 0;
+      z-index: 50;
+      /* Por abajo del navbar, pero por encima del contenido principal */
   }
+
+  .sidebar.collapsed .category-item {
+    display: flex;
+    align-items: center;
+    padding: 7% 10%;
+    text-decoration: none;
+    font-size: 110%;
+    color: #ccc;
+    position: relative;
+  }
+
+  .sidebar.collapsed .category-icon {
+    width: 24px;
+    /* Ajusta el tamaño de la imagen */
+    height: 24px;
+    /* Ajusta el tamaño de la imagen */
+    object-fit: contain;
+    /* Esto es importante: ajusta la imagen sin distorsionarla */
+    margin-right: 15px;
+  }
+
+  .sidebar.collapsed .category-item span {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .main-content.sidebar-collapsed {
+    width: 100%;
+    margin-left: 0;
+  }
+
+}
+
+@media (max-width: 430px) {
   
-    /* Ajustar contenido principal al nuevo ancho si el sidebar está abierto */
-    .main-content {
-      margin-left: 85px;
-      width: calc(100% - 80px);
-      transition: margin-left 0.3s, width 0.3s;
-    }
-    /* Cuando el sidebar está cerrado, ocupar todo el ancho */
-    .sidebar:not(.open) ~ .main-content {
-      margin-left: 0 !important;
-      width: 100% !important;
-    }
+  .footer-newsletter-block form {
+    flex-direction: column;
+  } 
+  
 }
