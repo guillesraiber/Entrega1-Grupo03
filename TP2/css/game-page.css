@@ -337,6 +337,7 @@
 .comments-tabs {
     display: flex;
     justify-content: space-evenly;
+	margin: 0 0 1% 0;
 }
 
 .tab {
@@ -348,9 +349,21 @@
     padding: 8px 12px;
     border-radius: 8px;
     cursor: pointer;
-    width: 40%;
+    width: 45%;
     gap: 3%;
     font-size: clamp(1.3rem, 1.4vw, 1.7rem);
+}
+
+.tab.active {
+	background-color: #444;
+}
+
+.tab:hover {
+	background-color: #2E2E2E;
+}
+
+.tab.active:hover {
+	background-color: #444;
 }
 
 .icon-tab {
@@ -368,8 +381,8 @@
 	height: 80%;
 
 	overflow-y: scroll;
-	scrollbar-color: #3A3A3A #222;
-  	scrollbar-width: thin;
+	scrollbar-color: #585858 #222;
+  	scrollbar-width: auto;
 	scroll-behavior: smooth;
 }
 
