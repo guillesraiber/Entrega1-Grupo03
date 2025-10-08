@@ -16,8 +16,7 @@
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	width: clamp(60%, 55rem, 95%); /* Nunca menor al 60% ni mayor al 95% del contenedor en el que esta */
-	max-height: 87vw;
+	width: 800px;
 	overflow: hidden; /* evitar que crezca y genere scroll independiente */
 }
 
