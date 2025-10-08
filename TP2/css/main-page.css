@@ -3,12 +3,11 @@
 .carousel-container {
     height: 50vh;
     width: 100%;
-    margin: 4%;
+    margin: 4% 0;
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
-    overflow: hidden;
 }
 
 .items {
@@ -26,7 +25,7 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 23vw;
+  width: clamp(200px, 23vw, 400px);
   aspect-ratio: 16/9;
   border-radius: 12px;
   overflow: hidden;
@@ -43,9 +42,13 @@
 
 .item.active {
     opacity: 1;
-    width: max(40%, 35vw);
+    width: clamp(400px, 45%, 700px);
     box-shadow: 0px 0px 105px -35px rgba(0, 0, 0, 0.75); 
     z-index: 99;
+}
+
+.item.active:hover {
+    cursor: pointer;
 }
 
 .item.prev {
@@ -54,21 +57,32 @@
   transform: translate(-160%, -50%);
 }
 
+.item.prev:hover {
+    cursor: pointer;
+    opacity: 0.60;
+}
+
 .item.next {
   z-index: 2;
   opacity: 0.25;
   transform: translate(60%, -50%);
 }
 
+.item.next:hover {
+    cursor: pointer;
+    opacity: 0.5;
+}
+
 .items .button-container {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 70%;
-  display: flex;
-  justify-content: space-between;
-  z-index: 100;
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 70%;
+    /* display: flex; */
+    /* justify-content: space-between; */
+    z-index: 98;
 }
 
 .button-container .carousel-button {
@@ -92,23 +106,11 @@
   opacity: 1;
 }
 
-.button-container .carousel-button:before {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 50px;
-  height: 50px;
-  z-index: -99;
-}
-
 
 /* ------------------ Juegos ------------------ */
 
 .games-section {
     width: 100%; /* que ocupe todo el ancho disponible */
-    max-width: 100%; /* no se pase del viewport */
     min-height: 310px;
     display: flex;
     align-items: center;
@@ -116,6 +118,10 @@
     flex-direction: column;
     box-sizing: border-box;
     margin-bottom: 80px;
+}
+
+.recientes-carousel {
+    background-color: #3A3A3A;
 }
 
 .games-grid {
@@ -183,9 +189,10 @@
 
 .games-carousel {
     position: relative;
-    margin-bottom: 30px;
+    margin-bottom: 2%;
     max-width: 100vw;
     box-sizing: border-box;
+    padding: 2% 0 0 0;
 }
 
 
@@ -336,27 +343,4 @@
 }
 .next-btn { 
     right: 10px; 
-}
-
-@media (max-width: 700px) {
-    .minicarousel-card {
-        width: 180px;
-        height: 160px;
-    }
-    .minicarousel-card-img {
-        height: 70px;
-    }
-    .minicarousel-card-title {
-        font-size: 13px;
-    }
-    .minicarousel-card-status {
-        font-size: 11px;
-    }
-    .minicarousel-card-play {
-        font-size: 12px;
-        padding: 4px 10px;
-    }
-    .minicarousel-title {
-        font-size: 16px;
-    }
 }
