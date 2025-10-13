@@ -109,7 +109,9 @@ document.addEventListener("DOMContentLoaded", () => {
           <h4 class="game-title" title="Peg Solitaire">Peg Solitaire</h4>
           <div class="game-meta">
             <span class="game-price free">Gratis</span>
-            <button class="play-btn">Jugar</button>
+
+              <button class="play-btn" onclick="window.location.href='pagina-juego.html'">Jugar</button>
+
           </div>
         </div>
       `;
