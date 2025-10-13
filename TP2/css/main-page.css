@@ -27,7 +27,6 @@
   left: 50%;
   transform: translate(-50%, -50%);
   width: clamp(200px, 23vw, 400px);
-  aspect-ratio: 16/9;
   border-radius: 12px;
   overflow: hidden;
   transition: all 300ms ease-in-out;
@@ -39,13 +38,26 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  aspect-ratio: 16/9;
+}
+
+.item h1 {
+    color: #D4D4D4;
+    display: flex;
+    justify-content: center;
+    margin: 2% 0 0 0;
+    transition: all 300ms ease-in-out;
+    font-size: 80%;
 }
 
 .item.active {
     opacity: 1;
     width: clamp(400px, 45%, 700px);
-    box-shadow: 0px 0px 105px -35px rgba(0, 0, 0, 0.75); 
     z-index: 99;
+}
+
+.item.active h1 {
+    font-size: 160%;
 }
 
 .item.active:hover {
@@ -58,7 +70,7 @@
   transform: translate(-160%, -50%);
 }
 
-.item.prev:hover {
+.item.prev:hover, .item.next:hover {
     cursor: pointer;
     opacity: 0.60;
 }
@@ -67,11 +79,6 @@
   z-index: 2;
   opacity: 0.25;
   transform: translate(60%, -50%);
-}
-
-.item.next:hover {
-    cursor: pointer;
-    opacity: 0.5;
 }
 
 .items .button-container {

@@ -9,9 +9,7 @@
 		for (let i = 0; i < button.length; i++) {
 			button[i].addEventListener("click", () => i == 0 ? gotoPrev() : gotoNext());
 		}
-
-		// Delegate clicks on slides/buttons with class .next or .prev to navigate
-		// Using delegation so it works when classes move between elements
+		
 		if (slider) {
 			slider.addEventListener('click', (e) => {
 				const target = e.target.closest('.next, .prev');

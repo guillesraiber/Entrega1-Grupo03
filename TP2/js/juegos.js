@@ -64,12 +64,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const carousel = document.createElement("div");
     carousel.className = "games-carousel";
 
-    // Si es "Recientes", le agrego clase especial para fondo gris
-    const isRecientes = titulo.toLowerCase() === "recientes";
-    if (isRecientes) {
-      carousel.classList.add("recientes-carousel");
-    }
-
     // Contenedor para título y "Ver todos" en la misma línea
     const headerContainer = document.createElement("div");
     headerContainer.className = "carousel-header";
@@ -101,6 +95,26 @@ document.addEventListener("DOMContentLoaded", () => {
     // Track
     const track = document.createElement("div");
     track.className = "carousel-track";
+
+    // Si es "Recientes", le agrego clase especial para fondo gris y una card del peg solitaire
+    const isRecientes = titulo.toLowerCase() === "recientes";
+    if (isRecientes) {
+      carousel.classList.add("recientes-carousel");
+
+      const card = document.createElement("div");
+      card.className = "game-card";
+      card.innerHTML = `
+        <img src="images/Peg solitaire/peg-solitaire-card.png" alt="Peg Solitarie" class="game-img" loading="lazy">
+        <div class="game-info">
+          <h4 class="game-title" title="Peg Solitaire">Peg Solitaire</h4>
+          <div class="game-meta">
+            <span class="game-price free">Gratis</span>
+            <button class="play-btn">Jugar</button>
+          </div>
+        </div>
+      `;
+      track.appendChild(card);
+    }
 
     juegos.forEach(juego => {
       const name = juego?.name || "Sin nombre";
@@ -156,10 +170,10 @@ document.addEventListener("DOMContentLoaded", () => {
       carousel.appendChild(nextBtn);
 
       prevBtn.addEventListener("click", () => {
-        track.scrollBy({ left: -220, behavior: "smooth" });
+        track.scrollBy({ left: -550, behavior: "smooth" });
       });
       nextBtn.addEventListener("click", () => {
-        track.scrollBy({ left: 220, behavior: "smooth" });
+        track.scrollBy({ left: 550, behavior: "smooth" });
       });
     }
 
