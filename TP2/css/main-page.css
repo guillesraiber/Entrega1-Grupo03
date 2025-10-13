@@ -70,6 +70,10 @@
   transform: translate(-160%, -50%);
 }
 
+.item.prev .carrousel-link, .item.next .carrousel-link {
+    pointer-events: none;
+}
+
 .item.prev:hover, .item.next:hover {
     cursor: pointer;
     opacity: 0.60;
