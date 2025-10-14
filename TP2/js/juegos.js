@@ -156,10 +156,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     carousel.appendChild(track);
 
-    const NAV_BUTTON_THRESHOLD = 4;
+    const NAV_BUTTON_THRESHOLD = 3;
 
     // Botones de navegación
-    if (juegos.length > NAV_BUTTON_THRESHOLD) {
+    if (juegos.length >= NAV_BUTTON_THRESHOLD) {
       const prevBtn = document.createElement("button");
       prevBtn.textContent = "◀";
       prevBtn.className = "carousel-btn prev-btn";
