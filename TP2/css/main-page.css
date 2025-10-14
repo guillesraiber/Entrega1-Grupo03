@@ -2,7 +2,7 @@
 /* ------------------ Carrusel principal ------------------ */
 
 .carousel-container {
-    height: 50vh;
+    height: 30vw;
     width: 100%;
     margin: 4% 0;
     display: flex;
@@ -362,8 +362,9 @@
 @media (max-width: 768px) {
 
     /* Carrusel principal */
+
     .carousel-container {
-    height: 40vh;
+        height: 40vw;
     }
 
     .items .item {
@@ -407,6 +408,10 @@
 }
 
 @media (max-width: 430px) {
+
+    .carousel-container {
+        height: 65vw;
+    }
 
     .carousel-header {
         padding: 8px 0 0 15px;
