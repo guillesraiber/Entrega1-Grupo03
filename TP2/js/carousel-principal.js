@@ -1,3 +1,4 @@
+'use strict';
 		const slider = document.querySelector(".items");
 		const slides = document.querySelectorAll(".item");
 		const button = document.querySelectorAll(".carousel-button");

@@ -1,3 +1,4 @@
+'use strict';
   const menuButton = document.querySelector('#nav-menu-img');
   const sidebar = document.querySelector('.sidebar');
   const mainContent = document.querySelector('.main-content');

@@ -1,3 +1,4 @@
+'use strict';
 document.addEventListener("DOMContentLoaded", () => {
     // Loader: Simular progreso de carga 
     const loader = document.getElementById('loader');

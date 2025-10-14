@@ -150,7 +150,7 @@
 	width: 25%;
 	height: 100%;
 	border-radius: 24px;
-	padding: 28.5% 0;
+	padding: 28% 0;
 
 	display: flex;
 	align-items: center;
@@ -168,6 +168,7 @@
     flex-direction: column;
 	border-radius: 24px;
 	background: #2E2E2E;
+	position: relative;
 }
 
 .gallery-title {
@@ -225,7 +226,28 @@
     display: block;
 }
 
+.gameplays-scroll-button {
+	background-color: rgba(0, 0, 0, 1);
+    border-radius: 50%;
+	border: none;
+    cursor: pointer;
+    position: absolute;
+    opacity: 0.75;
+    transition: all 300ms ease-in-out;
+	position: absolute;
+	top: 50%;
+	z-index: 99;
+}
 
+.gameplays-scroll-button.left {
+    left: 10px; 
+    padding: 10px 8px 10px 14px;
+}
+
+.gameplays-scroll-button.right{
+    right: 10px;
+    padding: 10px 10px 10px 10px;
+}
 
 /* ------------------- Comentarios ------------------- */
 .comments-panel {
@@ -330,7 +352,7 @@
     padding: 1% 2% 0 2%;
 	border-radius: 12px;
 	background: #1f1f1f;
-	height: 28vw;
+	height: 35vw;
 	font-family: 'Roboto';
 	overflow: hidden;
 }

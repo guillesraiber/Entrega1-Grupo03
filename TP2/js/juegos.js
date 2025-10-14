@@ -1,3 +1,4 @@
+'use strict';
 
 document.addEventListener("DOMContentLoaded", () => {
   const gamesContainer = document.getElementById("games-container");

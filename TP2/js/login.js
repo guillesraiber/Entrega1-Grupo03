@@ -1,3 +1,4 @@
+'use strict';
 // Referencias a formularios y enlaces
 const formRegistro = document.getElementById("form-registro");
 const formLogin = document.getElementById("form-login");
