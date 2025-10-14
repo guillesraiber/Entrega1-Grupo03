@@ -581,7 +581,7 @@ a {
   /* --------- Sidebar colapsado --------- */
   .sidebar.collapsed {
       display: block;
-      width: clamp(150px, 19vw, 200px);
+      width: clamp(180px, 35vw, 220px);
       height: calc(100% - clamp(40px, 4vw, 70px));
       /* Altura de la ventana - la altura del navbar */
       background-color: #222;
@@ -597,6 +597,7 @@ a {
   .sidebar.collapsed .category-item {
     display: flex;
     align-items: center;
+    justify-content: flex-start;
     padding: 7% 10%;
     text-decoration: none;
     font-size: 110%;
