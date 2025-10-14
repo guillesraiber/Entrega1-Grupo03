@@ -624,6 +624,7 @@ a {
   .main-content.sidebar-collapsed {
     width: 100%;
     margin-left: 0;
+    filter: brightness(40%);
   }
 
   .search-bar {
