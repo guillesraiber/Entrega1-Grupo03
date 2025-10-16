@@ -498,8 +498,12 @@
   transition: color 0.3s ease;
 }
 
-.rating-button:hover {
+.rating-button.like-button:hover {
   color: #0571ed;
+}
+
+.rating-button.dislike-button:hover {
+  color: #e3342f;
 }
 
 .rating-button.liked {
