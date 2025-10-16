@@ -672,12 +672,12 @@ a {
   .abierto#ul-links-interes, .abierto#ul-legal {
     max-height: 350px;
     padding: 9% 20%;
-    transition: max-height 1.3s ease;
+    transition: max-height 1s ease;
   }
 
   .abierto#ul-game-list, .abierto#ul-soporte {
     max-height: 660px;
     padding: 9% 20%;
-    transition: max-height 1.3s ease;
+    transition: max-height 1s ease;
   }
 }
