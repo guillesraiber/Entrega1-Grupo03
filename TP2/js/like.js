@@ -1,23 +1,21 @@
 'use strict';
 
 document.addEventListener('DOMContentLoaded', () => {
-  // 1. Obtener todos los contenedores de botones
+  // Obtener todos los contenedores de botones
   const ratingContainers = document.querySelectorAll('.rating-container');
 
   ratingContainers.forEach(container => {
-    // 2. Para cada contenedor, encontrar sus botones y contadores
+    // Para cada contenedor, encontrar sus botones y contadores
     const likeButton = container.querySelector('.like-button');
     const dislikeButton = container.querySelector('.dislike-button');
-    const likeCountElem = likeButton.querySelector('.count');
-    const dislikeCountElem = dislikeButton.querySelector('.count');
+    // const likeCountElem = likeButton.querySelector('.count');
+    // const dislikeCountElem = dislikeButton.querySelector('.count');
 
-    let likeCount = 0;
-    let dislikeCount = 0;
     let likeState = false;
     let dislikeState = false;
 
     // Función para actualizar los contadores en la vista
-    const updateCounts = () => {
+    const updateCounts = (likeCount, dislikeCount, likeCountElem, dislikeCountElem) => {
       likeCountElem.textContent = likeCount;
       dislikeCountElem.textContent = dislikeCount;
     };
@@ -25,11 +23,16 @@ document.addEventListener('DOMContentLoaded', () => {
     // Función para añadir la clase de animación y eliminarla después
     const animateButton = (button) => {
       button.classList.add('animate');
-      setTimeout(() => button.classList.remove('animate'), 300);
+      setTimeout(() => button.classList.remove('animate'), 1000);
     };
 
     // Manejador de eventos para el botón "me gusta"
     likeButton.addEventListener('click', () => {
+      let likeCountElem = likeButton.querySelector('.count');
+      let dislikeCountElem = dislikeButton.querySelector('.count');
+      let dislikeCount = parseInt(dislikeCountElem.textContent);
+      let likeCount = parseInt(likeCountElem.textContent);
+
       if (likeState) {
         likeCount--;
         likeState = false;
@@ -46,11 +49,16 @@ document.addEventListener('DOMContentLoaded', () => {
           dislikeButton.classList.remove('disliked');
         }
       }
-      updateCounts();
+      updateCounts(likeCount, dislikeCount, likeCountElem, dislikeCountElem);
     });
 
     // Manejador de eventos para el botón "no me gusta"
     dislikeButton.addEventListener('click', () => {
+      let likeCountElem = likeButton.querySelector('.count');
+      let dislikeCountElem = dislikeButton.querySelector('.count');
+      let dislikeCount = parseInt(dislikeCountElem.textContent);
+      let likeCount = parseInt(likeCountElem.textContent);
+
       if (dislikeState) {
         dislikeCount--;
         dislikeState = false;
@@ -67,7 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
           likeButton.classList.remove('liked');
         }
       }
-      updateCounts();
+      updateCounts(likeCount, dislikeCount, likeCountElem, dislikeCountElem);
     });
   });
 });
