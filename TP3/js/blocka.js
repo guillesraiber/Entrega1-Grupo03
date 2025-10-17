@@ -1,3 +1,76 @@
+const images = document.querySelectorAll('.image-option');
+const playButton = document.getElementById('play-button');
+const levelSelect = document.getElementById('level-select');
+const menuContainer = document.getElementById('game-menu');
+let selectedImage = null;
+
+// Manejar clic en imágenes
+images.forEach(img => {
+    img.addEventListener('click', () => {
+        const imagePath = img.dataset.image;
+        const level = parseInt(levelSelect.value);
+        startGame(imagePath, level);
+    });
+});
+
+// Manejar botón jugar con animación
+playButton.addEventListener('click', () => {
+    playRandomWithAnimation();
+});
+
+function playRandomWithAnimation() {
+    let currentIndex = 0;
+    const animationDuration = 500; // ms por imagen
+    const totalCycles = 8; // número de ciclos completos
+    let cycleCount = 0;
+
+    const interval = setInterval(() => {
+        // Remover clase de la imagen anterior
+        images.forEach(img => img.classList.remove('animating'));
+        
+        // Agregar clase a la imagen actual
+        images[currentIndex].classList.add('animating');
+        
+        currentIndex++;
+        
+        if (currentIndex >= images.length) {
+            currentIndex = 0;
+            cycleCount++;
+        }
+
+        if (cycleCount >= totalCycles) {
+            clearInterval(interval);
+            
+            // Seleccionar imagen aleatoria final
+            const randomIndex = Math.floor(Math.random() * images.length);
+            images.forEach(img => img.classList.remove('animating'));
+            images[randomIndex].classList.add('selected');
+            
+            // Iniciar juego después de un momento
+            setTimeout(() => {
+                const imagePath = images[randomIndex].dataset.image;
+                const level = parseInt(levelSelect.value);
+                startGame(imagePath, level);
+            }, 600);
+        }
+    }, animationDuration);
+}
+
+function startGame(imagePath, level) {
+    // Ocultar todos los elementos del menú
+    menuContainer.classList.add('hidden');
+
+    const gamePage = document.querySelector('.game-container');
+    gamePage.classList.remove('hidden');
+    // Crear instancia del juego
+    const game = new PuzzleGame(imagePath, level);
+}
+
+
+
+
+
+
 const IMAGE_BANK = [
     'images/Peg solitaire/fenix-juego.png',
     'images/blocka/imagenUno.jpg',
@@ -300,9 +373,6 @@ class PuzzleGame {
             `${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
     }
 }
-
-let currentLevel = 1;
-const game = new PuzzleGame(getRandomImage(), currentLevel);
 
 // función auxiliar para seleccionar una imagen aleatoria
 function getRandomImage() {

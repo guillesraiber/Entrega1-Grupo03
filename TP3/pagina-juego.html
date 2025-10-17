@@ -11,6 +11,7 @@
         rel="stylesheet">
     <link rel="stylesheet" href="css/nav-sidebar-main-footer.css">
     <link rel="stylesheet" href="css/game-page.css">
+    <link rel="stylesheet" href="css/blocka.css">
     <title>Peg Solitaire</title>
 </head>
 
@@ -204,9 +205,41 @@
 
             <section class="game-section">
                 <div class="game-part">
-                    <div class="game-container">
 
+                    <!-- Seleccionar nivel y dificulad -->
+                     <div id="game-menu">
+                        <div id="menu-screen">
+                            <div class="game-menu-header">
+                                <button id="play-button">Jugar</button>
+                                
+                                <h1 id="title">BLOCKA</h1>
+                                
+                                <div id="level-selector">
+                                    <label for="level-select">Nivel:</label>
+                                    <select id="level-select">
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                        <option value="6">6</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div id="images-container">
+                                <img src="images/blocka/imagenUno.jpg" class="image-option" data-image="images/blocka/imagenUno.jpg" alt="Nivel 1">
+                                <img src="images/blocka/imagenDos.png" class="image-option" data-image="images/blocka/imagenDos.png" alt="Nivel 2">
+                                <img src="images/blocka/imagenTres.jpg" class="image-option" data-image="images/blocka/imagenTres.jpg" alt="Nivel 3">
+                                <img src="images/blocka/imagenCuatro.jpg" class="image-option" data-image="images/blocka/imagenCuatro.jpg" alt="Nivel 4">
+                                <img src="images/blocka/imagenCinco.jpeg" class="image-option" data-image="images/blocka/imagenCinco.jpeg" alt="Nivel 5">
+                                <img src="images/blocka/imagenSeis.jpg" class="image-option" data-image="images/blocka/imagenSeis.jpg" alt="Nivel 5">
+                            </div>
 
+                        </div>
+                    </div>
+
+                    <div class="game-container hidden">
                         <div class="controls">
                             <div class="timer" id="timer">00:00</div>
                             <div class="blocka-title">
