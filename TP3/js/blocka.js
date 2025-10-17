@@ -1,5 +1,10 @@
 class PuzzleGame {
-    constructor(imagePath) {
+    constructor(imageIndex) {
+        this.images = [
+            'images/Peg solitaire/img-descriptiva-1.png',
+            'images/Peg solitaire/img-descriptiva-2.png',
+            'images/Peg solitaire/img-descriptiva-3.png',
+        ]
         this.canvas = document.getElementById('gameCanvas');
         this.ctx = this.canvas.getContext('2d');
         this.image = null;
@@ -12,7 +17,7 @@ class PuzzleGame {
         
         this.initElements();
         this.initEvents();
-        this.loadImage(imagePath);
+        this.loadImage(imageIndex);
     }
 
     initElements() {
@@ -27,14 +32,14 @@ class PuzzleGame {
         this.startBtn.addEventListener('click', () => this.showStartScreen());
     }
 
-    loadImage(imagePath) {
+    loadImage(imageIndex) {
         this.image = new Image();
         this.image.onload = () => {
             this.imageLoaded = true;
             this.startBtn.disabled = false;
             this.setupCanvas();
         };
-        this.image.src = imagePath;
+        this.image.src = this.images[imageIndex];
     }
 
     setupCanvas() {
@@ -200,4 +205,4 @@ class PuzzleGame {
 
 // Inicializar el juego con una imagen precargada
 // Para cambiar la imagen, poneruna URL diferente
-const game = new PuzzleGame('images/Peg solitaire/fenix-juego.png');
+const game = new PuzzleGame(0);
