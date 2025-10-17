@@ -1,84 +1,95 @@
-const images = document.querySelectorAll('.image-option');
-const playButton = document.getElementById('play-button');
-const levelSelect = document.getElementById('level-select');
-const menuContainer = document.getElementById('game-menu');
-let selectedImage = null;
 
-// Manejar clic en imágenes
-images.forEach(img => {
-    img.addEventListener('click', () => {
-        const imagePath = img.dataset.image;
-        const level = parseInt(levelSelect.value);
-        startGame(imagePath, level);
-    });
-});
+goToMenu(true);
 
-// Manejar botón jugar con animación
-playButton.addEventListener('click', () => {
-    playRandomWithAnimation();
-});
 
-function playRandomWithAnimation() {
-    let currentIndex = 0;
-    const animationDuration = 500; // ms por imagen
-    const totalCycles = 8; // número de ciclos completos
-    let cycleCount = 0;
 
-    const interval = setInterval(() => {
-        // Remover clase de la imagen anterior
-        images.forEach(img => img.classList.remove('animating'));
-        
-        // Agregar clase a la imagen actual
-        images[currentIndex].classList.add('animating');
-        
-        currentIndex++;
-        
-        if (currentIndex >= images.length) {
-            currentIndex = 0;
-            cycleCount++;
-        }
 
-        if (cycleCount >= totalCycles) {
-            clearInterval(interval);
-            
-            // Seleccionar imagen aleatoria final
-            const randomIndex = Math.floor(Math.random() * images.length);
-            images.forEach(img => img.classList.remove('animating'));
-            images[randomIndex].classList.add('selected');
-            
-            // Iniciar juego después de un momento
-            setTimeout(() => {
-                const imagePath = images[randomIndex].dataset.image;
-                const level = parseInt(levelSelect.value);
-                startGame(imagePath, level);
-            }, 600);
-        }
-    }, animationDuration);
-}
-
-function startGame(imagePath, level) {
-    // Ocultar todos los elementos del menú
-    menuContainer.classList.add('hidden');
-
+function goToMenu(primeraVez) {
+    const images = document.querySelectorAll('.image-option');
+    const playButton = document.getElementById('play-button');
+    const levelSelect = document.getElementById('level-select');
+    const menuContainer = document.getElementById('game-menu');
     const gamePage = document.querySelector('.game-container');
-    gamePage.classList.remove('hidden');
-    // Crear instancia del juego
-    const game = new PuzzleGame(imagePath, level);
+    let selectedImage = null;
+
+    if (!primeraVez) {
+        gamePage.classList.add('hidden');
+        
+        menuContainer.classList.remove('hidden');
+    }
+
+    // Manejar clic en imágenes
+    images.forEach(img => {
+        img.addEventListener('click', () => {
+            const imagePath = img.dataset.image;
+            const level = parseInt(levelSelect.value);
+            startGame(imagePath, level);
+        });
+    });
+
+    // Manejar botón jugar con animación
+    playButton.addEventListener('click', () => {
+        playRandomWithAnimation();
+    });
+
+    function playRandomWithAnimation() {
+        let currentIndex = 0;
+        const animationDuration = 300; // ms por imagen
+        const totalCycles = 2; // número de ciclos completos
+        let cycleCount = 0;
+
+        const interval = setInterval(() => {
+            // Remover clase de la imagen anterior
+            images.forEach(img => img.classList.remove('animating'));
+            
+            // Agregar clase a la imagen actual
+            images[currentIndex].classList.add('animating');
+            
+            currentIndex++;
+            
+            if (currentIndex >= images.length) {
+                currentIndex = 0;
+                cycleCount++;
+            }
+
+            if (cycleCount >= totalCycles) {
+                clearInterval(interval);
+                
+                // Seleccionar imagen aleatoria final
+                const randomIndex = Math.floor(Math.random() * images.length);
+                images.forEach(img => img.classList.remove('animating'));
+                images[randomIndex].classList.add('selected');
+                
+                // Iniciar juego después de un momento
+                setTimeout(() => {
+                    const imagePath = images[randomIndex].dataset.image;
+                    const level = parseInt(levelSelect.value);
+                    startGame(imagePath, level);
+                }, 500);
+            }
+        }, animationDuration);
+    }
+
+    function startGame(imagePath, level) {
+        // Ocultar todos los elementos del menú
+        menuContainer.classList.add('hidden');
+
+        gamePage.classList.remove('hidden');
+        // Crear instancia del juego
+        const game = new PuzzleGame(imagePath, level);
+    }
+
 }
 
-
-
-
-
+// JUEGO BLOCKA
 
 const IMAGE_BANK = [
-    'images/Peg solitaire/fenix-juego.png',
     'images/blocka/imagenUno.jpg',
     'images/blocka/imagenDos.png',
     'images/blocka/imagenTres.jpg',
     'images/blocka/imagenCuatro.jpg',
     'images/blocka/imagenCinco.jpeg',
-    'images/blocka/imagen seis.jpg'
+    'images/blocka/imagenSeis.jpg'
 ];
 const FILTERS = [
     'grayscale(100%)', //Nivel 1: Escala de grises
@@ -97,6 +108,8 @@ class PuzzleGame {
         this.elapsedTime = 0;
         this.isPlaying = false;
         this.imageLoaded = false;
+        this.goToMenu = null;
+        this.nextLevel = null;
         this.gridSize = 2; // Default grid size
         this.level = level;
         
@@ -107,28 +120,16 @@ class PuzzleGame {
 
     initElements() {
         this.startBtn = document.getElementById('startBtn');
+        this.nextLevel =  document.getElementById('next-level');
         this.timerDisplay = document.getElementById('timer');
         this.gameWindow = document.getElementById('gameWindow');
         this.successMessage = document.getElementById('successMessage');
         this.finalTimeDisplay = document.getElementById('finalTime');
         this.pieceSelect = document.getElementById('pieceSelect');
+        this.goToMenu = document.getElementById('go-to-menu');
         // Asegurar que el botón comience deshabilitado hasta que la imagen termine de cargar
         if (this.startBtn) {
             this.startBtn.disabled = true;
-        }
-        // Si no hay una selección válida en pieceSelect, marcar como "required" en el DOM
-        if (this.pieceSelect) {
-            // Añadir una opción vacía si no existe para forzar elección
-            if (!this.pieceSelect.querySelector('option[value=""]')) {
-                const placeholder = document.createElement('option');
-                placeholder.value = '';
-                placeholder.textContent = '-- Seleccioná cantidad --';
-                placeholder.selected = true;
-                placeholder.disabled = true;
-                this.pieceSelect.insertBefore(placeholder, this.pieceSelect.firstChild);
-            }
-            // Resetear selección al iniciar cada nivel para forzar que el usuario elija
-            this.pieceSelect.value = '';
         }
     }
 
@@ -137,6 +138,12 @@ class PuzzleGame {
             // Usar onclick para evitar acumular listeners entre instancias
             this.startBtn.onclick = () => this.showStartScreen();
         }
+
+        if (this.goToMenu) {
+            this.goToMenu.onclick = () => goToMenu(false);
+        }
+
+
         if (this.pieceSelect) {
             // Usar onchange (sobrescribe el anterior) para forzar selección por nivel
             this.pieceSelect.onchange = (e) => {
@@ -332,14 +339,14 @@ class PuzzleGame {
         // avanzar de nivel si hay más
         if (this.level < 4) {
             setTimeout(() => {
-                alert(`Nivel ${this.level} completado. ¡Pasando al nivel ${this.level + 1}!`);
+                // alert(`Nivel ${this.level} completado. ¡Pasando al nivel ${this.level + 1}!`);
                 const nextLevel = this.level + 1;
-                const newImage = getRandomImage();
+                const newImage = this.getRandomImage();
                 const newGame = new PuzzleGame(newImage, nextLevel);
             }, 2000);
         } else {
             setTimeout(() => {
-                alert("🎉 ¡Felicitaciones! Completaste todos los niveles.");
+                // alert("🎉 ¡Felicitaciones! Completaste todos los niveles.");
                 if (this.startBtn) this.startBtn.disabled = true;
             }, 2000);
         }
@@ -372,10 +379,10 @@ class PuzzleGame {
         this.timerDisplay.textContent = 
             `${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
     }
-}
 
-// función auxiliar para seleccionar una imagen aleatoria
-function getRandomImage() {
-    const randomIndex = Math.floor(Math.random() * IMAGE_BANK.length);
-    return IMAGE_BANK[randomIndex];
+    // función auxiliar para seleccionar una imagen aleatoria
+    getRandomImage() {
+        const randomIndex = Math.floor(Math.random() * IMAGE_BANK.length);
+        return IMAGE_BANK[randomIndex];
+    }
 }

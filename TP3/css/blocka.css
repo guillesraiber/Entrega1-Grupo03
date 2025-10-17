@@ -3,7 +3,7 @@
 #game-menu {
     width: 800px;
     height: 448px;
-    background: linear-gradient(135deg, #667eea 0%, #5148d1 100%);
+    background: linear-gradient(135deg, #667EFF  0%, #514899 100%);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -37,7 +37,6 @@
 }
 
 #level-selector {
-    margin-bottom: 20px;
     display: flex;
     align-items: center;
     gap: 10px;
@@ -58,7 +57,7 @@
     background: white;
     cursor: pointer;
     font-weight: bold;
-    color: #667eea;
+    color: #514899;
 }
 
 #images-container {
@@ -109,8 +108,8 @@
     padding: 15px 40px;
     font-size: 20px;
     font-weight: bold;
-    background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
-    color: #333;
+    background: white;
+    color: #667EFF ;
     border: none;
     border-radius: 30px;
     cursor: pointer;
@@ -134,6 +133,15 @@
 
 
 
+
+
+
+
+
+
+
+
+
 /* Juego blocka */
 
 .game-container {
@@ -150,19 +158,16 @@
 
 .blocka-title {
     text-align: center;
-    margin-bottom: 20px;
 }
 
 .blocka-title h1 {
     color: #333;
-    margin-bottom: 10px;
 }
 
 .piece-config {
     display: flex;
     align-items: center;
     gap: 10px;
-    margin-bottom: 10px;
 }
 
 .piece-config label {
@@ -197,11 +202,13 @@
     justify-content: space-between;
     align-items: center;
     padding: 0 45px;
+    font-family: 'Arial', sans-serif;
 }
 
 .timer {
     font-size: 24px;
     font-weight: bold;
+    font-family: Orbitron, sans-serif;
     color: #667eea;
     min-width: 100px;
 }
@@ -232,7 +239,7 @@
 
 .game-window {
     width: 800px;
-    height: 354px;
+    height: 368px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -286,7 +293,7 @@
 .success-message {
     position: absolute;
     top: 50%;
-    left: 50%;
+    left: 53%;
     transform: translate(-50%, -50%);
     background: rgba(102, 126, 234, 0.95);
     color: #d3d3d3;
