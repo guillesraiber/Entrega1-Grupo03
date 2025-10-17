@@ -58,10 +58,6 @@ class PuzzleGame {
             (this.image.height - size) / 2,
             size,
             size,
-            0,
-            0,
-            size,
-            size
         );
     }
 
