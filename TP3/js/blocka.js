@@ -14,6 +14,7 @@ class PuzzleGame {
         this.elapsedTime = 0;
         this.isPlaying = false;
         this.imageLoaded = false;
+        this.gridSize = 2; // Default grid size
         
         this.initElements();
         this.initEvents();
@@ -26,10 +27,14 @@ class PuzzleGame {
         this.gameWindow = document.getElementById('gameWindow');
         this.successMessage = document.getElementById('successMessage');
         this.finalTimeDisplay = document.getElementById('finalTime');
+        this.pieceSelect = document.getElementById('pieceSelect');
     }
 
     initEvents() {
         this.startBtn.addEventListener('click', () => this.showStartScreen());
+        this.pieceSelect.addEventListener('change', (e) => {
+            this.gridSize = parseInt(e.target.value) / 2;
+        });
     }
 
     loadImage(imageIndex) {
@@ -80,17 +85,19 @@ class PuzzleGame {
 
     createPuzzlePieces() {
         this.pieces = [];
-        const pieceSize = this.canvas.width / 2;
+        const pieceSize = this.canvas.width / this.gridSize;
 
         const container = document.createElement('div');
         container.className = 'puzzle-container';
+        container.style.gridTemplateColumns = `repeat(${this.gridSize}, 1fr)`;
+        container.style.gridTemplateRows = `repeat(${this.gridSize}, 1fr)`;
         
         const maxSize = Math.min(300, this.canvas.width);
         container.style.width = maxSize + 'px';
         container.style.height = maxSize + 'px';
 
-        for (let row = 0; row < 2; row++) {
-            for (let col = 0; col < 2; col++) {
+        for (let row = 0; row < this.gridSize; row++) {
+            for (let col = 0; col < this.gridSize; col++) {
                 const pieceCanvas = document.createElement('canvas');
                 pieceCanvas.width = pieceSize;
                 pieceCanvas.height = pieceSize;

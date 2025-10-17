@@ -583,6 +583,37 @@
     margin-bottom: 10px;
 }
 
+.piece-config {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.piece-config label {
+    color: #333;
+    font-weight: bold;
+}
+
+.piece-config select {
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: 1px solid #667eea;
+    background: #d3d3d3;
+    color: #333;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.piece-config select:hover {
+    background: #c4c4c4;
+}
+
+.piece-config select:focus {
+    outline: none;
+    border-color: #5568d3;
+}
+
 .controls {
     display: flex;
     justify-content: space-between;
