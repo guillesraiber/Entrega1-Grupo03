@@ -179,21 +179,23 @@ class PuzzleGame {
     loadImage() {
         this.image = new Image();
         this.image.onload = () => {
-            this.imageLoaded = true;
-            // Sólo habilitar startBtn si el usuario ya eligió la cantidad de piezas
-            const hasValidSelection = this.pieceSelect && this.pieceSelect.value && !isNaN(parseInt(this.pieceSelect.value));
-            if (hasValidSelection && this.startBtn) this.startBtn.disabled = false;
-            // Dibujar imagen para preparar las piezas (pero no mostrarla)
-            this.setupCanvas();
-            // El canvas se usa sólo como buffer; mantenerlo oculto para que no se muestre junto a las piezas
-            try {
-                const filterFn = this.getFilterFunctionForLevel(this.level);
-                if (filterFn) filterFn(this.ctx, this.canvas.width, this.canvas.height);
-            } catch (err) {
-                console.error('Error aplicando filtro por nivel:', err);
-            }
-            // El canvas se usa sólo como buffer; mantenerlo oculto para que no se muestre junto a las piezas
-            if (this.canvas) this.canvas.style.display = 'none';
+        this.imageLoaded = true;
+
+        this.startBtn.disabled = false;
+
+        // Dibujar imagen para preparar las piezas (pero no mostrarla)
+        this.setupCanvas();
+
+        // El canvas se usa sólo como buffer, mantenerlo oculto para que no se muestre junto a las piezas
+        try {
+            const filterFn = this.getFilterFunctionForLevel(this.level);
+            if (filterFn) filterFn(this.ctx, this.canvas.width, this.canvas.height);
+        } catch (err) {
+            console.error('Error aplicando filtro por nivel:', err);
+        }
+        
+        // El canvas se usa sólo como buffer; mantenerlo oculto para que no se muestre junto a las piezas
+        if (this.canvas) this.canvas.style.display = 'none';
         };
         this.image.onerror = () => {
             console.error('Error cargando la imagen:', imagePath);
@@ -232,7 +234,8 @@ class PuzzleGame {
             return;
         }
         this.gameWindow.querySelector('.start-screen').style.display = 'none';
-        // Ocultar el canvas original: mostraremos sólo el contenedor de piezas
+
+        // Ocultar el canvas original: sólo se muestra el contenedor de piezas
         this.canvas.style.display = 'none';
 
         this.successMessage.style.display = 'none';
@@ -249,6 +252,7 @@ class PuzzleGame {
     createPuzzlePieces() {
         this.pieces = [];
         const pieceSize = this.canvas.width / this.gridSize;
+
         // Si ya existe un contenedor, reutilizarlo (evitar duplicados)
         let container = this.gameWindow.querySelector('.puzzle-container');
         if (container) {
@@ -264,10 +268,9 @@ class PuzzleGame {
         const maxSize = Math.min(300, this.canvas.width);
         container.style.width = maxSize + 'px';
         container.style.height = maxSize + 'px';
+
         // Asegurar que el contenedor sea visible y herede el filtro aplicado al canvas
         container.style.display = 'grid';
-        // Aplicar filtro visual al contenedor (no al canvas-buffer)
-        container.style.filter = this.canvas ? (this.canvas.style.filter || 'none') : 'none';
 
         for (let row = 0; row < this.gridSize; row++) {
             for (let col = 0; col < this.gridSize; col++) {
@@ -276,7 +279,7 @@ class PuzzleGame {
                 pieceCanvas.height = pieceSize;
                 
                 const pieceCtx = pieceCanvas.getContext('2d');
-                if (this.level >= 2) {
+                if (this.level >= 4) {
                     const randomFilter = this.getRandomPieceCSSFilter(this.level);
                     pieceCtx.filter = randomFilter;
                 }
@@ -356,14 +359,16 @@ class PuzzleGame {
         
         this.finalTimeDisplay.textContent = this.timerDisplay.textContent;
         this.successMessage.style.display = 'block';
-        // quitar filtro al completar
-        this.canvas.style.filter = 'none';
+
         this.level += 1;
-        this.imageIndex = this.getRandomImage();
+        this.imageIndex += 1
+
+        if (this.imageIndex >= IMAGE_BANK.length) {
+            this.imageIndex = 0;
+        }
         // avanzar de nivel si hay más
-        if (this.level < 4) {
+        if (this.level <= 6) {
             setTimeout(() => {
-                // alert(`Nivel ${this.level} completado. ¡Pasando al nivel ${this.level + 1}!`);
                 this.startBtn.disabled = false;
             }, 1000);
         } else {
@@ -376,6 +381,7 @@ class PuzzleGame {
     }
 
     startTimer() {
+        this.timerDisplay.textContent = '00:00';
         this.startTime = Date.now();
         this.elapsedTime = 0;
         this.updateTimer();
