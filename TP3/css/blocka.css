@@ -104,7 +104,7 @@
     50% { transform: scale(1.15); }
 }
 
-#play-button {
+#play-button, #next-level, #go-to-menu {
     padding: 15px 40px;
     font-size: 20px;
     font-weight: bold;
@@ -118,13 +118,21 @@
     text-transform: uppercase;
 }
 
-#play-button:hover {
+#play-button:hover, #next-level:hover, #go-to-menu:hover {
     transform: translateY(-2px);
     box-shadow: 0 6px 12px rgba(0,0,0,0.4);
 }
 
-#play-button:active {
+#play-button:active, #next-level:active, #go-to-menu:active {
     transform: translateY(0);
+}
+
+#next-level, #go-to-menu {
+    padding: 8px, 28px;
+}
+
+.option-buttons {
+    margin: 10px 0 0 0;
 }
 
 .hidden {
