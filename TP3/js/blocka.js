@@ -13,9 +13,11 @@ function goToMenu(primeraVez) {
     let selectedImage = null;
 
     if (!primeraVez) {
-        gamePage.classList.add('hidden');
-        
+        gamePage.classList.add('hidden');  
         menuContainer.classList.remove('hidden');
+        document.querySelector('.start-screen').style.display = 'block';
+        document.querySelector('.puzzle-container').style.display = 'none';
+        document.getElementById('successMessage').style.display = 'none';
     }
 
     // Manejar clic en imágenes
@@ -65,7 +67,8 @@ function goToMenu(primeraVez) {
                     const imagePath = images[randomIndex].dataset.image;
                     const level = parseInt(levelSelect.value);
                     startGame(imagePath, level);
-                }, 500);
+                    images[randomIndex].classList.remove('selected');
+                }, 1000);
             }
         }, animationDuration);
     }
@@ -237,6 +240,7 @@ class PuzzleGame {
         this.startBtn.disabled = true;
 
         this.loadImage()
+
         // crear piezas (se mostrarán en lugar del canvas) y arrancar
         this.createPuzzlePieces();
         this.startTimer();
@@ -354,13 +358,12 @@ class PuzzleGame {
         this.successMessage.style.display = 'block';
         // quitar filtro al completar
         this.canvas.style.filter = 'none';
-
+        this.level += 1;
+        this.imageIndex = this.getRandomImage();
         // avanzar de nivel si hay más
         if (this.level < 4) {
             setTimeout(() => {
                 // alert(`Nivel ${this.level} completado. ¡Pasando al nivel ${this.level + 1}!`);
-                this.level += 1;
-                this.imageIndex = this.getRandomImage();
                 this.startBtn.disabled = false;
             }, 1000);
         } else {
