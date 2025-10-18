@@ -21,9 +21,9 @@ function goToMenu(primeraVez) {
     // Manejar clic en imágenes
     images.forEach(img => {
         img.addEventListener('click', () => {
-            const imagePath = img.dataset.image;
+            const imageIndex = img.dataset.image;
             const level = parseInt(levelSelect.value);
-            startGame(imagePath, level);
+            startGame(imageIndex, level);
         });
     });
 
@@ -91,61 +91,20 @@ const IMAGE_BANK = [
     'images/blocka/imagenCinco.jpeg',
     'images/blocka/imagenSeis.jpg'
 ];
-// --- Filtros basados en manipulación de píxeles ---
-function applyGrayscale(ctx, width, height) {
-    const imageData = ctx.getImageData(0, 0, width, height);
-    const data = imageData.data;
-    for (let i = 0; i < data.length; i += 4) {
-        const gray = 0.299 * data[i] + 0.587 * data[i + 1] + 0.114 * data[i + 2];
-        data[i] = data[i + 1] = data[i + 2] = gray;
-    }
-    ctx.putImageData(imageData, 0, 0);
-}
 
-function applyBrightness(ctx, width, height, increment = 30) {
-    const imageData = ctx.getImageData(0, 0, width, height);
-    const data = imageData.data;
-    for (let i = 0; i < data.length; i += 4) {
-        data[i] = Math.min(255, data[i] + increment);     // R
-        data[i + 1] = Math.min(255, data[i + 1] + increment); // G
-        data[i + 2] = Math.min(255, data[i + 2] + increment); // B
-    }
-    ctx.putImageData(imageData, 0, 0);
-}
 
-function applySepia(ctx, width, height) {
-    const imageData = ctx.getImageData(0, 0, width, height);
-    const data = imageData.data;
 
-    for (let i = 0; i < data.length; i += 4) {
-        const r = data[i];
-        const g = data[i + 1];
-        const b = data[i + 2];
 
-        // fórmula clásica del efecto sepia
-        const newR = (0.393 * r) + (0.769 * g) + (0.189 * b);
-        const newG = (0.349 * r) + (0.686 * g) + (0.168 * b);
-        const newB = (0.272 * r) + (0.534 * g) + (0.131 * b);
 
-        data[i]     = Math.min(255, newR);
-        data[i + 1] = Math.min(255, newG);
-        data[i + 2] = Math.min(255, newB);
-        // data[i + 3] = alpha (sin cambios)
-    }
 
-    ctx.putImageData(imageData, 0, 0);
-}
 
-function applyNegative(ctx, width, height) {
-    const imageData = ctx.getImageData(0, 0, width, height);
-    const data = imageData.data;
-    for (let i = 0; i < data.length; i += 4) {
-        data[i] = 255 - data[i];       // R
-        data[i + 1] = 255 - data[i + 1]; // G
-        data[i + 2] = 255 - data[i + 2]; // B
-    }
-    ctx.putImageData(imageData, 0, 0);
-}
+
+
+
+
+
+
+
 
 class PuzzleGame {
     constructor(imageIndex, level = 1) {
@@ -162,10 +121,11 @@ class PuzzleGame {
         this.nextLevel = null;
         this.gridSize = 2; // Default grid size
         this.level = level;
+        this.imageIndex = imageIndex;
         
         this.initElements();
         this.initEvents();
-        this.loadImage(imageIndex);
+        this.loadImage();
     }
 
     initElements() {
@@ -193,6 +153,10 @@ class PuzzleGame {
             this.goToMenu.onclick = () => goToMenu(false);
         }
 
+        if (this.nextLevel) {
+            this.nextLevel.onclick = () => this.showStartScreen();
+        }
+
 
         if (this.pieceSelect) {
             // Usar onchange (sobrescribe el anterior) para forzar selección por nivel
@@ -209,7 +173,7 @@ class PuzzleGame {
         }
     }
 
-    loadImage(imagePath) {
+    loadImage() {
         this.image = new Image();
         this.image.onload = () => {
             this.imageLoaded = true;
@@ -220,7 +184,7 @@ class PuzzleGame {
             this.setupCanvas();
             // El canvas se usa sólo como buffer; mantenerlo oculto para que no se muestre junto a las piezas
             try {
-                const filterFn = getFilterFunctionForLevel(this.level);
+                const filterFn = this.getFilterFunctionForLevel(this.level);
                 if (filterFn) filterFn(this.ctx, this.canvas.width, this.canvas.height);
             } catch (err) {
                 console.error('Error aplicando filtro por nivel:', err);
@@ -232,7 +196,7 @@ class PuzzleGame {
             console.error('Error cargando la imagen:', imagePath);
         };
         // Asignar la fuente fuera del onload para que comience la carga
-        this.image.src = imagePath;
+        this.image.src = IMAGE_BANK[this.imageIndex];
     }
 
     setupCanvas() {
@@ -261,9 +225,9 @@ class PuzzleGame {
 
     showStartScreen() {
         if (!this.imageLoaded) {
-            alert("La imagen todavía se está cargando. Espera un momento y vuelve a intentar.");
-        return;
-    }
+            alert("La imagen del juego todavía se está cargando. Espera un momento y vuelve a intentar.");
+            return;
+        }
         this.gameWindow.querySelector('.start-screen').style.display = 'none';
         // Ocultar el canvas original: mostraremos sólo el contenedor de piezas
         this.canvas.style.display = 'none';
@@ -272,6 +236,7 @@ class PuzzleGame {
         this.isPlaying = true;
         this.startBtn.disabled = true;
 
+        this.loadImage()
         // crear piezas (se mostrarán en lugar del canvas) y arrancar
         this.createPuzzlePieces();
         this.startTimer();
@@ -308,7 +273,7 @@ class PuzzleGame {
                 
                 const pieceCtx = pieceCanvas.getContext('2d');
                 if (this.level >= 2) {
-                    const randomFilter = getRandomPieceCSSFilter(this.level);
+                    const randomFilter = this.getRandomPieceCSSFilter(this.level);
                     pieceCtx.filter = randomFilter;
                 }
                 pieceCtx.drawImage(
@@ -394,20 +359,17 @@ class PuzzleGame {
         if (this.level < 4) {
             setTimeout(() => {
                 // alert(`Nivel ${this.level} completado. ¡Pasando al nivel ${this.level + 1}!`);
-                const nextLevel = this.level + 1;
-                const newImage = this.getRandomImage();
-                const newGame = new PuzzleGame(newImage, nextLevel);
-            }, 2000);
+                this.level += 1;
+                this.imageIndex = this.getRandomImage();
+                this.startBtn.disabled = false;
+            }, 1000);
         } else {
             setTimeout(() => {
-                // alert("🎉 ¡Felicitaciones! Completaste todos los niveles.");
+                alert("🎉 ¡Felicitaciones! Completaste todos los niveles.");
                 if (this.startBtn) this.startBtn.disabled = true;
+                goToMenu(false);
             }, 2000);
         }
-        
-        setTimeout(() => {
-            this.startBtn.disabled = false;
-        }, 2000);
     }
 
     startTimer() {
@@ -433,28 +395,80 @@ class PuzzleGame {
         this.timerDisplay.textContent = 
             `${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
     }
-}
 
 
-    // función auxiliar para seleccionar una imagen aleatoria
-    function getRandomImage() {
-        const randomIndex = Math.floor(Math.random() * IMAGE_BANK.length);
-        return IMAGE_BANK[randomIndex];
+
+
+    // <----- Filtros de manipulacion de pixeles en canvas -----> 
+
+    applyGrayscale(ctx, width, height) {
+        const imageData = ctx.getImageData(0, 0, width, height);
+        const data = imageData.data;
+        for (let i = 0; i < data.length; i += 4) {
+            const gray = 0.299 * data[i] + 0.587 * data[i + 1] + 0.114 * data[i + 2];
+            data[i] = data[i + 1] = data[i + 2] = gray;
+        }
+        ctx.putImageData(imageData, 0, 0);
+    }
+
+    applyBrightness(ctx, width, height, increment = 30) {
+        const imageData = ctx.getImageData(0, 0, width, height);
+        const data = imageData.data;
+        for (let i = 0; i < data.length; i += 4) {
+            data[i] = Math.min(255, data[i] + increment);     // R
+            data[i + 1] = Math.min(255, data[i + 1] + increment); // G
+            data[i + 2] = Math.min(255, data[i + 2] + increment); // B
+        }
+        ctx.putImageData(imageData, 0, 0);
+    }
+
+    applySepia(ctx, width, height) {
+        const imageData = ctx.getImageData(0, 0, width, height);
+        const data = imageData.data;
+
+        for (let i = 0; i < data.length; i += 4) {
+            const r = data[i];
+            const g = data[i + 1];
+            const b = data[i + 2];
+
+            // fórmula clásica del efecto sepia
+            const newR = (0.393 * r) + (0.769 * g) + (0.189 * b);
+            const newG = (0.349 * r) + (0.686 * g) + (0.168 * b);
+            const newB = (0.272 * r) + (0.534 * g) + (0.131 * b);
+
+            data[i]     = Math.min(255, newR);
+            data[i + 1] = Math.min(255, newG);
+            data[i + 2] = Math.min(255, newB);
+            // data[i + 3] = alpha (sin cambios)
+        }
+
+        ctx.putImageData(imageData, 0, 0);
+    }
+
+    applyNegative(ctx, width, height) {
+        const imageData = ctx.getImageData(0, 0, width, height);
+        const data = imageData.data;
+        for (let i = 0; i < data.length; i += 4) {
+            data[i] = 255 - data[i];       // R
+            data[i + 1] = 255 - data[i + 1]; // G
+            data[i + 2] = 255 - data[i + 2]; // B
+        }
+        ctx.putImageData(imageData, 0, 0);
     }
 
     // Devuelve la función que aplica el filtro por manipulación de píxeles según el nivel
-    function getFilterFunctionForLevel(level) {
+    getFilterFunctionForLevel(level) {
         switch (level) {
-            case 1: return applyGrayscale;
-            case 2: return (ctx, w, h) => applySepia(ctx, w, h);
-            case 3: return (ctx, w, h) => applyNegative(ctx, w, h);
-            case 4: return (ctx, w, h) => applyBrightness(ctx, w, h, 40);
+            case 1: return (ctx, w, h) => this.applyGrayscale(ctx, w, h);
+            case 2: return (ctx, w, h) => this.applySepia(ctx, w, h);
+            case 3: return (ctx, w, h) => this.applyNegative(ctx, w, h);
+            case 4: return (ctx, w, h) => this.applyBrightness(ctx, w, h, 40);
             default: return null;
         }
     }
 
     // Para las piezas, devolvemos filtros CSS aleatorios compatibles con canvas context.filter
-    function getCSSFilterForLevel(level) {
+     getCSSFilterForLevel(level) {
         switch (level) {
             case 1: return 'grayscale(100%)';
             case 2: return 'sepia(100%) contrast(120%)';
@@ -462,13 +476,24 @@ class PuzzleGame {
             case 4: return 'sepia(60%) brightness(110%)';
             default: return 'none';
         }
-}
-
-function getRandomPieceCSSFilter(level) {
-    // Para niveles >=3 aplicamos randomly alguna variación entre niveles superiores
-    if (level >= 3) {
-        const options = [getCSSFilterForLevel(3), getCSSFilterForLevel(4)];
-        return options[Math.floor(Math.random() * options.length)];
     }
-    return getCSSFilterForLevel(level);
+
+    getRandomPieceCSSFilter(level) {
+        // Para niveles >=3 aplicamos random alguna variación entre niveles superiores
+        if (level >= 3) {
+            const options = [this.getCSSFilterForLevel(3), this.getCSSFilterForLevel(4)];
+            return options[Math.floor(Math.random() * options.length)];
+        }
+        return this.getCSSFilterForLevel(level);
+    }
+
+    
+    // función auxiliar para seleccionar una imagen aleatoria
+    getRandomImage() {
+        const randomIndex = Math.floor(Math.random() * IMAGE_BANK.length);
+        return randomIndex;
+    }
+
+    
 }
+    
