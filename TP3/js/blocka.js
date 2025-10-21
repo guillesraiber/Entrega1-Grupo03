@@ -177,16 +177,13 @@ class PuzzleGame {
     }
 
     loadImage() {
-        console.log('Antes: ' + this.image);
-        this.image = null;
         this.image = new Image();
-        console.log('Despues: ' + this.image);
 
         this.image.onload = () => {
 
-        console.log('Antes: ' + this.imageLoaded);
-        this.imageLoaded = true;
-        console.log('Despues: ' + this.imageLoaded);
+            console.log('Antes imageLoaded: ' + this.imageLoaded);
+            this.imageLoaded = true;
+            console.log('Despues imageLoaded: ' + this.imageLoaded);
 
             // Dibujar imagen para preparar las piezas (pero no mostrarla)
             this.setupCanvas();
@@ -202,9 +199,10 @@ class PuzzleGame {
             // El canvas se usa sólo como buffe, mantenerlo oculto para que no se muestre junto a las piezas
             if (this.canvas) this.canvas.style.display = 'none';
         };
-
+        console.log('imageIndex: ' + this.imageIndex);
+        console.log('imagePath: ' + IMAGE_BANK[this.imageIndex]);
         this.image.onerror = () => {
-            console.error('Error cargando la imagen:', imagePath);
+            console.error('Error cargando la imagen:', IMAGE_BANK[this.imageIndex]);
         };
 
         // Asignar la fuente fuera del onload para que comience la carga
@@ -418,7 +416,7 @@ class PuzzleGame {
             this.level += 1;
             this.imageIndex += 1;
 
-            if (this.imageIndex >= IMAGE_BANK.length) {
+            if (this.imageIndex > (IMAGE_BANK.length - 1)) {
                 this.imageIndex = 0;
             }
 
