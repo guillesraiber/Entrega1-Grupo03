@@ -560,3 +560,57 @@
     transform: scale(1) rotate(0deg);
   }
 }
+
+.botonComentario {
+  height: 40px; 
+  width: 40px; 
+  background-color: #3a506b;
+  color: #ffffff;
+  border: none;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 20px; 
+  cursor: pointer;
+  overflow: hidden; 
+  position: relative;
+  transition: width 0.5s ease, border-radius 0.5s ease;
+}
+
+.botonComentario::before {
+  content: url("../images/Iconos comentarios/enviar-mensaje.png");
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  top: 54%; 
+  left: 54%; 
+  transform: translate(-50%, -50%);
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+.botonComentario span {
+  opacity: 0; 
+  white-space: nowrap;
+  position: absolute;
+  top: 50%; 
+  left: 50%;
+  transform: translate(-50%, -50%); 
+  color: #c1c6f1; 
+  transition: opacity 0.3s ease, color 0.5s ease; 
+}
+
+.botonComentario:hover {
+  width: 150px;
+  border-radius: 12px;
+  background-color: #3a506b;
+  filter: drop-shadow(0 0 10px rgba(54, 67, 138, 0.986));
+}
+
+.botonComentario:hover::before {
+  opacity: 0; 
+}
+
+.botonComentario:hover span {
+  opacity: 1; 
+  color: #ffffff;
+} 
