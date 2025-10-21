@@ -359,12 +359,10 @@ class PuzzleGame {
     winGame() {
         this.isPlaying = false;
         this.stopTimer();
+        
 
         this.finalTimeDisplay.textContent = this.timerDisplay.textContent;
-        
-        setTimeout(() => {
-            this.successMessage.style.display = 'block';
-        }, 2000);
+        this.successMessage.style.display = 'block';
 
         this.level += 1;
         this.imageIndex += 1;

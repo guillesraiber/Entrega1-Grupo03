@@ -322,3 +322,11 @@
     display: none;
     z-index: 10;
 }
+
+.success-message h3 {
+    margin: 0;
+}
+
+.success-message p {
+    margin: 10px 0 0 0;
+}
