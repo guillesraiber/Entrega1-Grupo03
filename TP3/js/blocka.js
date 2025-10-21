@@ -129,6 +129,7 @@ class PuzzleGame {
         this.initElements();
         this.initEvents();
         this.loadImage();
+        this.startBtn.disabled = false;
     }
 
     initElements() {
@@ -153,6 +154,7 @@ class PuzzleGame {
         }
 
         if (this.goToMenu) {
+            this.resetTimer()
             this.goToMenu.onclick = () => goToMenu(false);
         }
 
@@ -181,7 +183,7 @@ class PuzzleGame {
         this.image.onload = () => {
         this.imageLoaded = true;
 
-        this.startBtn.disabled = false;
+        // this.startBtn.disabled = false;
 
         // Dibujar imagen para preparar las piezas (pero no mostrarla)
         this.setupCanvas();
@@ -243,9 +245,10 @@ class PuzzleGame {
         this.startBtn.disabled = true;
 
         this.loadImage()
-
+        
         // crear piezas (se mostrarán en lugar del canvas) y arrancar
-        this.createPuzzlePieces();
+        this.createPuzzlePieces(); 
+        this.resetTimer();
         this.startTimer();
     }
 
@@ -356,12 +359,15 @@ class PuzzleGame {
     winGame() {
         this.isPlaying = false;
         this.stopTimer();
-        
+
         this.finalTimeDisplay.textContent = this.timerDisplay.textContent;
-        this.successMessage.style.display = 'block';
+        
+        setTimeout(() => {
+            this.successMessage.style.display = 'block';
+        }, 2000);
 
         this.level += 1;
-        this.imageIndex += 1
+        this.imageIndex += 1;
 
         if (this.imageIndex >= IMAGE_BANK.length) {
             this.imageIndex = 0;
@@ -370,13 +376,13 @@ class PuzzleGame {
         if (this.level <= 6) {
             setTimeout(() => {
                 this.startBtn.disabled = false;
-            }, 1000);
+            }, 3000);
         } else {
             setTimeout(() => {
                 alert("🎉 ¡Felicitaciones! Completaste todos los niveles.");
                 if (this.startBtn) this.startBtn.disabled = true;
                 goToMenu(false);
-            }, 2000);
+            }, 3000);
         }
     }
 
@@ -393,6 +399,12 @@ class PuzzleGame {
             clearInterval(this.timerInterval);
             this.timerInterval = null;
         }
+    }
+
+    resetTimer() {
+        this.timerDisplay.textContent = '00:00';
+        this.startTime = null;
+        this.elapsedTime = 0;
     }
 
     updateTimer() {
