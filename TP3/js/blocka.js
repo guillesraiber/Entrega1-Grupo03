@@ -16,8 +16,8 @@ function goToMenu(primeraVez) {
         gamePage.classList.add('hidden');  
         menuContainer.classList.remove('hidden');
         document.querySelector('.start-screen').style.display = 'block';
-        document.querySelector('.puzzle-container').style.display = 'none';
         document.getElementById('successMessage').style.display = 'none';
+        document.querySelector('.original-img-container').remove();
     }
 
     // Manejar clic en imágenes
@@ -84,7 +84,11 @@ function goToMenu(primeraVez) {
 
 }
 
-// JUEGO BLOCKA
+
+
+
+
+
 
 const IMAGE_BANK = [
     'images/blocka/imagenUno.jpg',
@@ -101,16 +105,10 @@ const IMAGE_BANK = [
 
 
 
-
-
-
-
-
-
-
+// JUEGO BLOCKA
 
 class PuzzleGame {
-    constructor(imageIndex, level = 1) {
+    constructor(imageIndex, level = 0) {
         this.canvas = document.getElementById('gameCanvas');
         this.ctx = this.canvas.getContext('2d');
         this.image = null;
@@ -150,7 +148,7 @@ class PuzzleGame {
     initEvents() {
         if (this.startBtn) {
             // Usar onclick para evitar acumular listeners entre instancias
-            this.startBtn.onclick = () => this.showStartScreen();
+            this.startBtn.onclick = () => this.showStartScreen(true);
         }
 
         if (this.goToMenu) {
@@ -159,7 +157,7 @@ class PuzzleGame {
         }
 
         if (this.nextLevel) {
-            this.nextLevel.onclick = () => this.showStartScreen();
+            this.nextLevel.onclick = () => this.playNextLevel();
         }
 
 
@@ -179,29 +177,36 @@ class PuzzleGame {
     }
 
     loadImage() {
+        console.log('Antes: ' + this.image);
+        this.image = null;
         this.image = new Image();
+        console.log('Despues: ' + this.image);
+
         this.image.onload = () => {
+
+        console.log('Antes: ' + this.imageLoaded);
         this.imageLoaded = true;
+        console.log('Despues: ' + this.imageLoaded);
 
-        // this.startBtn.disabled = false;
+            // Dibujar imagen para preparar las piezas (pero no mostrarla)
+            this.setupCanvas();
 
-        // Dibujar imagen para preparar las piezas (pero no mostrarla)
-        this.setupCanvas();
-
-        // El canvas se usa sólo como buffer, mantenerlo oculto para que no se muestre junto a las piezas
-        try {
-            const filterFn = this.getFilterFunctionForLevel(this.level);
-            if (filterFn) filterFn(this.ctx, this.canvas.width, this.canvas.height);
-        } catch (err) {
-            console.error('Error aplicando filtro por nivel:', err);
-        }
-        
-        // El canvas se usa sólo como buffer; mantenerlo oculto para que no se muestre junto a las piezas
-        if (this.canvas) this.canvas.style.display = 'none';
+            // El canvas se usa sólo como buffer, mantenerlo oculto para que no se muestre junto a las piezas
+            try {
+                const filterFn = this.getFilterFunctionForLevel(this.level);
+                if (filterFn) filterFn(this.ctx, this.canvas.width, this.canvas.height);
+            } catch (err) {
+                console.error('Error aplicando filtro por nivel:', err);
+            }
+            
+            // El canvas se usa sólo como buffe, mantenerlo oculto para que no se muestre junto a las piezas
+            if (this.canvas) this.canvas.style.display = 'none';
         };
+
         this.image.onerror = () => {
             console.error('Error cargando la imagen:', imagePath);
         };
+
         // Asignar la fuente fuera del onload para que comience la carga
         this.image.src = IMAGE_BANK[this.imageIndex];
     }
@@ -226,11 +231,23 @@ class PuzzleGame {
         ctx.drawImage(img, sx, sy, side, side, 0, 0, targetSize, targetSize);
     }
 
+    resetValues() {
+        this.ctx = null;
+        this.ctx = this.canvas.getContext('2d');
+        this.image = null;
+        this.pieces = [];
+    }
+
     applyFilter(filterStyle) {
         this.canvas.style.filter = filterStyle;
     }
 
-    showStartScreen() {
+    showStartScreen(primerJuego) {
+        let imgAnterior = document.querySelector('.original-img-container');
+        if(imgAnterior) {
+            imgAnterior.remove();
+        }
+        
         if (!this.imageLoaded) {
             alert("La imagen del juego todavía se está cargando. Espera un momento y vuelve a intentar.");
             return;
@@ -244,12 +261,45 @@ class PuzzleGame {
         this.isPlaying = true;
         this.startBtn.disabled = true;
 
-        this.loadImage()
+        if (!primerJuego) {
+            this.resetValues();
+            this.loadImage();            
+        }
         
         // crear piezas (se mostrarán en lugar del canvas) y arrancar
         this.createPuzzlePieces(); 
         this.resetTimer();
         this.startTimer();
+    }
+
+     playNextLevel() {
+        this.resetValues();
+
+        let imgAnterior = document.querySelector('.original-img-container');
+        if(imgAnterior) {
+            imgAnterior.remove();
+        }
+
+        
+        if (!this.imageLoaded) {
+            alert("La imagen del juego todavía se está cargando. Espera un momento y vuelve a intentar.");
+            return;
+        }
+        
+        // Ocultar el canvas original: sólo se muestra el contenedor de piezas
+        this.canvas.style.display = 'none';
+
+        this.successMessage.style.display = 'none';
+        this.isPlaying = true;
+        this.startBtn.disabled = true;
+
+        // crear piezas (se mostrarán en lugar del canvas) y arrancar
+        this.createPuzzlePieces(); 
+        this.resetTimer();
+        this.startTimer();
+        
+
+        // this.gameWindow.querySelector('.start-screen').style.display = 'none';
     }
 
     createPuzzlePieces() {
@@ -359,29 +409,36 @@ class PuzzleGame {
     winGame() {
         this.isPlaying = false;
         this.stopTimer();
-        
 
-        this.finalTimeDisplay.textContent = this.timerDisplay.textContent;
-        this.successMessage.style.display = 'block';
+        setTimeout(() => {
+            this.showOriginalImg();
+            this.finalTimeDisplay.textContent = this.timerDisplay.textContent;
+            this.successMessage.style.display = 'block';
 
-        this.level += 1;
-        this.imageIndex += 1;
+            this.level += 1;
+            this.imageIndex += 1;
 
-        if (this.imageIndex >= IMAGE_BANK.length) {
-            this.imageIndex = 0;
-        }
-        // avanzar de nivel si hay más
-        if (this.level <= 6) {
-            setTimeout(() => {
-                this.startBtn.disabled = false;
-            }, 3000);
-        } else {
-            setTimeout(() => {
-                alert("🎉 ¡Felicitaciones! Completaste todos los niveles.");
-                if (this.startBtn) this.startBtn.disabled = true;
-                goToMenu(false);
-            }, 3000);
-        }
+            if (this.imageIndex >= IMAGE_BANK.length) {
+                this.imageIndex = 0;
+            }
+
+            this.imageLoaded = false;
+            this.loadImage();
+
+            // avanzar de nivel si hay más
+            if (this.level <= 6) {
+                setTimeout(() => {
+                    this.startBtn.disabled = false;
+                    this.startBtn.onclick = () => this.playNextLevel();
+                }, 2000);
+            } else {
+                setTimeout(() => {
+                    alert("🎉 ¡Felicitaciones! Completaste todos los niveles.");
+                    if (this.startBtn) this.startBtn.disabled = true;
+                    goToMenu(false);
+                }, 2000);
+            }
+        }, 500);
     }
 
     startTimer() {
@@ -413,6 +470,20 @@ class PuzzleGame {
         
         this.timerDisplay.textContent = 
             `${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
+    }
+
+    showOriginalImg() {
+        this.gameWindow.querySelector('.puzzle-container').remove();
+
+        let imgOriginalContenedor = document.createElement('div');
+        imgOriginalContenedor.className = 'original-img-container';
+
+        let imgOriginal = document.createElement('img');
+        imgOriginal.src = IMAGE_BANK[this.imageIndex];
+        imgOriginal.alt = 'Algo';
+
+        imgOriginalContenedor.appendChild(imgOriginal);
+        this.gameWindow.appendChild(imgOriginalContenedor);
     }
 
 
