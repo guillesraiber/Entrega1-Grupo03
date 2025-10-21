@@ -28,11 +28,20 @@
     align-items: center;
 }
 
-#title {
-    font-size: 48px;
+.game-title-header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     color: white;
     font-weight: bold;
-    margin-bottom: 20px;
+}
+
+#title {
+    font-size: 45px;
+    color: white;
+    font-weight: bold;
+    margin: 0;
     text-shadow: 3px 3px 6px rgba(0,0,0,0.3);
 }
 
@@ -105,15 +114,15 @@
 }
 
 #play-button, #next-level, #go-to-menu {
-    padding: 15px 40px;
-    font-size: 20px;
+    padding: 15px 15px;
+    font-size: 17px;
     font-weight: bold;
     background: white;
-    color: #667EFF ;
+    color: #667EFF;
     border: none;
     border-radius: 30px;
     cursor: pointer;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     transition: all 0.3s ease;
     text-transform: uppercase;
 }
