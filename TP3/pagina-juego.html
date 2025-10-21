@@ -241,20 +241,27 @@
 
                     <div class="game-container hidden">
                         <div class="controls">
-                            <div class="timer" id="timer">00:00</div>
-                            <div class="blocka-title">
-                                <h1>BLOCKA</h1>
-                            </div>
-                            <div class="piece-config">
-                                <label for="pieceSelect">Piezas:</label>
-                                <select id="pieceSelect">
-                                    <option value="4">2x2</option>
-                                    <option value="6">3x3</option>
-                                    <option value="8">4x4</option>
-                                </select>
-                            </div>
-                            <button id="startBtn" disabled>Comenzar</button>
+                        <div class="timer" id="timer">00:00</div>
+                        <div class="blocka-title">
+                            <h1>BLOCKA</h1>
                         </div>
+                        <div class="piece-config">
+                            <label for="pieceSelect">Piezas:</label>
+                            <select id="pieceSelect">
+                                <option value="4">2x2</option>
+                                <option value="6">3x3</option>
+                                <option value="8">4x4</option>
+                            </select>
+                        </div>
+                        <button id="helpBtn" disabled>Ayudita (+5s)</button>
+                        <!-- ✅ Botón nuevo -->
+                        <button id="menuBackBtn">Menú</button>
+                        </div>
+
+                        <!-- Botón grande y centrado para iniciar el juego con imagen aleatoria -->
+                        <div id="bigStartContainer" class="big-start-container">
+                                <button id="bigStartBtn" class="big-start-btn">¡Comenzar!</button>
+                            </div>
 
                         <div class="game-window" id="gameWindow">
                             <div class="start-screen">

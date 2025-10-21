@@ -1,7 +1,4 @@
-
 goToMenu(true);
-
-
 
 
 function goToMenu(primeraVez) {
@@ -25,7 +22,7 @@ function goToMenu(primeraVez) {
         img.addEventListener('click', () => {
             const imageIndex = img.dataset.image;
             const level = parseInt(levelSelect.value);
-            startGame(imageIndex, level);
+            startGame(imageIndex, level, false);
         });
     });
 
@@ -66,20 +63,28 @@ function goToMenu(primeraVez) {
                 setTimeout(() => {
                     const imagePath = images[randomIndex].dataset.image;
                     const level = parseInt(levelSelect.value);
-                    startGame(imagePath, level);
+                    startGame(imagePath, level, true); // usar botón grande
                     images[randomIndex].classList.remove('selected');
                 }, 1000);
             }
         }, animationDuration);
     }
 
-    function startGame(imagePath, level) {
-        // Ocultar todos los elementos del menú
+    function startGame(imagePath, level, useBigStart) {
         menuContainer.classList.add('hidden');
-
         gamePage.classList.remove('hidden');
         // Crear instancia del juego
-        const game = new PuzzleGame(imagePath, level);
+        const game = new PuzzleGame(imagePath, level, useBigStart);
+        // Mostrar el botón grande SIEMPRE si useBigStart es true
+        if (useBigStart) {
+            game.showBigStartButton();
+            // Asegurarse que el botón de volver al menú esté habilitado y con el texto correcto
+            if (game.startBtn) {
+                game.startBtn.disabled = false;
+                game.startBtn.textContent = 'Volver al menú';
+                game.startBtn.classList.remove('hidden');
+            }
+        }
     }
 
 }
@@ -110,7 +115,7 @@ const IMAGE_BANK = [
 
 
 class PuzzleGame {
-    constructor(imageIndex, level = 1) {
+    constructor(imageIndex, level = 1, useBigStart = false) {
         this.canvas = document.getElementById('gameCanvas');
         this.ctx = this.canvas.getContext('2d');
         this.image = null;
@@ -125,6 +130,12 @@ class PuzzleGame {
         this.gridSize = 2; // Default grid size
         this.level = level;
         this.imageIndex = imageIndex;
+        this.useBigStart = useBigStart; // si se usa el botón grande
+        
+        // Help / time-limit related
+        this.helpUsed = false; // whether the player already used the ayudita
+        this.helpPenaltySeconds = 0; // total penalty seconds added by ayudita(s)
+        this.maxTimeSeconds = this.getMaxTimeForLevel(this.level); // null or seconds
         
         this.initElements();
         this.initEvents();
@@ -141,6 +152,10 @@ class PuzzleGame {
         this.finalTimeDisplay = document.getElementById('finalTime');
         this.pieceSelect = document.getElementById('pieceSelect');
         this.goToMenu = document.getElementById('go-to-menu');
+        // New: ayudita button
+        this.helpBtn = document.getElementById('helpBtn');
+        this.bigStartContainer = document.getElementById('bigStartContainer');
+        this.bigStartBtn = document.getElementById('bigStartBtn');
         // Asegurar que el botón comience deshabilitado hasta que la imagen termine de cargar
         if (this.startBtn) {
             this.startBtn.disabled = true;
@@ -149,8 +164,12 @@ class PuzzleGame {
 
     initEvents() {
         if (this.startBtn) {
-            // Usar onclick para evitar acumular listeners entre instancias
-            this.startBtn.onclick = () => this.showStartScreen();
+            this.startBtn.onclick = () => {
+                // Solo vuelve al menú, nunca inicia el juego
+                this.isPlaying = false;
+                this.stopTimer();
+                goToMenu(false);
+            };
         }
 
         if (this.goToMenu) {
@@ -162,6 +181,12 @@ class PuzzleGame {
             this.nextLevel.onclick = () => this.showStartScreen();
         }
 
+        if (this.bigStartBtn) {
+            this.bigStartBtn.onclick = () => {
+                this.bigStartContainer.classList.add('hidden');
+                this.showStartScreen();
+            };
+        }
 
         if (this.pieceSelect) {
             // Usar onchange (sobrescribe el anterior) para forzar selección por nivel
@@ -174,6 +199,22 @@ class PuzzleGame {
                 } else {
                     if (this.startBtn) this.startBtn.disabled = true;
                 }
+            };
+        }
+
+        // Ayudita button: puede usarse una vez por partida
+        if (this.helpBtn) {
+            this.helpBtn.onclick = (e) => {
+                e.preventDefault();
+                // Si la partida ya empezó, permitir usarla también en juego
+                if (!this.isPlaying) {
+                    // si aún no hay partida, permitir marcar que se usará al iniciar
+                    // pero implementación más simple: solo permitir durante juego
+                    alert('La Ayudita se puede usar una vez durante la partida. Comienza el juego y luego pulsa Ayudita.');
+                    return;
+                }
+                if (this.helpUsed) return;
+                this.useHelp();
             };
         }
     }
@@ -230,6 +271,25 @@ class PuzzleGame {
         this.canvas.style.filter = filterStyle;
     }
 
+    showBigStartButton() {
+        if (this.bigStartContainer) {
+            this.bigStartContainer.classList.remove('hidden');
+        }
+        if (this.bigStartBtn) {
+            this.bigStartBtn.disabled = false;
+            this.bigStartBtn.style.display = 'block';
+        }
+    }
+
+    hideBigStartButton() {
+        if (this.bigStartContainer) {
+            this.bigStartContainer.classList.add('hidden');
+        }
+        if (this.bigStartBtn) {
+            this.bigStartBtn.style.display = 'none';
+        }
+    }
+
     showStartScreen() {
         if (!this.imageLoaded) {
             alert("La imagen del juego todavía se está cargando. Espera un momento y vuelve a intentar.");
@@ -242,19 +302,59 @@ class PuzzleGame {
 
         this.successMessage.style.display = 'none';
         this.isPlaying = true;
-        this.startBtn.disabled = true;
+        // El botón de volver al menú nunca debe estar deshabilitado durante la partida
+        if (this.startBtn) {
+            this.startBtn.disabled = false;
+            this.startBtn.textContent = 'Volver al menú';
+        }
 
         this.loadImage()
         
         // crear piezas (se mostrarán en lugar del canvas) y arrancar
         this.createPuzzlePieces(); 
         this.resetTimer();
+        // reset help state for this run
+        this.helpUsed = false;
+        this.helpPenaltySeconds = 0;
+        // recompute max time for current level
+        this.maxTimeSeconds = this.getMaxTimeForLevel(this.level);
+        // enable/help button state
+        if (this.helpBtn) this.helpBtn.disabled = false;
         this.startTimer();
+
+        this.hideBigStartButton();
+
+        // Cambiar el texto del botón 'Comenzar' a 'Volver al menú' cuando se está jugando
+        if (this.startBtn) {
+            this.startBtn.textContent = 'Volver al menú';
+        }
+
+        // Mostrar tiempo límite si aplica
+        if (this.maxTimeSeconds && this.timerDisplay) {
+            let info = document.getElementById('timer-limit-info');
+            if (!info) {
+                info = document.createElement('div');
+                info.id = 'timer-limit-info';
+                info.style.fontSize = '1rem';
+                info.style.color = '#e67e22';
+                info.style.marginTop = '4px';
+                this.timerDisplay.parentNode.insertBefore(info, this.timerDisplay.nextSibling);
+            }
+            const min = Math.floor(this.maxTimeSeconds / 60);
+            const sec = this.maxTimeSeconds % 60;
+            info.textContent = `Tiempo límite: ${min > 0 ? min + 'm ' : ''}${sec}s`;
+            info.style.display = 'block';
+        } else {
+            const info = document.getElementById('timer-limit-info');
+            if (info) info.style.display = 'none';
+        }
     }
 
     createPuzzlePieces() {
         this.pieces = [];
         const pieceSize = this.canvas.width / this.gridSize;
+        let allCorrect = true;
+        let wrongPieceIndex = -1;
 
         // Si ya existe un contenedor, reutilizarlo (evitar duplicados)
         let container = this.gameWindow.querySelector('.puzzle-container');
@@ -299,15 +399,21 @@ class PuzzleGame {
                 );
 
                 const rotations = [0, 90, 180, 270];
-                const randomRotation = rotations[Math.floor(Math.random() * rotations.length)];
+                let randomRotation = rotations[Math.floor(Math.random() * rotations.length)];
 
                 const piece = {
                     canvas: pieceCanvas,
                     rotation: randomRotation,
                     correctRotation: 0,
                     row: row,
-                    col: col
+                    col: col,
+                    locked: false // si la ayudita la fija, locked = true
                 };
+
+                if (piece.rotation !== piece.correctRotation) {
+                    allCorrect = false;
+                    wrongPieceIndex = this.pieces.length;
+                }
 
                 const pieceDiv = document.createElement('div');
                 pieceDiv.className = 'puzzle-piece';
@@ -329,6 +435,14 @@ class PuzzleGame {
             }
         }
 
+        // Si todas las piezas quedaron correctas, forzar una mal rotada
+        if (allCorrect && this.pieces.length > 0) {
+            // Elijo la última pieza y la roto 90 grados
+            const { piece, div } = this.pieces[wrongPieceIndex >= 0 ? wrongPieceIndex : this.pieces.length - 1];
+            piece.rotation = 90;
+            div.style.transform = `rotate(90deg)`;
+        }
+
         if (this.gameWindow.querySelector('.puzzle-container')) {
             this.gameWindow.querySelector('.puzzle-container').remove();
         }
@@ -337,6 +451,8 @@ class PuzzleGame {
 
     rotatePiece(piece, div, degrees) {
         if (!this.isPlaying) return;
+        // no rotar si la pieza fue fijada por la ayudita
+        if (piece.locked) return;
 
         piece.rotation = (piece.rotation + degrees) % 360;
         if (piece.rotation < 0) piece.rotation += 360;
@@ -362,6 +478,13 @@ class PuzzleGame {
 
         this.finalTimeDisplay.textContent = this.timerDisplay.textContent;
         
+        // Agregar contorno verde a todas las piezas correctas
+        this.pieces.forEach(({ piece, div }) => {
+            if (piece.rotation === piece.correctRotation) {
+                div.classList.add('win-green');
+            }
+        });
+
         setTimeout(() => {
             this.successMessage.style.display = 'block';
         }, 2000);
@@ -375,7 +498,10 @@ class PuzzleGame {
         // avanzar de nivel si hay más
         if (this.level <= 6) {
             setTimeout(() => {
-                this.startBtn.disabled = false;
+                if (this.startBtn) {
+                    this.startBtn.disabled = false;
+                    this.startBtn.textContent = 'Comenzar';
+                }
             }, 3000);
         } else {
             setTimeout(() => {
@@ -383,6 +509,11 @@ class PuzzleGame {
                 if (this.startBtn) this.startBtn.disabled = true;
                 goToMenu(false);
             }, 3000);
+        }
+
+        // Restaurar el texto del botón para el próximo juego
+        if (this.startBtn) {
+            this.startBtn.textContent = 'Comenzar';
         }
     }
 
@@ -409,18 +540,24 @@ class PuzzleGame {
 
     updateTimer() {
         this.elapsedTime = Date.now() - this.startTime;
-        const seconds = Math.floor(this.elapsedTime / 1000);
+        // incluir el penalty de ayuda en el tiempo mostrado
+        const totalElapsedMs = this.elapsedTime + (this.helpPenaltySeconds * 1000);
+        const seconds = Math.floor(totalElapsedMs / 1000);
         const minutes = Math.floor(seconds / 60);
         const remainingSeconds = seconds % 60;
         
         this.timerDisplay.textContent = 
             `${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
+
+        // Si existe un tiempo máximo para el nivel, comprobar si se agotó
+        if (this.maxTimeSeconds) {
+            const elapsedSeconds = Math.floor(totalElapsedMs / 1000);
+            if (elapsedSeconds >= this.maxTimeSeconds) {
+                // tiempo agotado -> perder el nivel
+                this.loseLevel();
+            }
+        }
     }
-
-
-
-
-    // <----- Filtros de manipulacion de pixeles en canvas -----> 
 
     applyGrayscale(ctx, width, height) {
         const imageData = ctx.getImageData(0, 0, width, height);
@@ -515,6 +652,49 @@ class PuzzleGame {
         return randomIndex;
     }
 
-    
+    // Devuelve segundos máximos para niveles con límite de tiempo (null si sin límite)
+    getMaxTimeForLevel(level) {
+        // ajustar tiempos según tu diseño
+        switch (level) {
+            case 4: return 180; // 3 minutos
+            case 5: return 120; // 2 minutos
+            case 6: return 90;  // 1.5 minutos
+            default: return null;
+        }
+    }
+
+    // Aplicar la ayudita: fijar correctamente una subimagen y añadir 5s de penalidad
+    useHelp() {
+        if (this.helpUsed) return;
+        // buscar piezas que no estén ya correctas
+        const candidates = this.pieces.filter(({ piece }) => piece.rotation !== piece.correctRotation && !piece.locked);
+        if (candidates.length === 0) return; // no hay piezas por fijar
+
+        const pick = candidates[Math.floor(Math.random() * candidates.length)];
+        // fijar la pieza
+        pick.piece.rotation = pick.piece.correctRotation;
+        pick.piece.locked = true;
+        pick.div.style.transform = `rotate(${pick.piece.rotation}deg)`;
+        pick.div.classList.add('locked');
+        pick.div.classList.add('help-yellow'); // recuadro amarillo claro
+
+        // sumar 5 segundos a la penalidad
+        this.helpPenaltySeconds += 5;
+        this.helpUsed = true;
+        if (this.helpBtn) this.helpBtn.disabled = true;
+
+        // comprobar si con la ayudita ya ganó
+        setTimeout(() => this.checkWin(), 200);
+    }
+
+    // Si el tiempo se agota
+    loseLevel() {
+        this.isPlaying = false;
+        this.stopTimer();
+        alert('Se agotó el tiempo. Perdiste el nivel.');
+        // puedes decidir volver al menú o permitir reiniciar
+        goToMenu(false);
+    }
+
 }
-    
+

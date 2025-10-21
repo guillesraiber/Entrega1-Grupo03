@@ -139,17 +139,6 @@
     display: none !important;
 }
 
-
-
-
-
-
-
-
-
-
-
-
 /* Juego blocka */
 
 .game-container {
@@ -312,4 +301,48 @@
     text-align: center;
     display: none;
     z-index: 10;
+}
+
+.big-start-container {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,0.3);
+    z-index: 10;
+}
+
+.big-start-btn {
+    font-size: 2.5rem;
+    padding: 2rem 4rem;
+    background: #2ecc40;
+    color: white;
+    border: none;
+    border-radius: 1.5rem;
+    box-shadow: 0 0 20px #2ecc40;
+    cursor: pointer;
+    font-family: 'Orbitron', 'Roboto', sans-serif;
+}
+
+.big-start-container.hidden {
+    display: none;
+}
+
+.puzzle-piece.win-green {
+    outline: 3px solid #2ecc40;
+    box-shadow: 0 0 10px #2ecc40;
+    z-index: 2;
+}
+
+.puzzle-piece.help-yellow {
+    outline: 3px solid #ffe066;
+    box-shadow: 0 0 10px #ffe066;
+    z-index: 3;
+}
+#exitBtn {
+    margin-left: 10px;
+    background-color: #f44336;
+    color: white;
+    font-weight: bold;
 }
