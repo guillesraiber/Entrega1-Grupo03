@@ -305,6 +305,10 @@
     width: 100%;
 }
 
+.main-user h3 {
+  margin: 0;
+}
+
 .avatar-small {
     width: 6%;
     object-fit: cover;
