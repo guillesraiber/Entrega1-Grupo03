@@ -22,14 +22,6 @@
 	overflow: hidden; /* evitar que crezca y genere scroll independiente */
 }
 
-.game-window {
-	width: 800px;
-	height: 448px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
-
 .game-image {
 	width: 100%;
 	height: auto;
