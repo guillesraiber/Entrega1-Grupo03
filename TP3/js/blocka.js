@@ -177,9 +177,7 @@ class PuzzleGame {
         }
 
         if (this.goToMenu) {
-            this.resetTimer()
             this.goToMenu.onclick = () => {
-                this.resetValues();
                 this.resetToMenuValues();
                 goToMenu();
             }
@@ -698,55 +696,45 @@ if (this.helpBtn) {
 }
 
    startTimer() {
-    if (this.timerInterval) clearInterval(this.timerInterval);
+   if (this.timerInterval) clearInterval(this.timerInterval);
 
-    const update = () => {
+    this.startTime = Date.now();
+
+    this.timerInterval = setInterval(() => {
         if (!this.isPlaying) return;
 
         if (this.isCountdown) {
-            if (!this.timeLeft) this.timeLeft = this.maxTimeSeconds;
             this.timeLeft--;
-            if (this.timeLeft < 0) this.timeLeft = 0;
+
+            if (this.timeLeft <= 0) {
+                this.timeLeft = 0;
+                this.timerDisplay.textContent = "00:00";
+                clearInterval(this.timerInterval);
+                this.timerInterval = null;
+                this.loseLevel(); // 👈 muestra el cartel al llegar a 0
+                return;
+            }
 
             const minutes = Math.floor(this.timeLeft / 60);
             const seconds = this.timeLeft % 60;
-            this.timerDisplay.textContent = `${String(minutes).padStart(2,'0')}:${String(seconds).padStart(2,'0')}`;
+            this.timerDisplay.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
 
-            // Colores y animaciones según porcentaje
-            if (this.level >= 4 && this.level <= 6) {
-                const pct = this.timeLeft / this.maxTimeSeconds;
-                if (pct > 0.6) {
-                    this.timerDisplay.classList.add('timer-green');
-                    this.timerDisplay.classList.remove('timer-orange','timer-red');
-                } else if (pct > 0.3) {
-                    this.timerDisplay.classList.add('timer-orange');
-                    this.timerDisplay.classList.remove('timer-green','timer-red');
-                } else {
-                    this.timerDisplay.classList.add('timer-red');
-                    this.timerDisplay.classList.remove('timer-green','timer-orange');
-                }
+            // Colores visuales
+            if (this.timeLeft <= 10) {
+                this.timerDisplay.style.color = '#ff3333';
+            } else if (this.timeLeft <= this.maxTimeSeconds / 2) {
+                this.timerDisplay.style.color = '#ff9933';
+            } else {
+                this.timerDisplay.style.color = '#00cc66';
             }
-
-            if (this.timeLeft <= 0) {
-                this.stopTimer();
-                setTimeout(() => this.loseLevel(), 200);
-            }
-
         } else {
-            if (!this.startTime) this.startTime = Date.now();
-            const now = Date.now();
-            this.elapsedTime = Math.floor((now - this.startTime)/1000) + this.helpPenaltySeconds;
-            const minutes = Math.floor(this.elapsedTime / 60);
-            const seconds = this.elapsedTime % 60;
-            this.timerDisplay.textContent = `${String(minutes).padStart(2,'0')}:${String(seconds).padStart(2,'0')}`;
+            // modo sin límite (niveles 1–3)
+            const elapsed = Math.floor((Date.now() - this.startTime) / 1000);
+            const minutes = Math.floor(elapsed / 60);
+            const seconds = elapsed % 60;
+            this.timerDisplay.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
         }
-    };
-
-    // Ejecutar inmediatamente para que no haya retraso
-    update();
-
-    // Luego iniciar interval cada segundo
-    this.timerInterval = setInterval(update, 1000);
+    }, 1000);
 }
 
 
@@ -837,25 +825,22 @@ setTimerMode() {
         this.isPlaying = false;
         this.stopTimer();
         this.resetTimer();
-        
-        this.startBtn.textContent = 'Comenzar';
-        this.message.textContent = '¡Completado!';
-        this.nextLevel.style.display = 'block';
+
+        const puzzleContainer = this.gameWindow.querySelector('.puzzle-container');
+        if (puzzleContainer) puzzleContainer.remove();
+
+        const originalImg = document.querySelector('.original-img-container');
+        if (originalImg) originalImg.remove();
+
         this.successMessage.style.display = 'none';
+        const timeoutMsg = document.getElementById('timeoutMessage');
+        if (timeoutMsg) timeoutMsg.classList.add('hidden');
 
         document.querySelector('.game-container').classList.add('hidden');
         document.getElementById('game-menu').classList.remove('hidden');
-        document.querySelector('.start-screen').style.display = 'block';
 
-        let imgOriginal = document.querySelector('.original-img-container');
-        if(imgOriginal) {
-            imgOriginal.remove();
-        }
-
-        let puzzleContainer = this.gameWindow.querySelector('.puzzle-container');
-        if(puzzleContainer) { 
-            puzzleContainer.remove();
-        }
+        const startScreen = document.querySelector('.start-screen');
+        if (startScreen) startScreen.style.display = 'block';
     }
 
 
@@ -999,14 +984,47 @@ useHelp() {
 
     // Si el tiempo se agota
     loseLevel() {
+        console.log('Tiempo agotado en el nivel');
         this.isPlaying = false;
         this.stopTimer();
-        alert('Se agotó el tiempo. Perdiste el nivel.');
-        // puedes decidir volver al menú o permitir reiniciar
-        goToMenu(false);
+
+        // Mostrar el cartel de tiempo agotado
+        const timeoutMsg = document.getElementById('timeoutMessage');
+        if (!timeoutMsg) {
+            alert('Se agotó el tiempo.');
+            this.resetToMenuValues();
+            goToMenu();
+        return;
     }
 
+    timeoutMsg.classList.remove('hidden'); // mostrar cartel
 
-    
+
+    // Obtener botones
+    const retryBtn = document.getElementById('retry-level');
+    const returnBtn = document.getElementById('return-menu');
+
+    // Eliminar listeners anteriores (para evitar duplicados)
+    retryBtn.replaceWith(retryBtn.cloneNode(true));
+    returnBtn.replaceWith(returnBtn.cloneNode(true));
+
+    // Reasignar referencias actualizadas
+    const newRetry = document.getElementById('retry-level');
+    const newReturn = document.getElementById('return-menu');
+
+    // Reintentar mismo nivel
+    newRetry.addEventListener('click', () => {
+        timeoutMsg.classList.add('hidden');
+        this.resetValues();
+        this.playNextLevel(false, true);
+    });
+
+    // Volver al menú principal
+    newReturn.addEventListener('click', () => {
+        timeoutMsg.classList.add('hidden');
+        this.resetToMenuValues();
+        goToMenu();
+    });
+}
 }
     
