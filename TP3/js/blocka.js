@@ -1,3 +1,4 @@
+let primeraVez = true;
 
 goToMenu();
 
