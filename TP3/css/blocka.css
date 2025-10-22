@@ -326,6 +326,7 @@
     font-size: 24px;
     font-weight: bold;
     text-align: center;
+    max-width: 324px;
     display: none;
     position: relative;
     z-index: 10;

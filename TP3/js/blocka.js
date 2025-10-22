@@ -1,24 +1,13 @@
 
-goToMenu(true);
+goToMenu();
 
-
-
-
-function goToMenu(primeraVez) {
+function goToMenu() {
     const images = document.querySelectorAll('.image-option');
     const playButton = document.getElementById('play-button');
     const levelSelect = document.getElementById('level-select');
     const menuContainer = document.getElementById('game-menu');
     const gamePage = document.querySelector('.game-container');
     let selectedImage = null;
-
-    if (!primeraVez) {
-        gamePage.classList.add('hidden');  
-        menuContainer.classList.remove('hidden');
-        document.querySelector('.start-screen').style.display = 'block';
-        document.getElementById('successMessage').style.display = 'none';
-        document.querySelector('.original-img-container').remove();
-    }
 
     // Manejar clic en imágenes
     images.forEach(img => {
@@ -136,6 +125,7 @@ class PuzzleGame {
         this.timerDisplay = document.getElementById('timer');
         this.gameWindow = document.getElementById('gameWindow');
         this.successMessage = document.getElementById('successMessage');
+        this.message = document.querySelector('#game-message');
         this.finalTimeDisplay = document.getElementById('finalTime');
         this.pieceSelect = document.getElementById('pieceSelect');
         this.goToMenu = document.getElementById('go-to-menu');
@@ -153,7 +143,11 @@ class PuzzleGame {
 
         if (this.goToMenu) {
             this.resetTimer()
-            this.goToMenu.onclick = () => goToMenu(false);
+            this.goToMenu.onclick = () => {
+                this.resetValues();
+                this.resetToMenuValues();
+                goToMenu();
+            }
         }
 
         if (this.nextLevel) {
@@ -253,11 +247,23 @@ class PuzzleGame {
 
         this.successMessage.style.display = 'none';
         this.isPlaying = true;
-        this.startBtn.disabled = true;
+        // this.startBtn.disabled = true;
+        this.startBtn.textContent = 'Menu principal';
+        this.startBtn.onclick = () => {
+            this.resetToMenuValues();
+            goToMenu();
+        };
+
 
         if (!primerJuego) {
             this.resetValues();
             this.loadImage();            
+        } else {
+            this.startBtn.textContent = 'Menu principal';
+            this.startBtn.onclick = () => {
+            this.resetToMenuValues();
+            goToMenu();
+        };
         }
         
         // crear piezas (se mostrarán en lugar del canvas) y arrancar
@@ -274,7 +280,6 @@ class PuzzleGame {
             imgAnterior.remove();
         }
 
-        
         if (!this.imageLoaded) {
             alert("La imagen del juego todavía se está cargando. Espera un momento y vuelve a intentar.");
             return;
@@ -285,14 +290,17 @@ class PuzzleGame {
 
         this.successMessage.style.display = 'none';
         this.isPlaying = true;
-        this.startBtn.disabled = true;
+        // this.startBtn.disabled = true;
+        this.startBtn.textContent = 'Menu principal';
+        this.startBtn.onclick = () => {
+            this.resetToMenuValues();
+            goToMenu();
+        };
 
         // crear piezas (se mostrarán en lugar del canvas) y arrancar
         this.createPuzzlePieces(); 
         this.resetTimer();
         this.startTimer();
-        
-
         // this.gameWindow.querySelector('.start-screen').style.display = 'none';
     }
 
@@ -407,30 +415,26 @@ class PuzzleGame {
         setTimeout(() => {
             this.showOriginalImg();
             this.finalTimeDisplay.textContent = this.timerDisplay.textContent;
-            this.successMessage.style.display = 'block';
 
-            this.level += 1;
-            this.imageIndex += 1;
-
-            if (this.imageIndex > (IMAGE_BANK.length - 1)) {
-                this.imageIndex = 0;
-            }
-
-            this.imageLoaded = false;
-            this.loadImage();
 
             // avanzar de nivel si hay más
-            if (this.level <= 6) {
-                setTimeout(() => {
-                    this.startBtn.disabled = false;
-                    this.startBtn.onclick = () => this.playNextLevel();
-                }, 2000);
+            if (this.level <= 5) {
+                this.message.textContent = '¡Completado!';
+                this.successMessage.style.display = 'block';
+
+                this.level += 1;
+                this.imageIndex += 1;
+
+                if (this.imageIndex > (IMAGE_BANK.length - 1)) {
+                    this.imageIndex = 0;
+                }
+
+                this.imageLoaded = false;
+                this.loadImage();
             } else {
-                setTimeout(() => {
-                    alert("🎉 ¡Felicitaciones! Completaste todos los niveles.");
-                    if (this.startBtn) this.startBtn.disabled = true;
-                    goToMenu(false);
-                }, 2000);
+                this.message.textContent = '¡Juego completado!';
+                this.nextLevel.style.display = 'none';
+                this.successMessage.style.display = 'block';
             }
         }, 500);
     }
@@ -480,6 +484,30 @@ class PuzzleGame {
         this.gameWindow.appendChild(imgOriginalContenedor);
     }
 
+    resetToMenuValues() {
+        this.isPlaying = false;
+        this.stopTimer();
+        this.resetTimer();
+        
+        this.startBtn.textContent = 'Comenzar';
+        this.message.textContent = '¡Completado!';
+        this.nextLevel.style.display = 'none';
+        this.successMessage.style.display = 'none';
+
+        document.querySelector('.game-container').classList.add('hidden');
+        document.getElementById('game-menu').classList.remove('hidden');
+        document.querySelector('.start-screen').style.display = 'block';
+
+        let imgOriginal = document.querySelector('.original-img-container');
+        if(imgOriginal) {
+            imgOriginal.remove();
+        }
+
+        let puzzleContainer = this.gameWindow.querySelector('.puzzle-container');
+        if(puzzleContainer) { 
+            puzzleContainer.remove();
+        }
+    }
 
 
 
@@ -570,14 +598,6 @@ class PuzzleGame {
         }
         return this.getCSSFilterForLevel(level);
     }
-
-    
-    // función auxiliar para seleccionar una imagen aleatoria
-    getRandomImage() {
-        const randomIndex = Math.floor(Math.random() * IMAGE_BANK.length);
-        return randomIndex;
-    }
-
     
 }
     
