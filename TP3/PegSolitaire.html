@@ -11,8 +11,7 @@
         rel="stylesheet">
     <link rel="stylesheet" href="css/nav-sidebar-main-footer.css">
     <link rel="stylesheet" href="css/game-page.css">
-    <link rel="stylesheet" href="css/blocka.css">
-    <title>Blocka</title>
+    <title>Peg Solitaire</title>
 </head>
 
 <body>
@@ -37,7 +36,7 @@
             </div>
         </div>
         <div class="navbar-right">
-              <a href="#"  class="cart-button menu-button">
+            <a href="#"  class="cart-button menu-button">
                 <img src="images/buttons/cart.png" alt="Carrito" class="menu-icon">
             </a>
             <a href="login.html" class="profile-button menu-button">
@@ -204,89 +203,14 @@
         <main class="main-content sidebar-collapsed">
 
             <section class="game-section">
-                <div class="game-part">
+                <div class="game-container">
+                    <div class="game-window">
+                        <img src="images/Peg solitaire/fenix-juego.png" alt="Ignis Solitaire" class="game-image">
 
-                    <!-- Seleccionar nivel y dificulad -->
-                     <div id="game-menu">
-                        <div id="menu-screen">
-                            <div class="game-menu-header">
-                                <button id="play-button">Aleatorio</button>
-                                
-                                <div class="game-title-header">
-                                    <h1 id="title">BLOCKA</h1>
-                                    <p>Elegi una imagen o presiona "Aleatorio" para comenzar</p>
-                                </div>
-                                
-                                <div id="level-selector">
-                                    <label for="level-select">Nivel:</label>
-                                    <select id="level-select">
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                        <option value="5">5</option>
-                                        <option value="6">6</option>
-                                    </select>
-                                </div>
-                            </div>
-                            
-                            <div id="images-container">
-                                <img src="images/blocka/imagenUno.jpg" class="image-option" data-image="0" alt="Nivel 1">
-                                <img src="images/blocka/imagenDos.png" class="image-option" data-image="1" alt="Nivel 2">
-                                <img src="images/blocka/imagenTres.jpg" class="image-option" data-image="2" alt="Nivel 3">
-                                <img src="images/blocka/imagenCuatro.jpg" class="image-option" data-image="3" alt="Nivel 4">
-                                <img src="images/blocka/imagenCinco.jpeg" class="image-option" data-image="4" alt="Nivel 5">
-                                <img src="images/blocka/imagenSeis.jpg" class="image-option" data-image="5" alt="Nivel 5">
-                            </div>
 
-                        </div>
-                    </div>
-
-                    <div class="game-container hidden">
-                        <div class="controls">
-                            <div class="timer" id="timer">00:00</div>
-                            <div class="blocka-title">
-                                <h1>BLOCKA</h1>
-                            </div>
-                            <div class="piece-config">
-                                <label for="pieceSelect">Piezas:</label>
-                                <select id="pieceSelect">
-                                    <option value="4">2x2</option>
-                                    <option value="6">3x3</option>
-                                    <option value="8">4x4</option>
-                                </select>
-                            </div>
-                            <button id="startBtn" disabled>Comenzar</button>
-                        </div>
-
-                        <div class="game-window" id="gameWindow">
-                            <div class="start-screen">
-                                <h2>Presiona "Comenzar" para jugar</h2>
-                                <p>Click izquierdo: rotar a la izquierda | Click derecho: rotar a la derecha</p>
-                            </div>
-                            <canvas id="gameCanvas"></canvas>
-
-                        </div>
-                        <div class ="game-help" id ="gameHelp">
-                            <button id="helpBtn" disabled>Ayudita (+5s)</button>
-                        </div>
-
-                        <!-- <div class="game-irMenu" id = "gameIrMenu">
-                            <button id="menuBackBtn">Menú</button>
-                        </div> -->
-
-                        <div class="success-message" id="successMessage">
-                            <h2>¡Completado!</h2>
-                            <p>Tu tiempo: </p>
-                            <span id="finalTime"></span>
-                            <div class="option-buttons">
-                                <button id="next-level"> Siguiente </button>
-                                <button id="go-to-menu"> Menu </button>
-                            </div>
-                        </div>
                     </div>
                     <div class="game-info-bar">
-                        <span class="game-title">BLOCKA</span>
+                        <span class="game-title">El Renacer del Fenix</span>
                         <div class="game-icons">
                             <img src="images/buttons/share.png" alt="Compartir" class="game-icon">
                             <img src="images/buttons/volume.png" alt="Volumen" class="game-icon">
@@ -295,7 +219,7 @@
                     </div>
                 </div>
             </section>
-            
+
             <!-- Información del juego + Publicidad (los dos en un contenedor) -->
             <section class="info-ad-row">
                 <div class="game-details">
@@ -305,11 +229,15 @@
                         </a>
                         <h2>></h2>
                         <a href="#">
-                            <h2>PUZZLES</h2>
+                            <h2>De mesa</h2>
                         </a>
                         <h2>></h2>
                         <a href="#">
-                            <h2>BLOCKA</h2>
+                            <h2>Tematico</h2>
+                        </a>
+                        <h2>></h2>
+                        <a href="#">
+                            <h2>El Renacer del Fenix</h2>
                         </a>
                     </div>
                     <h2>📖 Historia</h2>
@@ -383,10 +311,12 @@
                         <hr class="divider-white">
                         <div class="compose-actions">
                             <input placeholder="Escribí tu comentario..." type="text">
-
+                            <!-- <button class="btn-send">Enviar</button> -->
+                            <!-- <button class="botonComentario"><span>Enviar</span></button> -->
                             <button class="botonComentario" aria-label="Enviar comentario">
-                                <span>Enviar</span>
+                                 <span>Enviar</span>
                             </button>
+
                         </div>
                     </div>
 
@@ -690,5 +620,4 @@
 <script src="js/comentarios.js"></script>
 <script src="js/footer.js"></script>
 <script src="js/like.js"></script>
-<script src="js/blocka.js"></script>
 </html>
