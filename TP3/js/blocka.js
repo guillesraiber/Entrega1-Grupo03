@@ -491,7 +491,7 @@ class PuzzleGame {
         
         this.startBtn.textContent = 'Comenzar';
         this.message.textContent = '¡Completado!';
-        this.nextLevel.style.display = 'none';
+        this.nextLevel.style.display = 'block';
         this.successMessage.style.display = 'none';
 
         document.querySelector('.game-container').classList.add('hidden');
