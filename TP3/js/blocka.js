@@ -1,4 +1,4 @@
-let primeraVez = true;
+// let primeraVez = true;
 
 goToMenu();
 
@@ -11,16 +11,16 @@ function goToMenu() {
     let selectedImage = null;
 
 
-   if (!primeraVez) {
-        gamePage.classList.add('hidden');  
-        menuContainer.classList.remove('hidden');
-        // mostrar la pantalla de inicio del menú (contenedor con botón Comenzar)
-        const startScreen = document.querySelector('.start-screen');
-        if (startScreen) startScreen.style.display = 'block';
-        document.getElementById('successMessage').style.display = 'none';
-        const prev = document.querySelector('.original-img-container');
-        if (prev) prev.remove();
-    }
+//    if (!primeraVez) {
+//         gamePage.classList.add('hidden');  
+//         menuContainer.classList.remove('hidden');
+//         // mostrar la pantalla de inicio del menú (contenedor con botón Comenzar)
+//         const startScreen = document.querySelector('.start-screen');
+//         if (startScreen) startScreen.style.display = 'block';
+//         document.getElementById('successMessage').style.display = 'none';
+//         const prev = document.querySelector('.original-img-container');
+//         if (prev) prev.remove();
+//     }
 
     // Manejar clic en imágenes
     images.forEach(img => {
@@ -173,7 +173,7 @@ class PuzzleGame {
     initEvents() {
         if (this.startBtn) {
             // Usar onclick para evitar acumular listeners entre instancias
-            this.startBtn.onclick = () => this.showStartScreen(true);
+            this.startBtn.onclick = () => this.showStartScreen();
         }
 
         if (this.goToMenu) {
@@ -202,20 +202,6 @@ class PuzzleGame {
             };
         }
 
-        // if(this.helpBtn){
-        //     this.helpBtn.onclick = (e) => {
-        //         e.preventDefault();
-        //         // Si la partida ya empezó, permitir usarla también en juego
-        //         if (!this.isPlaying) {
-        //             // si aún no hay partida, permitir marcar que se usará al iniciar
-        //             // pero implementación más simple: solo permitir durante juego
-        //             alert('La Ayudita se puede usar una vez durante la partida. Comienza el juego y luego pulsa Ayudita.');
-        //             return;
-        //         }
-        //         if (this.helpUsed) return;
-        //         this.useHelp();
-        //     };
-        // }
         this.setupHelpButton();
     }
    setupHelpButton() {
@@ -314,7 +300,7 @@ class PuzzleGame {
         this.canvas.style.filter = filterStyle;
     }
 
-   showStartScreen(primerJuego) {
+   showStartScreen() {
     let imgAnterior = document.querySelector('.original-img-container');
     if (imgAnterior) imgAnterior.remove();
 
@@ -329,11 +315,11 @@ class PuzzleGame {
 
     this.successMessage.style.display = 'none';
     this.isPlaying = true;
-    this.startBtn.disabled = true;
 
-    if (!primerJuego) {
-        this.resetValues();
-        this.loadImage();
+    this.startBtn.textContent = 'Menu principal';
+    this.startBtn.onclick = () => {
+        this.resetToMenuValues();
+        goToMenu();
     }
 
     this.createPuzzlePieces();
@@ -357,40 +343,39 @@ class PuzzleGame {
     this.startTimer();
 }
 
-   playNextLevel() {
-    this.resetValues();
-    const imgAnterior = document.querySelector('.original-img-container');
-    if (imgAnterior) imgAnterior.remove();
+    playNextLevel() {
+        this.resetValues();
+        const imgAnterior = document.querySelector('.original-img-container');
+        if (imgAnterior) imgAnterior.remove();
 
-    if (!this.imageLoaded) {
-        alert("La imagen del juego todavía se está cargando. Espera un momento y vuelve a intentar.");
-        return;
+        if (!this.imageLoaded) {
+            alert("La imagen del juego todavía se está cargando. Espera un momento y vuelve a intentar.");
+            return;
+        }
+
+        const startScreen = this.gameWindow.querySelector('.start-screen');
+        if (startScreen) startScreen.style.display = 'none';
+        if (this.canvas) this.canvas.style.display = 'none';
+        this.successMessage.style.display = 'none';
+        this.isPlaying = true;
+
+        this.helpUsed = false;
+        this.helpPenaltySeconds = 0;
+
+        this.setupHelpButton();
+
+        if (this.helpBtn && this.level >= 4 && this.level <= 6) {
+            this.helpBtn.style.display = 'inline-block';
+            this.helpBtn.disabled = false;
+        }
+
+        window.currentGame = this;
+        this.createPuzzlePieces();
+        this.setTimerMode();
+
+        this.resetTimer();
+        this.startTimer();
     }
-
-    const startScreen = this.gameWindow.querySelector('.start-screen');
-    if (startScreen) startScreen.style.display = 'none';
-    if (this.canvas) this.canvas.style.display = 'none';
-    this.successMessage.style.display = 'none';
-    this.isPlaying = true;
-    this.startBtn.disabled = true;
-
-    this.helpUsed = false;
-    this.helpPenaltySeconds = 0;
-
-    this.setupHelpButton();
-
-    if (this.helpBtn && this.level >= 4 && this.level <= 6) {
-        this.helpBtn.style.display = 'inline-block';
-        this.helpBtn.disabled = false;
-    }
-
-    window.currentGame = this;
-    this.createPuzzlePieces();
-    this.setTimerMode();
-
-    this.resetTimer();
-    this.startTimer();
-}
 
 
     createPuzzlePieces() {
@@ -626,6 +611,7 @@ class PuzzleGame {
                 // marcar pérdida (se ejecuta después de un pequeño delay para que usuario vea 00:00)
                 setTimeout(() => this.loseLevel(), 200);
             }
+
         } else {
             // tiempo transcurrido (incluye penalidad)
             const totalElapsedMs = this.elapsedTime + penaltyMs;
@@ -636,14 +622,14 @@ class PuzzleGame {
         }
     }
 
-        stopTimer() {
-            if (this.timerInterval) {
-                clearInterval(this.timerInterval);
-                this.timerInterval = null;
-            }
+    stopTimer() {
+        if (this.timerInterval) {
+            clearInterval(this.timerInterval);
+            this.timerInterval = null;
         }
+    }
 
-        resetTimer() {
+    resetTimer() {
         if (this.timerInterval) clearInterval(this.timerInterval);
 
         if (this.isCountdown) {
@@ -658,6 +644,7 @@ class PuzzleGame {
             this.timerDisplay.textContent = '00:00';
         }
     }
+
     setTimerMode() {
         // Niveles 4 a 6 = temporizador que resta
             if (this.level >= 4 && this.level <= 6) {
@@ -700,9 +687,10 @@ class PuzzleGame {
         const timeoutMsg = document.getElementById('timeoutMessage');
         if (timeoutMsg) timeoutMsg.classList.add('hidden');
 
+        this.startBtn.textContent = 'Comenzar';
         document.querySelector('.game-container').classList.add('hidden');
         document.getElementById('game-menu').classList.remove('hidden');
-
+        
         const startScreen = document.querySelector('.start-screen');
         if (startScreen) startScreen.style.display = 'block';
     }
@@ -815,36 +803,35 @@ class PuzzleGame {
     }
 
     // Aplicar la ayudita: fijar correctamente una subimagen y añadir 5s de penalidad
-useHelp() {
-    if (this.helpUsed) return;
+    useHelp() {
+        if (this.helpUsed) return;
 
-    const candidates = this.pieces.filter(({ piece }) => piece.rotation !== piece.correctRotation && !piece.locked);
-    if (candidates.length === 0) return;
+        const candidates = this.pieces.filter(({ piece }) => piece.rotation !== piece.correctRotation && !piece.locked);
+        if (candidates.length === 0) return;
 
-    const pick = candidates[Math.floor(Math.random() * candidates.length)];
+        const pick = candidates[Math.floor(Math.random() * candidates.length)];
 
-    pick.piece.rotation = pick.piece.correctRotation;
-    pick.piece.locked = true;
-    pick.div.style.transform = `rotate(${pick.piece.rotation}deg)`;
-    pick.div.classList.add('locked');
-    pick.div.classList.add('help-yellow');
+        pick.piece.rotation = pick.piece.correctRotation;
+        pick.piece.locked = true;
+        pick.div.style.transform = `rotate(${pick.piece.rotation}deg)`;
+        pick.div.classList.add('locked');
+        pick.div.classList.add('help-yellow');
 
-    this.helpUsed = true;
-    if (this.helpBtn) {
-        this.helpBtn.disabled = true;
-        this.helpBtn.classList.add('help-used');
+        this.helpUsed = true;
+        if (this.helpBtn) {
+            this.helpBtn.disabled = true;
+            this.helpBtn.classList.add('help-used');
+        }
+
+        if (this.isCountdown) {
+            this.timeLeft -= 5; // restar 5 segundos una sola vez
+            if (this.timeLeft < 0) this.timeLeft = 0;
+        } else {
+            this.helpPenaltySeconds += 5; // para cronómetro ascendente, sumar penalidad al elapsed
+        }
+
+        setTimeout(() => this.checkWin(), 200);
     }
-
-    // ✅ Aquí sumamos la penalidad SOLO UNA VEZ
-    if (this.isCountdown) {
-        this.timeLeft -= 5; // restar 5 segundos una sola vez
-        if (this.timeLeft < 0) this.timeLeft = 0;
-    } else {
-        this.helpPenaltySeconds += 5; // para cronómetro ascendente, sumar penalidad al elapsed
-    }
-
-    setTimeout(() => this.checkWin(), 200);
-}
 
     // Si el tiempo se agota
     loseLevel() {
@@ -858,37 +845,36 @@ useHelp() {
             alert('Se agotó el tiempo.');
             this.resetToMenuValues();
             goToMenu();
-        return;
+            return;
+        }
+
+        timeoutMsg.classList.remove('hidden'); // mostrar cartel
+
+        // Obtener botones
+        const retryBtn = document.getElementById('retry-level');
+        const returnBtn = document.getElementById('return-menu');
+
+        // Eliminar listeners anteriores (para evitar duplicados)
+        retryBtn.replaceWith(retryBtn.cloneNode(true));
+        returnBtn.replaceWith(returnBtn.cloneNode(true));
+
+        // Reasignar referencias actualizadas
+        const newRetry = document.getElementById('retry-level');
+        const newReturn = document.getElementById('return-menu');
+
+        // Reintentar mismo nivel
+        newRetry.addEventListener('click', () => {
+            timeoutMsg.classList.add('hidden');
+            this.resetValues();
+            this.playNextLevel();
+        });
+
+        // Volver al menú principal
+        newReturn.addEventListener('click', () => {
+            timeoutMsg.classList.add('hidden');
+            this.resetToMenuValues();
+            goToMenu();
+        });
     }
-
-    timeoutMsg.classList.remove('hidden'); // mostrar cartel
-
-
-    // Obtener botones
-    const retryBtn = document.getElementById('retry-level');
-    const returnBtn = document.getElementById('return-menu');
-
-    // Eliminar listeners anteriores (para evitar duplicados)
-    retryBtn.replaceWith(retryBtn.cloneNode(true));
-    returnBtn.replaceWith(returnBtn.cloneNode(true));
-
-    // Reasignar referencias actualizadas
-    const newRetry = document.getElementById('retry-level');
-    const newReturn = document.getElementById('return-menu');
-
-    // Reintentar mismo nivel
-    newRetry.addEventListener('click', () => {
-        timeoutMsg.classList.add('hidden');
-        this.resetValues();
-        this.playNextLevel(false, true);
-    });
-
-    // Volver al menú principal
-    newReturn.addEventListener('click', () => {
-        timeoutMsg.classList.add('hidden');
-        this.resetToMenuValues();
-        goToMenu();
-    });
-}
 }
     
