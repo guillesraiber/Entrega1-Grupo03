@@ -510,10 +510,7 @@ class PuzzleGame {
             const seconds = tiempoUsado % 60;
             displayTime = `${String(minutes).padStart(2,'0')}:${String(seconds).padStart(2,'0')}`;
         } else {
-            const totalElapsed = this.elapsedTime + this.helpPenaltySeconds;
-            const minutes = Math.floor(totalElapsed / 60);
-            const seconds = totalElapsed % 60;
-            displayTime = `${String(minutes).padStart(2,'0')}:${String(seconds).padStart(2,'0')}`;
+            displayTime =  this.timerDisplay.textContent;
         }
 
         this.finalTimeDisplay.textContent = displayTime;
