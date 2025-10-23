@@ -111,7 +111,7 @@ document.addEventListener("DOMContentLoaded", () => {
           <div class="game-meta">
             <span class="game-price free">Gratis</span>
 
-              <button class="play-btn" onclick="window.location.href='pagina-juego.html'">Jugar</button>
+              <button class="play-btn" onclick="window.location.href='peg-solitaire.html'">Jugar</button>
 
           </div>
         </div>
