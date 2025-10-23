@@ -113,8 +113,6 @@ class PuzzleGame {
         this.level = level;
         this.imageIndex = imageIndex;
         this.isCountdown = false;
-
-
         this.helpUsed = false; //  ayudita
         this.helpPenaltySeconds = 0; // total de penalizacion por ayudita(s)
         this.maxTimeSeconds = this.getMaxTimeForLevel(this.level); // null or seconds
@@ -133,12 +131,15 @@ class PuzzleGame {
         this.startBtn = document.getElementById('startBtn');
         this.nextLevel =  document.getElementById('next-level');
         this.goToMenu = document.getElementById('go-to-menu');
+        this.retryLevel = document.getElementById('retry-level');
+        this.retryMenu = document.getElementById('retry-menu');
 
         this.timerDisplay = document.getElementById('timer');
         this.finalTimeDisplay = document.getElementById('finalTime');
 
         this.successMessage = document.getElementById('successMessage');
         this.message = document.querySelector('#success-title');
+        this.timeoutMsg = document.getElementById('timeoutMessage');
         
         this.pieceSelect = document.getElementById('pieceSelect');
 
@@ -157,6 +158,8 @@ class PuzzleGame {
         if (this.startBtn) {
             this.startBtn.disabled = true;
         }
+
+        this.setLevel();
     }
 
     initEvents() {
@@ -174,6 +177,19 @@ class PuzzleGame {
 
         if (this.nextLevel) {
             this.nextLevel.onclick = () => this.playNextLevel();
+        }
+
+        if (this.retryLevel) {
+            this.retryLevel.onclick = () => this.playNextLevel();
+        }
+
+        if (this.retryMenu) {
+            this.retryMenu.onclick = () => {
+                this.resetValues();
+                this.resetToMenuValues();
+                this.timeoutMsg.classList.remove('hidden');
+                goToMenu();
+            };
         }
 
 
@@ -298,6 +314,11 @@ class PuzzleGame {
         return;
     }
 
+            if (this.helpBtn && this.level >= 4 && this.level <= 6) {
+            this.helpBtn.style.display = 'inline-block';
+            this.helpBtn.disabled = false;
+        }
+
     this.setLevel();
 
     const startScreen = this.gameWindow.querySelector('.start-screen');
@@ -342,6 +363,10 @@ class PuzzleGame {
         if (!this.imageLoaded) {
             alert("La imagen del juego todavía se está cargando. Espera un momento y vuelve a intentar.");
             return;
+        }
+
+        if(!this.timeoutMsg.classList.contains('hidden')){
+            this.timeoutMsg.classList.add('hidden');
         }
 
         this.setLevel();
@@ -571,7 +596,7 @@ class PuzzleGame {
                     this.timerDisplay.textContent = "00:00";
                     clearInterval(this.timerInterval);
                     this.timerInterval = null;
-                    this.loseLevel(); // 👈 muestra el cartel al llegar a 0
+                    this.loseLevel(); // muestra el cartel al llegar a 0
                     return;
                 }
 
@@ -676,7 +701,7 @@ class PuzzleGame {
 
         let imgOriginal = document.createElement('img');
         imgOriginal.src = IMAGE_BANK[this.imageIndex];
-        imgOriginal.alt = 'Algo';
+        imgOriginal.alt = 'Imagen de juego';
 
         imgOriginalContenedor.appendChild(imgOriginal);
         this.gameWindow.appendChild(imgOriginalContenedor);
@@ -806,9 +831,9 @@ class PuzzleGame {
       // Devuelve segundos máximos para niveles con límite de tiempo (null si sin límite)
     getMaxTimeForLevel(level) {
         switch (level) {
-            case 4: return 120; // 2 minutos
-            case 5: return 90; // 1.5 minutos
-            case 6: return 60;  // 1 minuto
+            case 4: return 60; // 1 minuto
+            case 5: return 45; // 45 segundos
+            case 6: return 5;  // 30 segundos
             default: return null;
         }
     }
@@ -846,46 +871,16 @@ class PuzzleGame {
 
     // Si el tiempo se agota
     loseLevel() {
-        console.log('Tiempo agotado en el nivel');
         this.isPlaying = false;
         this.stopTimer();
 
-        // Mostrar el cartel de tiempo agotado
-        const timeoutMsg = document.getElementById('timeoutMessage');
-        if (!timeoutMsg) {
-            alert('Se agotó el tiempo.');
-            this.resetToMenuValues();
-            goToMenu();
-            return;
+        this.showOriginalImg();
+        // Ocultar ayudita
+        if (this.helpBtn) {
+            this.helpBtn.style.display = 'none';
         }
 
-        timeoutMsg.classList.remove('hidden'); // mostrar cartel
-
-        // Obtener botones
-        const retryBtn = document.getElementById('retry-level');
-        const returnBtn = document.getElementById('return-menu');
-
-        // Eliminar listeners anteriores (para evitar duplicados)
-        retryBtn.replaceWith(retryBtn.cloneNode(true));
-        returnBtn.replaceWith(returnBtn.cloneNode(true));
-
-        // Reasignar referencias actualizadas
-        const newRetry = document.getElementById('retry-level');
-        const newReturn = document.getElementById('return-menu');
-
-        // Reintentar mismo nivel
-        newRetry.addEventListener('click', () => {
-            timeoutMsg.classList.add('hidden');
-            this.resetValues();
-            this.playNextLevel();
-        });
-
-        // Volver al menú principal
-        newReturn.addEventListener('click', () => {
-            timeoutMsg.classList.add('hidden');
-            this.resetToMenuValues();
-            goToMenu();
-        });
+        this.timeoutMsg.classList.remove('hidden'); // mostrar cartel
     }
 }
     
