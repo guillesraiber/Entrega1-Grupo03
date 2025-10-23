@@ -128,6 +128,7 @@ class PuzzleGame {
 
     initElements() {
         this.gameWindow = document.getElementById('gameWindow');
+        this.levelNumber = document.getElementById('level-number');
         
         this.startBtn = document.getElementById('startBtn');
         this.nextLevel =  document.getElementById('next-level');
@@ -297,6 +298,8 @@ class PuzzleGame {
         return;
     }
 
+    this.setLevel();
+
     const startScreen = this.gameWindow.querySelector('.start-screen');
     if (startScreen) startScreen.style.display = 'none';
     if (this.canvas) this.canvas.style.display = 'none';
@@ -341,6 +344,8 @@ class PuzzleGame {
             return;
         }
 
+        this.setLevel();
+
         const startScreen = this.gameWindow.querySelector('.start-screen');
         if (startScreen) startScreen.style.display = 'none';
         if (this.canvas) this.canvas.style.display = 'none';
@@ -363,6 +368,10 @@ class PuzzleGame {
 
         this.resetTimer();
         this.startTimer();
+    }
+
+    setLevel() {
+        this.levelNumber.textContent = `Nivel ${this.level}`;
     }
 
 
