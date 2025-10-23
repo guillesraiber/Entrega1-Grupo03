@@ -926,22 +926,6 @@
     font-size: 14px;
 }
 
-.success-message {
-    position: absolute;
-    top: 50%;
-    left: 53%;
-    transform: translate(-50%, -50%);
-    background: rgba(102, 126, 234, 0.95);
-    color: #d3d3d3;
-    padding: 30px 50px;
-    border-radius: 15px;
-    font-size: 24px;
-    font-weight: bold;
-    text-align: center;
-    display: none;
-    z-index: 10;
-}
-
 .big-start-container {
     position: absolute;
     top: 0; left: 0; right: 0; bottom: 0;

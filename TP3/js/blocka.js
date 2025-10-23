@@ -318,62 +318,6 @@ class PuzzleGame {
     let imgAnterior = document.querySelector('.original-img-container');
     if (imgAnterior) imgAnterior.remove();
 
-/*
-        // Ocultar el canvas original: sólo se muestra el contenedor de piezas
-        this.canvas.style.display = 'none';
-
-        this.successMessage.style.display = 'none';
-        this.isPlaying = true;
-        // this.startBtn.disabled = true;
-        this.startBtn.textContent = 'Menu principal';
-        this.startBtn.onclick = () => {
-            this.resetToMenuValues();
-            goToMenu();
-        };
-
-
-        if (!primerJuego) {
-            this.resetValues();
-            this.loadImage();            
-        } else {
-            this.startBtn.textContent = 'Menu principal';
-            this.startBtn.onclick = () => {
-            this.resetToMenuValues();
-            goToMenu();
-        };
-        }
-        
-        // crear piezas (se mostrarán en lugar del canvas) y arrancar
-        this.createPuzzlePieces(); 
-        this.resetTimer();
-              // reset help state for this run
-        this.helpUsed = false;
-        this.helpPenaltySeconds = 0;
-        // recompute max time for current level
-        this.maxTimeSeconds = this.getMaxTimeForLevel(this.level);
-        // enable/help button state
-        if (this.helpBtn) this.helpBtn.disabled = false;
-
-        this.startTimer();
-
-        if (this.maxTimeSeconds && this.timerDisplay) {
-            let info = document.getElementById('timer-limit-info');
-            if (!info) {
-                info = document.createElement('div');
-                info.id = 'timer-limit-info';
-                info.style.fontSize = '1rem';
-                info.style.color = '#e67e22';
-                info.style.marginTop = '4px';
-                this.timerDisplay.parentNode.insertBefore(info, this.timerDisplay.nextSibling);
-            }
-            const min = Math.floor(this.maxTimeSeconds / 60);
-            const sec = this.maxTimeSeconds % 60;
-            info.textContent = `Tiempo límite: ${min > 0 ? min + 'm ' : ''}${sec}s`;
-            info.style.display = 'block';
-        } else {
-            const info = document.getElementById('timer-limit-info');
-            if (info) info.style.display = 'none';
-        }*/
     if (!this.imageLoaded) {
         alert("La imagen del juego todavía se está cargando. Espera un momento y vuelve a intentar.");
         return;
@@ -389,36 +333,7 @@ class PuzzleGame {
 
     if (!primerJuego) {
         this.resetValues();
-/*
-
-        let imgAnterior = document.querySelector('.original-img-container');
-        if(imgAnterior) {
-            imgAnterior.remove();
-        }
-
-        if (!this.imageLoaded) {
-            alert("La imagen del juego todavía se está cargando. Espera un momento y vuelve a intentar.");
-            return;
-        }
-        
-        // Ocultar el canvas original: sólo se muestra el contenedor de piezas
-        this.canvas.style.display = 'none';
-
-        this.successMessage.style.display = 'none';
-        this.isPlaying = true;
-        // this.startBtn.disabled = true;
-        this.startBtn.textContent = 'Menu principal';
-        this.startBtn.onclick = () => {
-            this.resetToMenuValues();
-            goToMenu();
-        };
-
-        // crear piezas (se mostrarán en lugar del canvas) y arrancar
-        this.createPuzzlePieces(); 
-        this.resetTimer();
-        this.startTimer();
-        // this.gameWindow.querySelector('.start-screen').style.display = 'none';
-*/        this.loadImage();
+        this.loadImage();
     }
 
     this.createPuzzlePieces();
@@ -596,216 +511,165 @@ class PuzzleGame {
         }
     }
 
-/*    winGame() {
+    winGame() {
         this.isPlaying = false;
         this.stopTimer();
-        
-        this.finalTimeDisplay.textContent = this.timerDisplay.textContent;
-        
+
+        let displayTime;
+
+        if (this.isCountdown) {
+            // Evitar que timeLeft sea undefined
+            const timeLeftSafe = (typeof this.timeLeft === 'number') ? this.timeLeft : this.maxTimeSeconds;
+            const tiempoUsado = this.maxTimeSeconds - timeLeftSafe + this.helpPenaltySeconds;
+            const minutes = Math.floor(tiempoUsado / 60);
+            const seconds = tiempoUsado % 60;
+            displayTime = `${String(minutes).padStart(2,'0')}:${String(seconds).padStart(2,'0')}`;
+        } else {
+            const totalElapsed = this.elapsedTime + this.helpPenaltySeconds;
+            const minutes = Math.floor(totalElapsed / 60);
+            const seconds = totalElapsed % 60;
+            displayTime = `${String(minutes).padStart(2,'0')}:${String(seconds).padStart(2,'0')}`;
+        }
+
+        this.finalTimeDisplay.textContent = displayTime;
+
+        // Resaltar piezas correctas
         this.pieces.forEach(({ piece, div }) => {
             if (piece.rotation === piece.correctRotation) {
                 div.classList.add('win-green');
             }
         });
+
         setTimeout(() => {
             this.showOriginalImg();
-            this.finalTimeDisplay.textContent = this.timerDisplay.textContent;
-
-
-            // avanzar de nivel si hay más
-            if (this.level <= 5) {
-                this.message.textContent = '¡Completado!';
-                this.successMessage.style.display = 'block';
-
-                this.level += 1;
-                this.imageIndex += 1;
-
-                if (this.imageIndex > (IMAGE_BANK.length - 1)) {
-                    this.imageIndex = 0;
-                }
-
-                this.imageLoaded = false;
-                this.loadImage();
-            } else {
-                this.message.textContent = '¡Juego completado!';
-                this.nextLevel.style.display = 'none';
-                this.successMessage.style.display = 'block';
+            this.successMessage.style.display = 'block';
+            // Ocultar ayudita
+            if (this.helpBtn) {
+                this.helpBtn.style.display = 'none';
             }
+            // Preparar siguiente nivel
+            this.level += 1;
+            this.imageIndex += 1;
+            if (this.imageIndex > (IMAGE_BANK.length - 1)) {
+                this.imageIndex = 0;
+            }
+
+            this.imageLoaded = false;
+            this.loadImage();
+
         }, 500);
-*/
-winGame() {
-    this.isPlaying = false;
-    this.stopTimer();
-
-    let displayTime;
-
-    if (this.isCountdown) {
-        // Evitar que timeLeft sea undefined
-        const timeLeftSafe = (typeof this.timeLeft === 'number') ? this.timeLeft : this.maxTimeSeconds;
-        const tiempoUsado = this.maxTimeSeconds - timeLeftSafe + this.helpPenaltySeconds;
-        const minutes = Math.floor(tiempoUsado / 60);
-        const seconds = tiempoUsado % 60;
-        displayTime = `${String(minutes).padStart(2,'0')}:${String(seconds).padStart(2,'0')}`;
-    } else {
-        const totalElapsed = this.elapsedTime + this.helpPenaltySeconds;
-        const minutes = Math.floor(totalElapsed / 60);
-        const seconds = totalElapsed % 60;
-        displayTime = `${String(minutes).padStart(2,'0')}:${String(seconds).padStart(2,'0')}`;
     }
-
-    this.finalTimeDisplay.textContent = displayTime;
-
-    // Resaltar piezas correctas
-    this.pieces.forEach(({ piece, div }) => {
-        if (piece.rotation === piece.correctRotation) {
-            div.classList.add('win-green');
-        }
-    });
-
-    setTimeout(() => {
-        this.showOriginalImg();
-        this.successMessage.style.display = 'block';
-        // Ocultar ayudita
-if (this.helpBtn) {
-    this.helpBtn.style.display = 'none';
-}
-        // Preparar siguiente nivel
-        this.level += 1;
-        this.imageIndex += 1;
-        if (this.imageIndex > (IMAGE_BANK.length - 1)) {
-            this.imageIndex = 0;
-        }
-
-        this.imageLoaded = false;
-        this.loadImage();
-
-        if (this.level <= 6) {
-            // Configurar botón para siguiente nivel
-            setTimeout(() => {
-                this.startBtn.disabled = false;
-                this.startBtn.onclick = () => this.playNextLevel();
-            }, 2000);
-        } else {
-            setTimeout(() => {
-                alert("🎉 ¡Felicitaciones! Completaste todos los niveles.");
-                if (this.startBtn) this.startBtn.disabled = true;
-                goToMenu(false);
-            }, 2000);
-        }
-    }, 500);
-}
 
    startTimer() {
-   if (this.timerInterval) clearInterval(this.timerInterval);
-
-    this.startTime = Date.now();
-
-    this.timerInterval = setInterval(() => {
-        if (!this.isPlaying) return;
-
-        if (this.isCountdown) {
-            this.timeLeft--;
-
-            if (this.timeLeft <= 0) {
-                this.timeLeft = 0;
-                this.timerDisplay.textContent = "00:00";
-                clearInterval(this.timerInterval);
-                this.timerInterval = null;
-                this.loseLevel(); // 👈 muestra el cartel al llegar a 0
-                return;
-            }
-
-            const minutes = Math.floor(this.timeLeft / 60);
-            const seconds = this.timeLeft % 60;
-            this.timerDisplay.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-
-            // Colores visuales
-            if (this.timeLeft <= 10) {
-                this.timerDisplay.style.color = '#ff3333';
-            } else if (this.timeLeft <= this.maxTimeSeconds / 2) {
-                this.timerDisplay.style.color = '#ff9933';
-            } else {
-                this.timerDisplay.style.color = '#00cc66';
-            }
-        } else {
-            // modo sin límite (niveles 1–3)
-            const elapsed = Math.floor((Date.now() - this.startTime) / 1000);
-            const minutes = Math.floor(elapsed / 60);
-            const seconds = elapsed % 60;
-            this.timerDisplay.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-        }
-    }, 1000);
-}
-
-
-updateTimer() {
-    if (!this.startTime) return;
-    const now = Date.now();
-    this.elapsedTime = now - this.startTime;
-    const penaltyMs = (this.helpPenaltySeconds || 0) * 1000;
-
-    if (this.maxTimeSeconds) {
-        // cuenta regresiva: tiempo restante = max - elapsed - penalty
-        const elapsedTotalSeconds = Math.floor((this.elapsedTime + penaltyMs) / 1000);
-        let remaining = this.maxTimeSeconds - elapsedTotalSeconds;
-        // evitar negativos
-        if (remaining < 0) remaining = 0;
-
-        const minutes = Math.floor(remaining / 60);
-        const seconds = remaining % 60;
-        this.timerDisplay.textContent = `${String(minutes).padStart(2,'0')}:${String(seconds).padStart(2,'0')}`;
-
-        if (elapsedTotalSeconds >= this.maxTimeSeconds) {
-            // detener interval para evitar múltiples llamadas
-            this.stopTimer();
-            // marcar pérdida (se ejecuta después de un pequeño delay para que usuario vea 00:00)
-            setTimeout(() => this.loseLevel(), 200);
-        }
-    } else {
-        // tiempo transcurrido (incluye penalidad)
-        const totalElapsedMs = this.elapsedTime + penaltyMs;
-        const secondsTotal = Math.floor(totalElapsedMs / 1000);
-        const minutes = Math.floor(secondsTotal / 60);
-        const seconds = secondsTotal % 60;
-        this.timerDisplay.textContent = `${String(minutes).padStart(2,'0')}:${String(seconds).padStart(2,'0')}`;
-    }
-}
-
-    stopTimer() {
-        if (this.timerInterval) {
-            clearInterval(this.timerInterval);
-            this.timerInterval = null;
-        }
-    }
-
-    resetTimer() {
     if (this.timerInterval) clearInterval(this.timerInterval);
 
-    if (this.isCountdown) {
-        this.timeLeft = this.maxTimeSeconds;
-        this.elapsedTime = 0;
-        const minutes = Math.floor(this.timeLeft / 60);
-        const seconds = this.timeLeft % 60;
-        this.timerDisplay.textContent = `${String(minutes).padStart(2,'0')}:${String(seconds).padStart(2,'0')}`;
-    } else {
-        this.elapsedTime = 0;
-        this.startTime = null;
-        this.timerDisplay.textContent = '00:00';
+        this.startTime = Date.now();
+
+        this.timerInterval = setInterval(() => {
+            if (!this.isPlaying) return;
+
+            if (this.isCountdown) {
+                this.timeLeft--;
+
+                if (this.timeLeft <= 0) {
+                    this.timeLeft = 0;
+                    this.timerDisplay.textContent = "00:00";
+                    clearInterval(this.timerInterval);
+                    this.timerInterval = null;
+                    this.loseLevel(); // 👈 muestra el cartel al llegar a 0
+                    return;
+                }
+
+                const minutes = Math.floor(this.timeLeft / 60);
+                const seconds = this.timeLeft % 60;
+                this.timerDisplay.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+
+                // Colores visuales
+                if (this.timeLeft <= 10) {
+                    this.timerDisplay.style.color = '#ff3333';
+                } else if (this.timeLeft <= this.maxTimeSeconds / 2) {
+                    this.timerDisplay.style.color = '#ff9933';
+                } else {
+                    this.timerDisplay.style.color = '#00cc66';
+                }
+            } else {
+                // modo sin límite (niveles 1–3)
+                const elapsed = Math.floor((Date.now() - this.startTime) / 1000);
+                const minutes = Math.floor(elapsed / 60);
+                const seconds = elapsed % 60;
+                this.timerDisplay.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            }
+        }, 1000);
     }
-}
-setTimerMode() {
-    // Niveles 4 a 6 = temporizador que resta
-        if (this.level >= 4 && this.level <= 6) {
-        this.isCountdown = true;
-        this.maxTimeSeconds = this.getMaxTimeForLevel(this.level);
-        this.timeLeft = this.maxTimeSeconds; // inicializa countdown
-    } else {
-        this.isCountdown = false;
-        this.maxTimeSeconds = null;
-        this.timeLeft = null;
+
+
+    updateTimer() {
+        if (!this.startTime) return;
+        const now = Date.now();
+        this.elapsedTime = now - this.startTime;
+        const penaltyMs = (this.helpPenaltySeconds || 0) * 1000;
+
+        if (this.maxTimeSeconds) {
+            // cuenta regresiva: tiempo restante = max - elapsed - penalty
+            const elapsedTotalSeconds = Math.floor((this.elapsedTime + penaltyMs) / 1000);
+            let remaining = this.maxTimeSeconds - elapsedTotalSeconds;
+            // evitar negativos
+            if (remaining < 0) remaining = 0;
+
+            const minutes = Math.floor(remaining / 60);
+            const seconds = remaining % 60;
+            this.timerDisplay.textContent = `${String(minutes).padStart(2,'0')}:${String(seconds).padStart(2,'0')}`;
+
+            if (elapsedTotalSeconds >= this.maxTimeSeconds) {
+                // detener interval para evitar múltiples llamadas
+                this.stopTimer();
+                // marcar pérdida (se ejecuta después de un pequeño delay para que usuario vea 00:00)
+                setTimeout(() => this.loseLevel(), 200);
+            }
+        } else {
+            // tiempo transcurrido (incluye penalidad)
+            const totalElapsedMs = this.elapsedTime + penaltyMs;
+            const secondsTotal = Math.floor(totalElapsedMs / 1000);
+            const minutes = Math.floor(secondsTotal / 60);
+            const seconds = secondsTotal % 60;
+            this.timerDisplay.textContent = `${String(minutes).padStart(2,'0')}:${String(seconds).padStart(2,'0')}`;
+        }
     }
-}
-    
+
+        stopTimer() {
+            if (this.timerInterval) {
+                clearInterval(this.timerInterval);
+                this.timerInterval = null;
+            }
+        }
+
+        resetTimer() {
+        if (this.timerInterval) clearInterval(this.timerInterval);
+
+        if (this.isCountdown) {
+            this.timeLeft = this.maxTimeSeconds;
+            this.elapsedTime = 0;
+            const minutes = Math.floor(this.timeLeft / 60);
+            const seconds = this.timeLeft % 60;
+            this.timerDisplay.textContent = `${String(minutes).padStart(2,'0')}:${String(seconds).padStart(2,'0')}`;
+        } else {
+            this.elapsedTime = 0;
+            this.startTime = null;
+            this.timerDisplay.textContent = '00:00';
+        }
+    }
+    setTimerMode() {
+        // Niveles 4 a 6 = temporizador que resta
+            if (this.level >= 4 && this.level <= 6) {
+            this.isCountdown = true;
+            this.maxTimeSeconds = this.getMaxTimeForLevel(this.level);
+            this.timeLeft = this.maxTimeSeconds; // inicializa countdown
+        } else {
+            this.isCountdown = false;
+            this.maxTimeSeconds = null;
+            this.timeLeft = null;
+        }
+    }
 
     showOriginalImg() {
         this.gameWindow.querySelector('.puzzle-container').remove();
