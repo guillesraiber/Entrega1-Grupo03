@@ -102,9 +102,9 @@ document.addEventListener("DOMContentLoaded", () => {
     if (isRecientes) {
       carousel.classList.add("recientes-carousel");
 
-      const card = document.createElement("div");
-      card.className = "game-card";
-      card.innerHTML = `
+      const peg = document.createElement("div");
+      peg.className = "game-card";
+      peg.innerHTML = `
         <img src="images/Peg solitaire/peg-solitaire-card.png" alt="Peg Solitarie" class="game-img" loading="lazy">
         <div class="game-info">
           <h4 class="game-title" title="Peg Solitaire">Peg Solitaire</h4>
@@ -116,7 +116,22 @@ document.addEventListener("DOMContentLoaded", () => {
           </div>
         </div>
       `;
-      track.appendChild(card);
+      track.appendChild(peg);
+
+      const blocka = document.createElement("div");
+      blocka.className = "game-card";
+      blocka.innerHTML = `
+        <img src="images/blocka/blockaCardHorizontal.png" alt="Blocka" class="game-img" loading="lazy">
+        <div class="game-info">
+          <h4 class="game-title" title="Blocka">Blocka</h4>
+          <div class="game-meta">
+            <span class="game-price free">Gratis</span>
+
+              <button class="play-btn" onclick="window.location.href='blocka.html'">Jugar</button>
+          </div>
+        </div>
+      `;
+      track.appendChild(blocka);
     }
 
     juegos.forEach(juego => {
