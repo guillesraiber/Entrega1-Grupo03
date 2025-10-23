@@ -1,4 +1,3 @@
-// let primeraVez = true;
 
 goToMenu();
 
@@ -9,18 +8,6 @@ function goToMenu() {
     const menuContainer = document.getElementById('game-menu');
     const gamePage = document.querySelector('.game-container');
     let selectedImage = null;
-
-
-//    if (!primeraVez) {
-//         gamePage.classList.add('hidden');  
-//         menuContainer.classList.remove('hidden');
-//         // mostrar la pantalla de inicio del menú (contenedor con botón Comenzar)
-//         const startScreen = document.querySelector('.start-screen');
-//         if (startScreen) startScreen.style.display = 'block';
-//         document.getElementById('successMessage').style.display = 'none';
-//         const prev = document.querySelector('.original-img-container');
-//         if (prev) prev.remove();
-//     }
 
     // Manejar clic en imágenes
     images.forEach(img => {
@@ -82,9 +69,6 @@ function goToMenu() {
         gamePage.classList.remove('hidden');
         // Crear instancia del juego
         const game = new PuzzleGame(imagePath, level);
-
-
-        // VER aca puedo poner lo de volver al menu
     }
 
 }
@@ -143,16 +127,20 @@ class PuzzleGame {
     }
 
     initElements() {
+        this.gameWindow = document.getElementById('gameWindow');
+        
         this.startBtn = document.getElementById('startBtn');
         this.nextLevel =  document.getElementById('next-level');
-        this.timerDisplay = document.getElementById('timer');
-        this.gameWindow = document.getElementById('gameWindow');
-        this.successMessage = document.getElementById('successMessage');
-        this.message = document.querySelector('#game-message');
-        this.finalTimeDisplay = document.getElementById('finalTime');
-        this.pieceSelect = document.getElementById('pieceSelect');
         this.goToMenu = document.getElementById('go-to-menu');
-        // ayudita
+
+        this.timerDisplay = document.getElementById('timer');
+        this.finalTimeDisplay = document.getElementById('finalTime');
+
+        this.successMessage = document.getElementById('successMessage');
+        this.message = document.querySelector('#success-title');
+        
+        this.pieceSelect = document.getElementById('pieceSelect');
+
         this.helpBtn = document.getElementById('helpBtn');
         
         // Ocultar ayudita si no es nivel 4, 5 o 6
@@ -523,23 +511,39 @@ class PuzzleGame {
         });
 
         setTimeout(() => {
-            this.showOriginalImg();
-            this.successMessage.style.display = 'block';
-            // Ocultar ayudita
-            if (this.helpBtn) {
-                this.helpBtn.style.display = 'none';
-            }
-            // Preparar siguiente nivel
-            this.level += 1;
-            this.imageIndex += 1;
-            if (this.imageIndex > (IMAGE_BANK.length - 1)) {
-                this.imageIndex = 0;
-            }
+            if (this.level < 6) { 
+                this.showWinMessage();
+            } else {
+                this.showOriginalImg();
+                this.goToMenu.textContent = 'Volver al menu';
+                this.nextLevel.style.display = 'none';
+                this.message.textContent = '¡Juego completado!';
+                this.successMessage.style.display = 'block';
 
-            this.imageLoaded = false;
-            this.loadImage();
-
+                // Ocultar ayudita
+                if (this.helpBtn) {
+                    this.helpBtn.style.display = 'none';
+                }
+            }
         }, 500);
+    }
+
+    showWinMessage() {
+        this.showOriginalImg();
+        this.successMessage.style.display = 'block';
+        // Ocultar ayudita
+        if (this.helpBtn) {
+            this.helpBtn.style.display = 'none';
+        }
+        // Preparar siguiente nivel
+        this.level += 1;
+        this.imageIndex += 1;
+        if (this.imageIndex > (IMAGE_BANK.length - 1)) {
+            this.imageIndex = 0;
+        }
+
+        this.imageLoaded = false;
+        this.loadImage();
     }
 
    startTimer() {
@@ -680,6 +684,7 @@ class PuzzleGame {
         const originalImg = document.querySelector('.original-img-container');
         if (originalImg) originalImg.remove();
 
+        this.message.textContent = '¡Completado!';
         this.successMessage.style.display = 'none';
         const timeoutMsg = document.getElementById('timeoutMessage');
         if (timeoutMsg) timeoutMsg.classList.add('hidden');
