@@ -833,7 +833,7 @@ class PuzzleGame {
         switch (level) {
             case 4: return 60; // 1 minuto
             case 5: return 45; // 45 segundos
-            case 6: return 5;  // 30 segundos
+            case 6: return 30;  // 30 segundos
             default: return null;
         }
     }
