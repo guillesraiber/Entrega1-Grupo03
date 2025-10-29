@@ -9,7 +9,7 @@ export class GameModel {
     }
 
     initBoard() {
-        // Crear tablero inglés clásico (forma de cruz)
+        // Crear tablero 
         // 0 = fuera del tablero, 1 = posición vacía, 2 = ficha
         this.board = [
             [0, 0, 2, 2, 2, 0, 0],

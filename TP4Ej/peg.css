@@ -1,108 +1,115 @@
 body {
-            margin: 0;
-            padding: 20px;
-            font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-        }
+    margin: 0;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+}
 
-        .game-container {
-            background: white;
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
-        }
+.game-container {
+    background: white;
+    height: 448px;
+    width: 800px;
+    padding: 15px;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
 
-        h1 {
-            text-align: center;
-            color: #333;
-            margin-top: 0;
-            margin-bottom: 10px;
-        }
+h1 {
+    text-align: center;
+    color: #333;
+    margin-top: 0;
+    margin-bottom: 10px;
+}
 
-        .info-panel {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding: 15px;
-            background: #f5f5f5;
-            border-radius: 10px;
-        }
+.info-panel {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    padding: 12px;
+    background: #f5f5f5;
+    border-radius: 10px;
+    width: 97%;
+}
 
-        .timer, .moves {
-            font-size: 20px;
-            font-weight: bold;
-            color: #667eea;
-        }
+.timer, .moves {
+    font-size: 20px;
+    font-weight: bold;
+    color: #667eea;
+}
 
-        .btn {
-            padding: 10px 20px;
-            font-size: 16px;
-            font-weight: bold;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
+.btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
 
-        .btn-restart {
-            background: #667eea;
-            color: white;
-        }
+.btn-restart {
+    background: #667eea;
+    color: white;
+}
 
-        .btn-restart:hover {
-            background: #5568d3;
-            transform: translateY(-2px);
-        }
+.btn-restart:hover {
+    background: #5568d3;
+    transform: translateY(-2px);
+}
 
-        #gameCanvas {
-            display: block;
-            border: 3px solid #333;
-            border-radius: 10px;
-            cursor: pointer;
-        }
+#gameCanvas {
+    display: block;
+    border: 3px solid #333;
+    border-radius: 10px;
+    cursor: pointer;
+}
 
-        .game-over {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: white;
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 10px 50px rgba(0,0,0,0.5);
-            text-align: center;
-            display: none;
-        }
+.game-over {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 10px 50px rgba(0,0,0,0.5);
+    text-align: center;
+    display: none;
+}
 
-        .game-over.show {
-            display: block;
-        }
+.game-over.show {
+    display: block;
+}
 
-        .game-over h2 {
-            color: #667eea;
-            margin-top: 0;
-        }
+.game-over h2 {
+    color: #667eea;
+    margin-top: 0;
+}
 
-        .game-over p {
-            font-size: 18px;
-            color: #666;
-        }
+.game-over p {
+    font-size: 18px;
+    color: #666;
+}
 
-        .instructions {
-            margin-top: 20px;
-            padding: 15px;
-            background: #f0f7ff;
-            border-radius: 10px;
-            font-size: 14px;
-            color: #555;
-            max-width: 600px;
-        }
+.instructions {
+    margin-top: 20px;
+    padding: 15px;
+    background: #f0f7ff;
+    border-radius: 10px;
+    font-size: 14px;
+    color: #555;
+    max-width: 600px;
+}
 
-        .instructions strong {
-            color: #667eea;
-        }
+.instructions strong {
+    color: #667eea;
+}

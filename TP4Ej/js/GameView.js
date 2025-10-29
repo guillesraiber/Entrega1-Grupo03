@@ -3,8 +3,8 @@ export class GameView {
     constructor(canvasId) {
         this.canvas = document.getElementById(canvasId);
         this.ctx = this.canvas.getContext('2d');
-        this.cellSize = 100;
-        this.pegRadius = 35;
+        this.cellSize = 50;
+        this.pegRadius = 18;
         this.hintPositions = [];
     }
 

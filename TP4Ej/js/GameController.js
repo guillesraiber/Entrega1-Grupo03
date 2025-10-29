@@ -15,7 +15,7 @@ export class GameController {
         
         this.setupEventListeners();
         this.render();
-        this.startTimer();
+        // this.startTimer();
     }
 
     setupEventListeners() {
