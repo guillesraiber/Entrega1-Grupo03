@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Peg Solitaire</title>
+    <link rel="stylesheet" href="peg.css">
+</head>
+<body>
+    <div class="game-container">
+        <h1>Peg Solitaire</h1>
+        
+        <div class="info-panel">
+            <div class="timer">⏱️ Tiempo: <span id="timerDisplay">00:00</span></div>
+            <button class="btn btn-restart" onclick="game.restart()">🔄 Reiniciar</button>
+            <div class="moves">Fichas restantes: <span id="pegsCount">32</span></div>
+        </div>
+
+        <canvas id="gameCanvas" width="700" height="700"></canvas>
+
+        <div class="instructions">
+            <strong>Cómo jugar:</strong> Haz clic en una ficha roja para seleccionarla. Los lugares amarillos muestran dónde puedes moverla. 
+            Arrastra la ficha y suéltala en una posición válida. ¡El objetivo es dejar solo una ficha en el tablero!
+        </div>
+    </div>
+
+    <div class="game-over" id="gameOver">
+        <h2>¡Juego Terminado!</h2>
+        <p id="gameOverMessage"></p>
+        <button class="btn btn-restart" onclick="game.restart()">Jugar de nuevo</button>
+    </div>
+
+<!-- <script>
+        // ============================================
+        // MODELO (GameModel)
+        // ============================================
+        
+
+
+        // ============================================
+        // VISTA (GameView)
+        // ============================================
+
+
+
+        // ============================================
+        // CONTROLADOR (GameController)
+        // ============================================
+
+
+        // Inicializar el juego
+    </script> -->
+</body>
+    <script type="module" src="js/main.js"></script>
+</html>
