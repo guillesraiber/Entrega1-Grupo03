@@ -431,10 +431,7 @@ class PuzzleGame {
                 pieceCanvas.height = pieceSize;
                 
                 const pieceCtx = pieceCanvas.getContext('2d');
-                if (this.level >= 4) {
-                    const randomFilter = this.getRandomPieceCSSFilter(this.level);
-                    pieceCtx.filter = randomFilter;
-                }
+
                 pieceCtx.drawImage(
                     this.canvas,
                     col * pieceSize,
@@ -795,40 +792,35 @@ class PuzzleGame {
         switch (level) {
             case 1: return (ctx, w, h) => this.applyGrayscale(ctx, w, h);
             case 2: return (ctx, w, h) => this.applySepia(ctx, w, h);
-            case 3: return (ctx, w, h) => this.applyNegative(ctx, w, h);
-            case 4: return (ctx, w, h) => this.applyBrightness(ctx, w, h, 40);
+            case 3: return (ctx, w, h) => this.applyBrightness(ctx, w, h, 80);
+            case 4: return (ctx, w, h) => this.applyNegative(ctx, w, h);
+            case 5: return (ctx, w, h) => this.applyNegative(ctx, w, h);
+            case 6: return (ctx, w, h) => this.applyNegative(ctx, w, h);
             default: return null;
         }
     }
 
     // Para las piezas, devolvemos filtros CSS aleatorios compatibles con canvas context.filter
-     getCSSFilterForLevel(level) {
-        switch (level) {
-            case 1: return 'grayscale(100%)';
-            case 2: return 'sepia(100%) contrast(120%)';
-            case 3: return 'invert(100%) blur(1.5px)';
-            case 4: return 'sepia(60%) brightness(110%)';
-            default: return 'none';
-        }
-    }
+    //  getCSSFilterForLevel(level) {
+    //     switch (level) {
+    //         case 1: return 'grayscale(100%)';
+    //         case 2: return 'sepia(100%) contrast(120%)';
+    //         case 3: return 'invert(100%) blur(1.5px)';
+    //         case 4: return 'sepia(60%) brightness(110%)';
+    //         default: return 'none';
+    //     }
+    // }
 
-    getRandomPieceCSSFilter(level) {
-        // Para niveles >=3 aplicamos random alguna variación entre niveles superiores
-        if (level >= 3) {
-            const options = [this.getCSSFilterForLevel(3), this.getCSSFilterForLevel(4)];
-            return options[Math.floor(Math.random() * options.length)];
-        }
-        return this.getCSSFilterForLevel(level);
-    }
+    // getRandomPieceCSSFilter(level) {
+    //     // Para niveles >=3 aplicamos random alguna variación entre niveles superiores
+    //     if (level >= 3) {
+    //         const options = [this.getCSSFilterForLevel(3), this.getCSSFilterForLevel(4)];
+    //         return options[Math.floor(Math.random() * options.length)];
+    //     }
+    //     return this.getCSSFilterForLevel(level);
+    // }
 
-
-    
-    // función auxiliar para seleccionar una imagen aleatoria
-    getRandomImage() {
-        const randomIndex = Math.floor(Math.random() * IMAGE_BANK.length);
-        return randomIndex;
-    }
-      // Devuelve segundos máximos para niveles con límite de tiempo (null si sin límite)
+    // Devuelve segundos máximos para niveles con límite de tiempo (null si sin límite)
     getMaxTimeForLevel(level) {
         switch (level) {
             case 4: return 60; // 1 minuto
