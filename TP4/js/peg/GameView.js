@@ -117,6 +117,12 @@ export class GameView {
     }
 
     hideGameOver() {
-        document.getElementById('gameOver').classList.remove('show');
+        let message = document.getElementById('gameOver');
+        if (message) {
+            if (message.classList.contains('show')) {
+                message.classList.remove('show');
+            }
+        }    
+            
     }
 }

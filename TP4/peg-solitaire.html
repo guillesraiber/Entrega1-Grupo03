@@ -11,6 +11,7 @@
         rel="stylesheet">
     <link rel="stylesheet" href="css/nav-sidebar-main-footer.css">
     <link rel="stylesheet" href="css/game-page.css">
+    <link rel="stylesheet" href="css/peg-solitaire.css">
     <title>Peg Solitaire</title>
 </head>
 
@@ -205,8 +206,20 @@
             <section class="game-section">
                 <div class="game-container">
                     <div class="game-window">
-                        <img src="images/Peg solitaire/fenix-juego.png" alt="Ignis Solitaire" class="game-image">
+        
+                            <div class="info-panel">
+                                <div class="timer">⏱️ Tiempo: <span id="timerDisplay">00:00</span></div>
+                                <h1>Peg Solitaire</h1>
+                                <button class="btn btn-restart">🔄 Reiniciar</button>
+                                <div class="moves">Fichas restantes: <span id="pegsCount">32</span></div>
+                            </div>
 
+                            <canvas id="gameCanvas" width="350" height="350"></canvas>
+                             
+                            <!-- <div class="instructions">
+                                <strong>Cómo jugar:</strong> Haz clic en una ficha roja para seleccionarla. Los lugares amarillos muestran dónde puedes moverla. 
+                                Arrastra la ficha y suéltala en una posición válida. ¡El objetivo es dejar solo una ficha en el tablero!
+                            </div> -->
 
                     </div>
                     <div class="game-info-bar">
@@ -620,4 +633,5 @@
 <script src="js/comentarios.js"></script>
 <script src="js/footer.js"></script>
 <script src="js/like.js"></script>
+<script type="module" src="js/peg/main.js"></script>
 </html>
