@@ -432,6 +432,12 @@ class PuzzleGame {
                 
                 const pieceCtx = pieceCanvas.getContext('2d');
 
+                // Funcion erronea de filtro de css.
+                // if (this.level >= 4) {
+                //     const randomFilter = this.getRandomPieceCSSFilter(this.level);
+                //     pieceCtx.filter = randomFilter;
+                // }
+
                 pieceCtx.drawImage(
                     this.canvas,
                     col * pieceSize,
@@ -454,7 +460,6 @@ class PuzzleGame {
                     row: row,
                     col: col,
                     locked: false // si la ayudita la fija, locked = true
-
                 };
                 if (piece.rotation !== piece.correctRotation) {
                     allCorrect = false;
