@@ -23,18 +23,19 @@ export class GameView {
                 const y = row * this.cellSize;
 
                 if (model.board[row][col] !== 0) {
-                    // Dibujar celda
-                    this.ctx.fillStyle = '#8B7355';
+                    // dibujar celda #8B7355
+                    this.ctx.fillStyle = '#696e70ff';
                     this.ctx.fillRect(x, y, this.cellSize, this.cellSize);
-                    
-                    this.ctx.strokeStyle = '#6B5345';
+
+                    // bordes de celda #6B5345
+                    this.ctx.strokeStyle = '#3f4549ff';
                     this.ctx.lineWidth = 2;
                     this.ctx.strokeRect(x, y, this.cellSize, this.cellSize);
 
-                    // Dibujar hueco
+                    // dibujar hueco #4A3525
                     const centerX = x + this.cellSize / 2;
                     const centerY = y + this.cellSize / 2;
-                    this.ctx.fillStyle = '#4A3525';
+                    this.ctx.fillStyle = '#3f4549ff';
                     this.ctx.beginPath();
                     this.ctx.arc(centerX, centerY, this.pegRadius, 0, Math.PI * 2);
                     this.ctx.fill();
