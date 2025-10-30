@@ -208,18 +208,24 @@
                     <div class="game-window">
         
                             <div class="info-panel">
-                                <div class="moves">Fichas restantes: <span id="pegsCount">32</span></div>
+                                <div class="moves hidden">Fichas restantes: <span id="pegsCount">32</span></div>
                                 <h1>Peg Solitaire</h1>
-                                <div class="timer"><span id="timerDisplay">00:00</span></div>
-                                <button class="btn btn-restart">Reiniciar</button>
+                                <div class="timer hidden"><span id="timerDisplay">00:00</span></div>
+                                <button class="btn btn-restart hidden">Reiniciar</button>
                             </div>
 
-                            <canvas id="gameCanvas" width="350" height="350"></canvas>
+                            <canvas class="hidden" id="gameCanvas" width="350" height="350"></canvas>
                              
-                            <!-- <div class="instructions">
-                                <strong>Cómo jugar:</strong> Haz clic en una ficha roja para seleccionarla. Los lugares amarillos muestran dónde puedes moverla. 
-                                Arrastra la ficha y suéltala en una posición válida. ¡El objetivo es dejar solo una ficha en el tablero!
-                            </div> -->
+                            <div class="instructions">
+                                <h1>Como jugar</h1>
+                                <p> Arrastra una ficha sobre otra a un espacio vacío, 
+                                    en horizontal o vertical, para eliminar la ficha saltada. 
+                                    Cuando seleccionas una ficha, los movimientos válidos se 
+                                    iluminan para guiarte. El objetivo es terminar con una sola 
+                                    ficha en el tablero.
+                                </p>
+                                <button id="play-btn"> Jugar </button>
+                            </div>
 
                     </div>
                     <div class="game-info-bar">
