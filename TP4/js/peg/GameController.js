@@ -13,9 +13,12 @@ export class GameController {
         this.timer = 0;
         this.timerInterval = null;
         
-        this.setupEventListeners();
-        this.render();
-        this.startTimer();
+        setTimeout(() => {
+            this.setupEventListeners();
+            this.render();
+            this.startTimer();    
+        }, 1500);
+        
     }
 
     setupEventListeners() {
@@ -92,6 +95,7 @@ export class GameController {
                         const x = col * this.view.cellSize + this.view.cellSize / 2;
                         const y = row * this.view.cellSize + this.view.cellSize / 2;
                         this.view.drawPeg(x, y);
+                        console.log("imagen loaded: " + this.view.pegBallImageLoaded);
                     }
                 }
             }

@@ -4,8 +4,13 @@ export class GameView {
         this.canvas = document.getElementById(canvasId);
         this.ctx = this.canvas.getContext('2d');
         this.cellSize = 50;
-        this.pegRadius = 18;
+        this.pegRadius = 20;
         this.hintPositions = [];
+        this.imageSource = 'images/Juego-Peg-Solitaire/chispa.png';
+
+        this.pegBallImage = null;
+        this.pegBallImageLoaded = false;
+        this.preparePegImage();
     }
 
     drawBoard(model) {
@@ -39,34 +44,26 @@ export class GameView {
     }
 
     drawPegs(model) {
-        for (let row = 0; row < model.boardSize; row++) {
-            for (let col = 0; col < model.boardSize; col++) {
-                if (model.hasPeg(row, col)) {
-                    const x = col * this.cellSize + this.cellSize / 2;
-                    const y = row * this.cellSize + this.cellSize / 2;
-                    this.drawPeg(x, y);
+        if (!this.pegImage || !this.pegImageLoaded) {
+            for (let row = 0; row < model.boardSize; row++) {
+                for (let col = 0; col < model.boardSize; col++) {
+                    if (model.hasPeg(row, col)) {
+                        const x = col * this.cellSize + this.cellSize / 2;
+                        const y = row * this.cellSize + this.cellSize / 2;
+                        this.drawPeg(x, y);
+                    }
                 }
             }
         }
     }
 
     drawPeg(x, y) {
-        // Ficha roja
-        this.ctx.fillStyle = '#DC143C';
-        this.ctx.beginPath();
-        this.ctx.arc(x, y, this.pegRadius, 0, Math.PI * 2);
-        this.ctx.fill();
+        const diameter = this.pegRadius * 2;
+        if (this.pegBallImage && this.pegBallImageLoaded) {
+            // Dibujar la imagen centrada en (x,y) con el mismo tamaño que la "pelotita"
+            this.ctx.drawImage(this.pegBallImage, x - this.pegRadius, y - this.pegRadius, diameter, diameter);
+        }
 
-        // Borde
-        this.ctx.strokeStyle = '#8B0000';
-        this.ctx.lineWidth = 3;
-        this.ctx.stroke();
-
-        // Brillo
-        this.ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
-        this.ctx.beginPath();
-        this.ctx.arc(x - 10, y - 10, 12, 0, Math.PI * 2);
-        this.ctx.fill();
     }
 
     drawHints(validMoves) {
@@ -124,5 +121,16 @@ export class GameView {
             }
         }    
             
+    }
+
+    preparePegImage() {
+
+        this.pegBallImage = new Image();
+        this.pegBallImage.src = this.imageSource;
+        // 'images/Juego-Peg-Solitaire/pegBall.png'
+        this.pegBallImage.onload = () => {
+            this.pegBallImageLoaded = true;
+        };
+
     }
 }

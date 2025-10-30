@@ -4,7 +4,7 @@ document.querySelector(".instructions").addEventListener("click", () => {
     
     // oculto instrucciones
     document.querySelector(".instructions").style.display = "none";
-    // muestro elementos del juego
+
     mostrarElementosDelJuego();
     
     const game = new GameController();
