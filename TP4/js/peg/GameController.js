@@ -2,9 +2,9 @@ import { GameModel } from "./GameModel.js";
 import { GameView } from "./GameView.js";
 
 export class GameController {
-    constructor() {
+    constructor(themeIndex = 0) {
         this.model = new GameModel();
-        this.view = new GameView('gameCanvas');
+        this.view = new GameView('gameCanvas', themeIndex);
         this.selectedPeg = null;
         this.isDragging = false;
         this.dragX = 0;
@@ -16,7 +16,7 @@ export class GameController {
         setTimeout(() => {
             this.setupEventListeners();
             this.render();
-            this.startTimer();    
+            this.startTimer();
         }, 1500);
         
     }

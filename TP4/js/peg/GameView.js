@@ -1,16 +1,40 @@
 
 export class GameView {
-    constructor(canvasId) {
+    constructor(canvasId, themeIndex = 0) {
         this.canvas = document.getElementById(canvasId);
         this.ctx = this.canvas.getContext('2d');
         this.cellSize = 50;
         this.pegRadius = 20;
         this.hintPositions = [];
-        this.imageSource = 'images/Juego-Peg-Solitaire/chispa.png';
+        this.currentThemeIndex = themeIndex; //por defecto chispa
+        
+        //distintos tipos de fichas
+        this.pegThemes = [
+            'images/Juego-Peg-Solitaire/chispa.png',
+            'images/Juego-Peg-Solitaire/fuego.png',
+            'images/Juego-Peg-Solitaire/agua.png',
+            'images/Juego-Peg-Solitaire/viento.png',
+            'images/Juego-Peg-Solitaire/tierra.png',
+        ];
 
-        this.pegBallImage = null;
+        this.pegBallImage = new Image();
         this.pegBallImageLoaded = false;
-        this.preparePegImage();
+        this.loadPegImage();
+    }
+
+    loadPegImage() {
+        this.pegBallImageLoaded = false;
+        this.pegBallImage.src = this.pegThemes[this.currentThemeIndex];
+        this.pegBallImage.onload = () => {
+            this.pegBallImageLoaded = true;
+        }
+    }
+
+    setPegTheme(index) {
+        if (index >= 0 && index < this.pegThemes.length) {
+            this.currentThemeIndex = index;
+            this.loadPegImage();
+        }
     }
 
     drawBoard(model) {
