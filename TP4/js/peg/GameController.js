@@ -36,7 +36,7 @@ export class GameController {
 
         if (this.model.hasPeg(pos.row, pos.col)) {
             this.selectedPeg = pos;
-            // Guardar índice de imagen de la ficha seleccionada para mantenerla constante
+            // guardar índice de imagen de la ficha seleccionada para mantenerla constante
             this.selectedImageIndex = (typeof this.model.getPegImageIndex === 'function') ? this.model.getPegImageIndex(pos.row, pos.col) : null;
             this.isDragging = true;
             this.dragX = mouseX;
@@ -72,7 +72,6 @@ export class GameController {
             if (moveSuccess) {
                 this.view.updatePegsCount(this.model.pegsRemaining);
                 
-                // Verificar fin del juego
                 if (!this.model.hasAnyValidMoves()) {
                     this.endGame();
                 }
@@ -88,14 +87,12 @@ export class GameController {
 
     render(initial) {
 
-        // Siempre redibujar tablero y fichas. Cuando una ficha está siendo arrastrada,
-        // la dibujamos por separado para que siga al mouse y no se duplique en su casilla.
         this.view.drawBoard(this.model);
 
         for (let row = 0; row < this.model.boardSize; row++) {
             for (let col = 0; col < this.model.boardSize; col++) {
                 if (this.model.hasPeg(row, col)) {
-                    // Si estamos arrastrando esta ficha, saltarla (se dibuja como dragging)
+                    // di se esta arrastrando esta ficha, saltearla (se dibuja como dragging)
                     if (this.isDragging && this.selectedPeg && this.selectedPeg.row === row && this.selectedPeg.col === col) {
                         continue;
                     }
@@ -106,27 +103,13 @@ export class GameController {
                 }
             }
         }
-        // // Dibujar fichas excepto la que está siendo arrastrada
-        // for (let row = 0; row < this.model.boardSize; row++) {
-        //     for (let col = 0; col < this.model.boardSize; col++) {
-        //         if (this.model.hasPeg(row, col)) {
-        //             if (!this.selectedPeg || 
-        //                 this.selectedPeg.row !== row || 
-        //                 this.selectedPeg.col !== col) {
-        //                 const x = col * this.view.cellSize + this.view.cellSize / 2;
-        //                 const y = row * this.view.cellSize + this.view.cellSize / 2;
-        //                 this.view.drawPeg(x, y);
-        //             }
-        //         }
-        //     }
-        // }
 
-        // Dibujar hints si hay una ficha seleccionada
+        // dibujar hints si hay una ficha seleccionada
         if (this.selectedPeg && this.validMoves.length > 0) {
             this.view.drawHints(this.validMoves);
         }
 
-        // Dibujar ficha siendo arrastrada
+        // dibujar ficha siendo arrastrada
         if (this.isDragging && this.selectedPeg) {
             this.view.drawDraggingPeg(this.dragX, this.dragY, this.selectedImageIndex);
         }

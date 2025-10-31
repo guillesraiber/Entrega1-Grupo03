@@ -1,15 +1,16 @@
 .game-window {
     background-image: url('../images/Juego-Peg-Solitaire/fondoPantallaJuego.png');
-    /* zoom editable: change --bg-zoom to try different zoom levels (e.g. 100%, 110%, 120%) */
     --bg-zoom: 115%;
-    /* apply zoom to both dimensions; increasing >100% will crop/zoom the image */
     background-size: var(--bg-zoom) var(--bg-zoom);
     background-position: center center;
     background-repeat: no-repeat;
+
     height: 448px;
     width: 800px;
     padding: 0 0 15px 0;
+
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -20,12 +21,14 @@
     display: flex;
     justify-content: space-around;
     align-items: center;
+
+    width: 100%;
     padding: 15px;
+    
     color: #d3d3d3;
     background: rgba(211, 211, 211, 0.1);
     backdrop-filter: blur(5px);
     border-bottom: rgba(211, 211, 211, 0.5) solid 4px;
-    width: 100%;
 }
 
 .info-panel h1 {
@@ -95,15 +98,18 @@
 }
 
 .instructions {
-    display: flex;
+    max-width: 550px;
     margin: 0 0 50px 0;
     padding: 15px;
-    border-radius: 10px;
+
     font-weight: bold;
+
+    border-radius: 10px;
     box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
     backdrop-filter: blur(5px);
     border: rgba(211, 211, 211, 0.5) solid 4px;
-    max-width: 550px;
+    
+    display: flex;
     flex-direction: column;
     align-items: center;
 }
