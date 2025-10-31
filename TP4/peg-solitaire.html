@@ -211,10 +211,18 @@
                                 <div class="moves hidden">Fichas restantes: <span id="pegsCount">32</span></div>
                                 <h1>Peg Solitaire</h1>
                                 <div class="timer hidden"><span id="timerDisplay">00:00</span></div>
-                                <button class="btn btn-restart hidden">Reiniciar</button>
+                                <button class="btn-restart hidden">Reiniciar</button>
                             </div>
+                            <div class="canvas-message-container">
 
-                            <canvas class="hidden" id="gameCanvas" width="350" height="350"></canvas>
+                                <canvas class="hidden" id="gameCanvas" width="350" height="350"></canvas>
+
+                                    <div class="game-over" id="gameOver">
+                                        <h2>¡Juego Terminado!</h2>
+                                        <p id="gameOverMessage"></p>
+                                        <button class="btn-restart">Jugar de nuevo</button>
+                                    </div>
+                            </div>
                              
                             <div class="instructions">
                                 <h1>Como jugar</h1>

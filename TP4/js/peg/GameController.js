@@ -16,7 +16,7 @@ export class GameController {
         
         setTimeout(() => {
             this.setupEventListeners();
-            this.render(true);
+            this.render();
             this.startTimer();    
         }, 1500);
         
@@ -42,7 +42,7 @@ export class GameController {
             this.dragX = mouseX;
             this.dragY = mouseY;
             this.validMoves = this.model.getValidMoves(pos.row, pos.col);
-            this.render(false);
+            this.render();
         }
     }
 
@@ -51,7 +51,7 @@ export class GameController {
             const rect = this.view.canvas.getBoundingClientRect();
             this.dragX = e.clientX - rect.left;
             this.dragY = e.clientY - rect.top;
-            this.render(false);
+            this.render();
         }
     }
 
@@ -81,11 +81,11 @@ export class GameController {
             this.selectedImageIndex = null;
             this.isDragging = false;
             this.validMoves = [];
-            this.render(false);
+            this.render();
         }
     }
 
-    render(initial) {
+    render() {
 
         this.view.drawBoard(this.model);
 
@@ -148,6 +148,6 @@ export class GameController {
         this.view.updatePegsCount(this.model.pegsRemaining);
         this.view.hideGameOver();
         this.startTimer();
-        this.render(true);
+        this.render();
     }
 }
