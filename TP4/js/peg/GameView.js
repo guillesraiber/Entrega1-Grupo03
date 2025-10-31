@@ -6,7 +6,7 @@ export class GameView {
         this.cellSize = 50;
         this.pegRadius = 20;
         this.hintPositions = [];
-        this.imageSource = 'images/Juego-Peg-Solitaire/chispa.png';
+        this.imageSource = 'images/Juego-Peg-Solitaire/chispa-clara.png';
 
         this.ballImage = null;
         this.ballImageLoaded = false;
