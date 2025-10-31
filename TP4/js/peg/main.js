@@ -8,8 +8,10 @@ document.querySelector("#play-btn").addEventListener("click", () => {
     mostrarElementosDelJuego();
     
     const game = new GameController();
-    document.querySelector(".btn-restart").addEventListener("click", () => {
-        game.restart();
+    document.querySelectorAll(".btn-restart").forEach(btn => {
+        btn.addEventListener("click", () => {
+            game.restart();
+        });
     });
 });
 
