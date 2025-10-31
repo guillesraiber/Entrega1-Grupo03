@@ -8,8 +8,8 @@ export class GameView {
         this.hintPositions = [];
         this.imageSource = 'images/Juego-Peg-Solitaire/chispa.png';
 
-        this.pegBallImage = null;
-        this.pegBallImageLoaded = false;
+        this.ballImage = null;
+        this.ballImageLoaded = false;
         this.preparePegImage();
     }
 
@@ -60,9 +60,9 @@ export class GameView {
 
     drawPeg(x, y) {
         const diameter = this.pegRadius * 2;
-        if (this.pegBallImage && this.pegBallImageLoaded) {
+        if (this.ballImage && this.ballImageLoaded) {
             // Dibujar la imagen centrada en (x,y) con el mismo tamaño que la "pelotita"
-            this.ctx.drawImage(this.pegBallImage, x - this.pegRadius, y - this.pegRadius, diameter, diameter);
+            this.ctx.drawImage(this.ballImage, x - this.pegRadius, y - this.pegRadius, diameter, diameter);
         }
 
     }
@@ -126,11 +126,11 @@ export class GameView {
 
     preparePegImage() {
 
-        this.pegBallImage = new Image();
-        this.pegBallImage.src = this.imageSource;
+        this.ballImage = new Image();
+        this.ballImage.src = this.imageSource;
         // 'images/Juego-Peg-Solitaire/pegBall.png'
-        this.pegBallImage.onload = () => {
-            this.pegBallImageLoaded = true;
+        this.ballImage.onload = () => {
+            this.ballImageLoaded = true;
         };
 
     }
