@@ -1,6 +1,6 @@
 import { GameController } from "./GameController.js";
 
-document.querySelector(".instructions").addEventListener("click", () => {
+document.querySelector("#play-btn").addEventListener("click", () => {
     
     // oculto instrucciones
     document.querySelector(".instructions").style.display = "none";
