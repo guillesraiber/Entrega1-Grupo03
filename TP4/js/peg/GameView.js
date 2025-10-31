@@ -6,11 +6,18 @@ export class GameView {
         this.cellSize = 50;
         this.pegRadius = 20;
         this.hintPositions = [];
-        this.imageSource = 'images/Juego-Peg-Solitaire/chispa-clara.png';
+        // Lista de posibles imágenes para las fichas (se elegirán aleatoriamente)
+        this.imageSources = [
+            'images/Juego-Peg-Solitaire/chispa-clara.png',
+            'images/Juego-Peg-Solitaire/chispa-intermedia.png',
+            'images/Juego-Peg-Solitaire/chispa-oscura.png',
+        ];
 
-        this.ballImage = null;
-        this.ballImageLoaded = false;
-        this.preparePegImage();
+        // Arreglo de objetos Image y estado de carga
+        this.ballImages = [];
+        this.ballImagesLoaded = [];
+        this.loadedImagesCount = 0;
+        this.preparePegImages();
     }
 
     drawBoard(model) {
@@ -45,26 +52,53 @@ export class GameView {
     }
 
     drawPegs(model) {
-        if (!this.pegImage || !this.pegImageLoaded) {
-            for (let row = 0; row < model.boardSize; row++) {
-                for (let col = 0; col < model.boardSize; col++) {
-                    if (model.hasPeg(row, col)) {
-                        const x = col * this.cellSize + this.cellSize / 2;
-                        const y = row * this.cellSize + this.cellSize / 2;
-                        this.drawPeg(x, y);
-                    }
+        // Intentamos dibujar las fichas; si no hay imágenes cargadas, drawPeg usará el fallback
+        for (let row = 0; row < model.boardSize; row++) {
+            for (let col = 0; col < model.boardSize; col++) {
+                if (model.hasPeg(row, col)) {
+                    const x = col * this.cellSize + this.cellSize / 2;
+                    const y = row * this.cellSize + this.cellSize / 2;
+                    // Pedimos al modelo el índice de imagen asociado a esta ficha (puede ser null)
+                    const imgIdx = (typeof model.getPegImageIndex === 'function') ? model.getPegImageIndex(row, col) : null;
+                    this.drawPeg(x, y, imgIdx);
                 }
             }
         }
     }
 
-    drawPeg(x, y) {
+    // imageIndex (opcional): si se proporciona y la imagen está cargada, la usamos.
+    drawPeg(x, y, imageIndex = null) {
         const diameter = this.pegRadius * 2;
-        if (this.ballImage && this.ballImageLoaded) {
-            // Dibujar la imagen centrada en (x,y) con el mismo tamaño que la "pelotita"
-            this.ctx.drawImage(this.ballImage, x - this.pegRadius, y - this.pegRadius, diameter, diameter);
+
+        // Si nos pasaron un índice de imagen y está cargado, dibujarlo exactamente
+        if (imageIndex !== null && this.ballImagesLoaded[imageIndex] && this.ballImages[imageIndex]) {
+            const img = this.ballImages[imageIndex];
+            this.ctx.drawImage(img, x - this.pegRadius, y - this.pegRadius, diameter, diameter);
+            return;
         }
 
+        // Si no se pasó índice o la imagen no está disponible, elegimos aleatoriamente entre las cargadas
+        const availableIndexes = this.ballImagesLoaded
+            .map((loaded, idx) => loaded ? idx : -1)
+            .filter(idx => idx >= 0);
+
+        if (availableIndexes.length > 0) {
+            const randomIdx = availableIndexes[Math.floor(Math.random() * availableIndexes.length)];
+            const img = this.ballImages[randomIdx];
+            if (img) {
+                this.ctx.drawImage(img, x - this.pegRadius, y - this.pegRadius, diameter, diameter);
+                return;
+            }
+        }
+
+        // Fallback: si no hay imágenes cargadas, dibujar una ficha simple como círculo
+        this.ctx.fillStyle = '#d6b37aff';
+        this.ctx.beginPath();
+        this.ctx.arc(x, y, this.pegRadius, 0, Math.PI * 2);
+        this.ctx.fill();
+        this.ctx.strokeStyle = '#8b5a2bff';
+        this.ctx.lineWidth = 2;
+        this.ctx.stroke();
     }
 
     drawHints(validMoves) {
@@ -87,8 +121,9 @@ export class GameView {
         });
     }
 
-    drawDraggingPeg(x, y) {
-        this.drawPeg(x, y);
+    drawDraggingPeg(x, y, imageIndex = null) {
+        // Dibujar la ficha que se está arrastrando con su índice de imagen (si se proporcionó)
+        this.drawPeg(x, y, imageIndex);
     }
 
     getBoardPosition(mouseX, mouseY) {
@@ -124,14 +159,18 @@ export class GameView {
             
     }
 
-    preparePegImage() {
-
-        this.ballImage = new Image();
-        this.ballImage.src = this.imageSource;
-        // 'images/Juego-Peg-Solitaire/pegBall.png'
-        this.ballImage.onload = () => {
-            this.ballImageLoaded = true;
-        };
-
+    preparePegImages() {
+        // Pre-cargar todas las imágenes definidas en imageSources
+        this.imageSources.forEach((src, idx) => {
+            const img = new Image();
+            img.src = src;
+            this.ballImages[idx] = img;
+            this.ballImagesLoaded[idx] = false;
+            img.onload = () => {
+                this.ballImagesLoaded[idx] = true;
+                this.loadedImagesCount++;
+            };
+            // No hacemos nada especial en onerror; el fallback en drawPeg cubrirá el caso
+        });
     }
 }

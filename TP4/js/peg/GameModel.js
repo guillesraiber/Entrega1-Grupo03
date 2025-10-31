@@ -3,6 +3,9 @@ export class GameModel {
     constructor() {
         this.boardSize = 7;
         this.board = [];
+        // Para cada celda que tenga una ficha, guardamos un índice de imagen (0..n-1).
+        // Esto evita que la imagen de una ficha cambie cada vez que se redibuja.
+        this.pegImageIndices = [];
         this.pegsRemaining = 0;
         this.movesCount = 0;
         this.initBoard();
@@ -20,6 +23,22 @@ export class GameModel {
             [0, 0, 2, 2, 2, 0, 0],
             [0, 0, 2, 2, 2, 0, 0]
         ];
+        // Inicializar pegImageIndices con la misma estructura y asignar aleatoriamente
+        // un índice de imagen para cada ficha presente (valor null para celdas vacías/fuera)
+        this.pegImageIndices = [];
+        for (let row = 0; row < this.boardSize; row++) {
+            this.pegImageIndices[row] = [];
+            for (let col = 0; col < this.boardSize; col++) {
+                if (this.board[row][col] === 2) {
+                    // Asumimos 3 variantes de imagen (0,1,2). Si más adelante cambia
+                    // el número de imágenes, centralizar este valor sería mejor.
+                    this.pegImageIndices[row][col] = Math.floor(Math.random() * 3);
+                } else {
+                    this.pegImageIndices[row][col] = null;
+                }
+            }
+        }
+
         this.countPegs();
     }
 
@@ -85,6 +104,14 @@ export class GameModel {
         this.board[validMove.midRow][validMove.midCol] = 1; // Eliminar ficha del medio
         this.board[toRow][toCol] = 2; // Colocar ficha en destino
 
+        // Mover también el índice de imagen asociado a la ficha
+        if (this.pegImageIndices && this.pegImageIndices[fromRow]) {
+            const imgIdx = this.pegImageIndices[fromRow][fromCol];
+            this.pegImageIndices[toRow][toCol] = imgIdx;
+            this.pegImageIndices[fromRow][fromCol] = null;
+            this.pegImageIndices[validMove.midRow][validMove.midCol] = null;
+        }
+
         this.movesCount++;
         this.countPegs();
         return true;
@@ -101,6 +128,13 @@ export class GameModel {
             }
         }
         return false;
+    }
+
+    // Devuelve el índice de imagen (o null) para la celda dada
+    getPegImageIndex(row, col) {
+        if (!this.pegImageIndices) return null;
+        if (row < 0 || row >= this.boardSize || col < 0 || col >= this.boardSize) return null;
+        return this.pegImageIndices[row][col];
     }
 
     reset() {

@@ -6,6 +6,7 @@ export class GameController {
         this.model = new GameModel();
         this.view = new GameView('gameCanvas');
         this.selectedPeg = null;
+        this.selectedImageIndex = null;
         this.isDragging = false;
         this.dragX = 0;
         this.dragY = 0;
@@ -15,7 +16,7 @@ export class GameController {
         
         setTimeout(() => {
             this.setupEventListeners();
-            this.render();
+            this.render(true);
             this.startTimer();    
         }, 1500);
         
@@ -35,11 +36,13 @@ export class GameController {
 
         if (this.model.hasPeg(pos.row, pos.col)) {
             this.selectedPeg = pos;
+            // Guardar índice de imagen de la ficha seleccionada para mantenerla constante
+            this.selectedImageIndex = (typeof this.model.getPegImageIndex === 'function') ? this.model.getPegImageIndex(pos.row, pos.col) : null;
             this.isDragging = true;
             this.dragX = mouseX;
             this.dragY = mouseY;
             this.validMoves = this.model.getValidMoves(pos.row, pos.col);
-            this.render();
+            this.render(false);
         }
     }
 
@@ -48,7 +51,7 @@ export class GameController {
             const rect = this.view.canvas.getBoundingClientRect();
             this.dragX = e.clientX - rect.left;
             this.dragY = e.clientY - rect.top;
-            this.render();
+            this.render(false);
         }
     }
 
@@ -76,30 +79,47 @@ export class GameController {
             }
 
             this.selectedPeg = null;
+            this.selectedImageIndex = null;
             this.isDragging = false;
             this.validMoves = [];
-            this.render();
+            this.render(false);
         }
     }
 
-    render() {
+    render(initial) {
+
+        // Siempre redibujar tablero y fichas. Cuando una ficha está siendo arrastrada,
+        // la dibujamos por separado para que siga al mouse y no se duplique en su casilla.
         this.view.drawBoard(this.model);
-        
-        // Dibujar fichas excepto la que está siendo arrastrada
+
         for (let row = 0; row < this.model.boardSize; row++) {
             for (let col = 0; col < this.model.boardSize; col++) {
                 if (this.model.hasPeg(row, col)) {
-                    if (!this.selectedPeg || 
-                        this.selectedPeg.row !== row || 
-                        this.selectedPeg.col !== col) {
-                        const x = col * this.view.cellSize + this.view.cellSize / 2;
-                        const y = row * this.view.cellSize + this.view.cellSize / 2;
-                        this.view.drawPeg(x, y);
-                        console.log("imagen loaded: " + this.view.pegBallImageLoaded);
+                    // Si estamos arrastrando esta ficha, saltarla (se dibuja como dragging)
+                    if (this.isDragging && this.selectedPeg && this.selectedPeg.row === row && this.selectedPeg.col === col) {
+                        continue;
                     }
+                    const x = col * this.view.cellSize + this.view.cellSize / 2;
+                    const y = row * this.view.cellSize + this.view.cellSize / 2;
+                    const imgIdx = (typeof this.model.getPegImageIndex === 'function') ? this.model.getPegImageIndex(row, col) : null;
+                    this.view.drawPeg(x, y, imgIdx);
                 }
             }
         }
+        // // Dibujar fichas excepto la que está siendo arrastrada
+        // for (let row = 0; row < this.model.boardSize; row++) {
+        //     for (let col = 0; col < this.model.boardSize; col++) {
+        //         if (this.model.hasPeg(row, col)) {
+        //             if (!this.selectedPeg || 
+        //                 this.selectedPeg.row !== row || 
+        //                 this.selectedPeg.col !== col) {
+        //                 const x = col * this.view.cellSize + this.view.cellSize / 2;
+        //                 const y = row * this.view.cellSize + this.view.cellSize / 2;
+        //                 this.view.drawPeg(x, y);
+        //             }
+        //         }
+        //     }
+        // }
 
         // Dibujar hints si hay una ficha seleccionada
         if (this.selectedPeg && this.validMoves.length > 0) {
@@ -108,7 +128,7 @@ export class GameController {
 
         // Dibujar ficha siendo arrastrada
         if (this.isDragging && this.selectedPeg) {
-            this.view.drawDraggingPeg(this.dragX, this.dragY);
+            this.view.drawDraggingPeg(this.dragX, this.dragY, this.selectedImageIndex);
         }
     }
 
@@ -145,6 +165,6 @@ export class GameController {
         this.view.updatePegsCount(this.model.pegsRemaining);
         this.view.hideGameOver();
         this.startTimer();
-        this.render();
+        this.render(true);
     }
 }
