@@ -31,16 +31,19 @@ export class GameView {
                 const y = row * this.cellSize;
 
                 if (model.board[row][col] !== 0) {
-                    this.ctx.fillStyle = '#696e70ff';
+                    // color del tablero
+                    this.ctx.fillStyle = '#3C4F68';
                     this.ctx.fillRect(x, y, this.cellSize, this.cellSize);
 
-                    this.ctx.strokeStyle = '#3f4549ff';
+                    // bordes divisores del tablero
+                    this.ctx.strokeStyle = '#212C39';
                     this.ctx.lineWidth = 2;
                     this.ctx.strokeRect(x, y, this.cellSize, this.cellSize);
 
+                    // agujeros de las fichas
                     const centerX = x + this.cellSize / 2;
                     const centerY = y + this.cellSize / 2;
-                    this.ctx.fillStyle = '#3f4549ff';
+                    this.ctx.fillStyle = '#1B232D';
                     this.ctx.beginPath();
                     this.ctx.arc(centerX, centerY, this.pegRadius, 0, Math.PI * 2);
                     this.ctx.fill();
