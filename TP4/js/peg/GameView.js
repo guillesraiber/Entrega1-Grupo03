@@ -113,12 +113,12 @@ export class GameView {
         // pulso suave - sin wave normalizada 0..1
         const wave = 0.5 + 0.5 * Math.sin(phase * 2 * Math.PI);
 
-        // alpha y halo para la dispersion del glow
-        const minAlpha = 0.35;
-        const maxAlpha = 0.9;
+        // alpha para el brillo y blur para la dispersion
+        const minAlpha = 0.15;
+        const maxAlpha = 0.95;
         const alpha = minAlpha + (maxAlpha - minAlpha) * wave;
-        const minBlur = 6;
-        const maxBlur = 22;
+        const minBlur = 5;
+        const maxBlur = 30;
         const blur = minBlur + (maxBlur - minBlur) * wave;
 
         validMoves.forEach(move => {
