@@ -18,7 +18,7 @@ export class GameController {
             this.setupEventListeners();
             this.render();
             this.startTimer();    
-        }, 1500);
+        }, 1000);
         
     }
 
@@ -137,6 +137,19 @@ export class GameController {
         const seconds = this.timer % 60;
         const timeStr = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
         this.view.showGameOver(this.model.pegsRemaining, timeStr);
+    }
+
+    endGameToMenu() {
+        this.endGame();
+
+        this.model.reset();
+        this.selectedPeg = null;
+        this.isDragging = false;
+        this.validMoves = [];
+        this.view.updatePegsCount(this.model.pegsRemaining);
+        this.view.hideGameOver();
+
+        this.view.clearCanvas();
     }
 
     restart() {

@@ -22,7 +22,7 @@ export class GameView {
     }
 
     drawBoard(model) {
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this.clearCanvas();
 
         // dibujar tablero
         for (let row = 0; row < model.boardSize; row++) {
@@ -173,5 +173,9 @@ export class GameView {
             };
             // no se hace nada especial en onerror, esta el "por si acaso" en drawPeg por si acaso 
         });
+    }
+
+    clearCanvas() {
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
 }

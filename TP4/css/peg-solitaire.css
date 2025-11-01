@@ -41,7 +41,7 @@
     font-size: 18px;
 }
 
-.btn-restart {
+.btn-restart, .btn-go-to-menu {
     padding: 10px 20px;
     font-size: 16px;
     font-weight: bold;
@@ -53,11 +53,15 @@
     color: #333;    
 }
 
-.btn-restart:hover {
+.btn-restart:hover, .btn-go-to-menu:hover {
     background: #333;
     color: #d4d4d4;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     transform: scale(1.1);
+}
+
+.btn-go-to-menu {
+    margin-right: 4px;
 }
 
 .canvas-message-container {
