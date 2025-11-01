@@ -102,21 +102,50 @@ export class GameView {
         this.ctx.stroke();
     }
 
-    drawHints(validMoves) {
+    // validMoves: array de movimientos, timestamp opcional (ms) para animacion
+    drawHints(validMoves, timestamp = null) {
         this.hintPositions = [];
+
+        // si no se pasó timestamp usar performance.now() si está disponible
+        const t = (typeof timestamp === 'number') ? timestamp : (typeof performance !== 'undefined' ? performance.now() : Date.now());
+        const period = 1500; // 1.5 segundos
+        const phase = (t % period) / period; // 0..1
+        // pulso suave - sin wave normalizada 0..1
+        const wave = 0.5 + 0.5 * Math.sin(phase * 2 * Math.PI);
+
+        // alpha y halo para la dispersion del glow
+        const minAlpha = 0.35;
+        const maxAlpha = 0.9;
+        const alpha = minAlpha + (maxAlpha - minAlpha) * wave;
+        const minBlur = 6;
+        const maxBlur = 22;
+        const blur = minBlur + (maxBlur - minBlur) * wave;
+
         validMoves.forEach(move => {
             const x = move.toCol * this.cellSize + this.cellSize / 2;
             const y = move.toRow * this.cellSize + this.cellSize / 2;
-            
-            // Hint amarillo
-            this.ctx.fillStyle = 'rgba(255, 215, 0, 0.7)';
+
+            // guardar estado del contexto
+            this.ctx.save();
+
+            // sombra/halo para crear el glow
+            this.ctx.shadowColor = `rgba(255, 215, 0, ${alpha})`;
+            this.ctx.shadowBlur = blur;
+
+            // círculo de relleno con alpha variable
+            this.ctx.fillStyle = `rgba(255, 215, 0, ${alpha})`;
             this.ctx.beginPath();
             this.ctx.arc(x, y, this.pegRadius, 0, Math.PI * 2);
             this.ctx.fill();
 
-            this.ctx.strokeStyle = '#FFA500';
+            // borde con mayor contraste (sin tanta sombra)
+            this.ctx.shadowBlur = 0;
+            this.ctx.strokeStyle = `rgba(255, 165, 0, ${0.6 * alpha})`;
             this.ctx.lineWidth = 4;
             this.ctx.stroke();
+
+            // restaurar el contexto
+            this.ctx.restore();
 
             this.hintPositions.push({ row: move.toRow, col: move.toCol });
         });

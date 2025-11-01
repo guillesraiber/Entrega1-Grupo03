@@ -13,11 +13,15 @@ export class GameController {
         this.validMoves = [];
         this.timer = 0;
         this.timerInterval = null;
+        this.animationFrame = null;
+        // bind loop for RAF
+        this.loop = this.loop.bind(this);
         
         setTimeout(() => {
             this.setupEventListeners();
             this.render();
-            this.startTimer();    
+            this.startTimer();
+            // se empieza el loop de rendering cuando se arrastra una ficha
         }, 1000);
         
     }
@@ -42,6 +46,8 @@ export class GameController {
             this.dragX = mouseX;
             this.dragY = mouseY;
             this.validMoves = this.model.getValidMoves(pos.row, pos.col);
+            // empiezo render loop cuando arrastro
+            this.startRenderLoop();
             this.render();
         }
     }
@@ -81,11 +87,13 @@ export class GameController {
             this.selectedImageIndex = null;
             this.isDragging = false;
             this.validMoves = [];
+            // paro el render loop porque pare de arrastrar
+            this.stopRenderLoop();
             this.render();
         }
     }
 
-    render() {
+    render(timestamp) {
 
         this.view.drawBoard(this.model);
 
@@ -106,12 +114,32 @@ export class GameController {
 
         // dibujar hints si hay una ficha seleccionada
         if (this.selectedPeg && this.validMoves.length > 0) {
-            this.view.drawHints(this.validMoves);
+            this.view.drawHints(this.validMoves, timestamp);
         }
 
         // dibujar ficha siendo arrastrada
         if (this.isDragging && this.selectedPeg) {
             this.view.drawDraggingPeg(this.dragX, this.dragY, this.selectedImageIndex);
+        }
+    }
+
+    // requestAnimationFrame loop para animar hints hasta cuando el mouse no se mueve
+    loop(timestamp) {
+        // paso el timestamp para que el render sepa cuando y que animar
+        this.render(timestamp);
+        this.animationFrame = requestAnimationFrame(this.loop);
+    }
+
+    startRenderLoop() {
+        if (!this.animationFrame) {
+            this.animationFrame = requestAnimationFrame(this.loop);
+        }
+    }
+
+    stopRenderLoop() {
+        if (this.animationFrame) {
+            cancelAnimationFrame(this.animationFrame);
+            this.animationFrame = null;
         }
     }
 
@@ -133,6 +161,8 @@ export class GameController {
 
     endGame() {
         clearInterval(this.timerInterval);
+        // paro el renderloop cuando termina el juego (por las dudas)
+        this.stopRenderLoop();
         const minutes = Math.floor(this.timer / 60);
         const seconds = this.timer % 60;
         const timeStr = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
@@ -154,6 +184,8 @@ export class GameController {
 
     restart() {
         clearInterval(this.timerInterval);
+        // paro el render loop por las dudas
+        this.stopRenderLoop();
         this.model.reset();
         this.selectedPeg = null;
         this.isDragging = false;
