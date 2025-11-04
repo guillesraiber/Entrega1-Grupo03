@@ -1,3 +1,4 @@
+"use strict";
 import { GameModel } from "./GameModel.js";
 import { GameView } from "./GameView.js";
 
@@ -6,17 +7,19 @@ export class GameController {
         this.model = new GameModel();
         this.view = new GameView('gameCanvas');
         this.selectedPeg = null;
-        this.selectedImageIndex = null;
         this.isDragging = false;
         this.dragX = 0;
         this.dragY = 0;
+
+        this.selectedImageIndex = null;
         this.validMoves = [];
+
         this.timer = 0;
         this.timerInterval = null;
+
         this.animationFrame = null;
         // tiempo total permitido (en segundos). 15 minutos = 900s
         this.totalTimeLimit = 15 * 60;
-        this.loop = this.loop.bind(this);
         
         setTimeout(() => {
             this.setupEventListeners();
