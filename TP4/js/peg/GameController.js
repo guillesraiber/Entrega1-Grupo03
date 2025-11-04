@@ -59,7 +59,7 @@ export class GameController {
 
     handleMouseMove(e) {
         if (this.isDragging && this.selectedPeg) {
-            // mapear correctamente las coordenadas del mouse a las coordenadas del canvas
+            // mapear coordenadas del mouse a las coordenadas del canvas
             const rect = this.view.canvas.getBoundingClientRect();
             const scaleX = this.view.canvas.width / rect.width;
             const scaleY = this.view.canvas.height / rect.height;
@@ -71,7 +71,7 @@ export class GameController {
 
     handleMouseUp(e) {
         if (this.isDragging && this.selectedPeg) {
-            // mapear correctamente las coordenadas del mouse a las coordenadas del canvas
+            // mapear coordenadas del mouse a las coordenadas del canvas
             const rect = this.view.canvas.getBoundingClientRect();
             const scaleX = this.view.canvas.width / rect.width;
             const scaleY = this.view.canvas.height / rect.height;
