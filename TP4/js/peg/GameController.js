@@ -20,6 +20,8 @@ export class GameController {
         this.animationFrame = null;
         // tiempo total permitido (en segundos). 15 minutos = 900s
         this.totalTimeLimit = 15 * 60;
+
+        this.loop = this.loop.bind(this);
         
         setTimeout(() => {
             this.setupEventListeners();
