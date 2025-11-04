@@ -33,14 +33,17 @@ export class GameController {
     }
 
     handleMouseDown(e) {
+        // mapear coordenadas del mouse a las coordenadas del canvas
         const rect = this.view.canvas.getBoundingClientRect();
-        const mouseX = e.clientX - rect.left;
-        const mouseY = e.clientY - rect.top;
+        const scaleX = this.view.canvas.width / rect.width;
+        const scaleY = this.view.canvas.height / rect.height;
+        const mouseX = (e.clientX - rect.left) * scaleX;
+        const mouseY = (e.clientY - rect.top) * scaleY;
         const pos = this.view.getBoardPosition(mouseX, mouseY);
 
         if (this.model.hasPeg(pos.row, pos.col)) {
             this.selectedPeg = pos;
-            // guardar índice de imagen de la ficha seleccionada para mantenerla constante
+            // guardar indice de imagen de la ficha seleccionada para mantenerla constante
             this.selectedImageIndex = this.model.getPegImageIndex(pos.row, pos.col);
             this.isDragging = true;
             this.dragX = mouseX;
@@ -56,18 +59,24 @@ export class GameController {
 
     handleMouseMove(e) {
         if (this.isDragging && this.selectedPeg) {
+            // mapear correctamente las coordenadas del mouse a las coordenadas del canvas
             const rect = this.view.canvas.getBoundingClientRect();
-            this.dragX = e.clientX - rect.left;
-            this.dragY = e.clientY - rect.top;
+            const scaleX = this.view.canvas.width / rect.width;
+            const scaleY = this.view.canvas.height / rect.height;
+            this.dragX = (e.clientX - rect.left) * scaleX;
+            this.dragY = (e.clientY - rect.top) * scaleY;
             this.render();
         }
     }
 
     handleMouseUp(e) {
         if (this.isDragging && this.selectedPeg) {
+            // mapear correctamente las coordenadas del mouse a las coordenadas del canvas
             const rect = this.view.canvas.getBoundingClientRect();
-            const mouseX = e.clientX - rect.left;
-            const mouseY = e.clientY - rect.top;
+            const scaleX = this.view.canvas.width / rect.width;
+            const scaleY = this.view.canvas.height / rect.height;
+            const mouseX = (e.clientX - rect.left) * scaleX;
+            const mouseY = (e.clientY - rect.top) * scaleY;
             const pos = this.view.getBoardPosition(mouseX, mouseY);
 
             const moveSuccess = this.model.makeMove(
@@ -114,12 +123,12 @@ export class GameController {
             }
         }
 
-        // dibujar hints si hay una ficha seleccionada
+        // dibujar hints si hay una ficha seleccionada (y hay hints)
         if (this.selectedPeg && this.validMoves.length > 0) {
             this.view.drawHints(this.validMoves, timestamp);
         }
 
-        // dibujar ficha siendo arrastrada
+        // dibujar ficha arrastrada
         if (this.isDragging && this.selectedPeg) {
             this.view.drawDraggingPeg(this.dragX, this.dragY, this.selectedImageIndex);
         }
