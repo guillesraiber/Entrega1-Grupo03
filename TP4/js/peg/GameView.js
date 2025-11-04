@@ -71,7 +71,7 @@ export class GameView {
     drawPeg(x, y, imageIndex = null) {
         const diameter = this.pegRadius * 2;
 
-        // si nos pasaron un indice de imagen y esta cargado, dibujarlo exactamente
+        // si se pasa el indice de imagen y esta cargado, dibujarlo
         if (imageIndex !== null && this.ballImagesLoaded[imageIndex] && this.ballImages[imageIndex]) {
             const img = this.ballImages[imageIndex];
             this.ctx.drawImage(img, x - this.pegRadius, y - this.pegRadius, diameter, diameter);
@@ -109,7 +109,7 @@ export class GameView {
         // si no se pasó timestamp usar performance.now() si está disponible
         const t = (typeof timestamp === 'number') ? timestamp : (typeof performance !== 'undefined' ? performance.now() : Date.now());
         const period = 1500; // 1.5 segundos
-        const phase = (t % period) / period; // 0..1
+        const phase = (t % period) / period;
         // pulso suave - sin wave normalizada 0..1
         const wave = 0.5 + 0.5 * Math.sin(phase * 2 * Math.PI);
 
@@ -124,9 +124,6 @@ export class GameView {
         validMoves.forEach(move => {
             const x = move.toCol * this.cellSize + this.cellSize / 2;
             const y = move.toRow * this.cellSize + this.cellSize / 2;
-
-            // guardar estado del contexto
-            this.ctx.save();
 
             // sombra/halo para crear el glow
             this.ctx.shadowColor = `rgba(255, 215, 0, ${alpha})`;
@@ -143,9 +140,6 @@ export class GameView {
             this.ctx.strokeStyle = `rgba(255, 165, 0, ${0.6 * alpha})`;
             this.ctx.lineWidth = 4;
             this.ctx.stroke();
-
-            // restaurar el contexto
-            this.ctx.restore();
 
             this.hintPositions.push({ row: move.toRow, col: move.toCol });
         });

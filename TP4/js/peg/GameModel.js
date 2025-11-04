@@ -131,9 +131,10 @@ export class GameModel {
 
     // devuelve el índice de imagen (o null) para la celda dada
     getPegImageIndex(row, col) {
-        if (!this.pegImageIndices) return null;
-        if (row < 0 || row >= this.boardSize || col < 0 || col >= this.boardSize) return null;
-        return this.pegImageIndices[row][col];
+        if (this.pegImageIndices) {
+            if (row < 0 || row >= this.boardSize || col < 0 || col >= this.boardSize) return null;
+            return this.pegImageIndices[row][col];
+        }
     }
 
     reset() {

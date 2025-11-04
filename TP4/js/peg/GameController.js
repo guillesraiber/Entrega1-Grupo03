@@ -41,13 +41,15 @@ export class GameController {
         if (this.model.hasPeg(pos.row, pos.col)) {
             this.selectedPeg = pos;
             // guardar índice de imagen de la ficha seleccionada para mantenerla constante
-            this.selectedImageIndex = (typeof this.model.getPegImageIndex === 'function') ? this.model.getPegImageIndex(pos.row, pos.col) : null;
+            this.selectedImageIndex = this.model.getPegImageIndex(pos.row, pos.col);
             this.isDragging = true;
             this.dragX = mouseX;
             this.dragY = mouseY;
             this.validMoves = this.model.getValidMoves(pos.row, pos.col);
-            // empiezo render loop cuando arrastro
-            this.startRenderLoop();
+            // empiezo render loop si hay movimientos validos
+            if (this.validMoves.length > 0) {
+                this.startRenderLoop();                
+            }
             this.render();
         }
     }
