@@ -14,14 +14,14 @@ export class GameController {
         this.timer = 0;
         this.timerInterval = null;
         this.animationFrame = null;
-        // bind loop for RAF
+        // tiempo total permitido (en segundos). 15 minutos = 900s
+        this.totalTimeLimit = 15 * 60;
         this.loop = this.loop.bind(this);
         
         setTimeout(() => {
             this.setupEventListeners();
             this.render();
             this.startTimer();
-            // se empieza el loop de rendering cuando se arrastra una ficha
         }, 1000);
         
     }
@@ -148,27 +148,70 @@ export class GameController {
     startTimer() {
         this.timer = 0;
         this.updateTimerDisplay();
+        // proteger contra múltiples intervalos
+        if (this.timerInterval) {
+            clearInterval(this.timerInterval);
+        }
+
         this.timerInterval = setInterval(() => {
             this.timer++;
             this.updateTimerDisplay();
+
+            // si se alcanzó o superó el límite, terminar el juego
+            if (this.timer >= this.totalTimeLimit) {
+                // asegurar que el contador muestre 0 restante
+                this.timer = this.totalTimeLimit;
+                this.updateTimerDisplay();
+                this.timeUp();
+            }
         }, 1000);
     }
 
     updateTimerDisplay() {
-        const minutes = Math.floor(this.timer / 60);
-        const seconds = this.timer % 60;
+        // mostramos el tiempo restante (cuenta regresiva)
+        const remaining = Math.max(0, this.totalTimeLimit - this.timer);
+        const minutes = Math.floor(remaining / 60);
+        const seconds = remaining % 60;
         const display = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-        document.getElementById('timerDisplay').textContent = display;
+        const el = document.getElementById('timerDisplay');
+        if (el) el.textContent = display;
     }
 
-    endGame() {
+    // endGame acepta un time string opcional y un boolean si se termino el tiempo
+    endGame(finalTimeStr = null, timeExpired = false) {
         clearInterval(this.timerInterval);
         // paro el renderloop cuando termina el juego (por las dudas)
         this.stopRenderLoop();
-        const minutes = Math.floor(this.timer / 60);
-        const seconds = this.timer % 60;
+
+        // si no se pasó el tiempo final, se calcula
+        let timeStr = finalTimeStr;
+        if (!timeStr) {
+            timeStr = this.getFinalTimeString();
+        }
+
+        // pasar la info a la vista para que pueda mostrar un mensaje especial si corresponde
+        this.view.showGameOver(this.model.pegsRemaining, timeStr, timeExpired);
+    }
+
+    // funcion que se llama cuando se termina el tiempo
+    timeUp() {
+        // se fija que el timepo este frenado
+        if (this.timerInterval) {
+            clearInterval(this.timerInterval);
+            this.timerInterval = null;
+        }
+
+        let time = this.getFinalTimeString(); 
+
+        // terminar el juego mostrando el tiempo y marcando que fue por tiempo
+        this.endGame(time, true);
+    }
+
+    getFinalTimeString() {
+        const minutes = Math.floor(this.totalTimeLimit / 60);
+        const seconds = this.totalTimeLimit % 60;
         const timeStr = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-        this.view.showGameOver(this.model.pegsRemaining, timeStr);
+        return timeStr;
     }
 
     endGameToMenu() {

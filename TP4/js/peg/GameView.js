@@ -160,16 +160,20 @@ export class GameView {
         document.getElementById('pegsCount').textContent = count;
     }
 
-    showGameOver(pegsRemaining, time) {
+    // timeExpired indica si la partida terminó por agotamiento del tiempo
+    showGameOver(pegsRemaining, time, timeExpired = false) {
         const modal = document.getElementById('gameOver');
         const message = document.getElementById('gameOverMessage');
-        
-        if (pegsRemaining === 1) {
-            message.innerHTML = `🎉 ¡Perfecto! Completaste el juego con 1 ficha.<br>Tiempo: ${time}`;
+
+        if (timeExpired) {
+            // mensaje específico cuando se pierde por tiempo
+            message.innerHTML = `Se acabó el tiempo, Perdiste.<br>Fichas restantes: ${pegsRemaining}<br>Tiempo: ${time}`;
+        } else if (pegsRemaining === 1) {
+            message.innerHTML = `¡Perfecto! Completaste el juego.<br>Tiempo: ${time}`;
         } else {
             message.innerHTML = `No hay más movimientos posibles.<br>Fichas restantes: ${pegsRemaining}<br>Tiempo: ${time}`;
         }
-        
+
         modal.classList.add('show');
     }
 
