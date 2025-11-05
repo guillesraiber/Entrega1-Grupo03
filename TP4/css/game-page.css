@@ -136,6 +136,12 @@
     font-family: 'Roboto';
 }
 
+.game-controls {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+
 /* ------------------- Publicidad ------------------- */
 
 .ad-panel {
