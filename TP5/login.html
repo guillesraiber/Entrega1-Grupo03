@@ -1,0 +1,129 @@
+ <!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Registro / Login</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/login.css">
+</head>
+
+<body>
+<header class="header">
+  <a href="index.html">
+    <img src="images/logo/Logo-circular-name.png" alt="Logo del sitio" class="logo">
+  </a>
+</header>
+<div class="form-container">
+  <form id="form-registro" class="oculto">       <!-- form-group  -->
+    <h1>Registrate</h1>
+
+    <div class="inputLogin">
+      <label>Nombre y Apellido*</label>
+      <input type="text" id="nombre" placeholder="Ej: Juan Pérez">
+      <div class="error" id="error-nombre"></div>
+    </div>
+
+    <div class="inputLogin">
+      <label>Nickname [opcional]</label>
+      <input type="text"  id="nickname" placeholder="Tu apodo">
+      <div class="error"></div>
+    </div>
+
+    <div class="inputLogin">
+      <label>Edad [opcional]</label>
+      <input type="number"  id="edad" placeholder="Ej: 15">
+      <div class="error"></div>
+    </div>
+ 
+    <div class="inputLogin">
+      <label>Email*</label>
+      <input type="email" id="email" placeholder="ejemplo@dominio.com">
+      <div class="error" id="error-email"></div>
+    </div>
+
+    <div class="inputLogin">
+      <label>Contraseña*</label>
+      <input type="password" id="password" placeholder="Mín. 6 caracteres">
+      <div class="error" id="error-password"></div>
+    </div>
+
+    <div class="inputLogin">
+      <label>Confirmar contraseña*</label>
+      <input type="password"  id="confirm" placeholder="Repetí tu contraseña">
+      <div class="error" id="error-confirm"></div>
+    </div>
+
+    <div class="recaptcha">
+      <img id="img-reCaptcha" src="images/login/recaptcha.jpg" alt="captcha" class="reCaptcha" role="checkbox">
+    </div>
+    <div class="error" id="error-recaptcha"></div>
+
+    <button class="btn-login" id="submitBtn" disabled>Registrar</button>
+    
+    <!-- Redes sociales -->
+   <div class="separador">
+      <p>O ingresa con tus redes</p>
+    </div>
+    <div class="social-login">
+      <img src="images/login/iconoGoogle.png" alt="Google">
+      <img src="images/login/iconoFacebook.png" alt="Facebook">
+    </div>
+   
+    <div class="login-link">
+      ¿Ya tienes cuenta? <a href="#" id="ir-login" >Inicia sesión</a>
+    </div>
+  </form>
+
+
+  <form id="form-login">
+    <h1>Iniciar sesión</h1>
+
+    <div class="inputLogin ">
+     <label>Email</label>
+      <input type="email"  id="login-email" placeholder="ejemplo@dominio.com">
+      <div class="error" id="error-login-email"></div>
+    </div>
+
+    <div class="inputLogin">
+      <label>Contraseña</label>
+      <input type="password"  id="login-password" placeholder="Mín. 6 caracteres">
+      <div class="error" id="error-login-password"></div>
+    </div>
+    <div class="recordarme">
+      <input type="checkbox" id="recordarme" />
+      <label for="recordarme" >Recuérdame</label>
+    </div>
+
+
+    <button id="loginBtn" class="btn-login" >Ingresar</button>
+  
+    <!-- Redes sociales -->
+    <div class="separador">
+      <p>O ingresa con tus redes</p>
+    </div>
+    <div class="social-login">
+      <img src="images/login/iconoGoogle.png" alt="Google">
+      <img src="images/login/iconoFacebook.png" alt="Facebook">
+    </div>
+   
+    <div class="login-link">
+      ¿No tienes cuenta? <a href="#" id="ir-registro" >Registrate</a>
+    </div>
+  </form>
+
+</div>
+
+<div id="mensaje-exito-central" class="mensaje-exito-central oculto">
+  <h2 id="texto-exito"></h2>
+</div>
+
+
+
+
+<script src="js/login.js"></script>
+</body>
+</html> 
+
+
+
