@@ -1,0 +1,287 @@
+body {
+  font-family:  sans-serif; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5vw;
+  margin: 0;
+  position: relative; 
+  z-index: 0;        
+}
+
+h1 {
+  font-family: 'Orbitron', sans-serif;
+}
+
+
+body::before {
+  content: "";
+  position: fixed;   
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url("../images/login/fondo.png") center/cover no-repeat;
+  filter: blur(8px);  
+  z-index: -1;       
+}
+.contenedor {
+  width:320px;
+}
+
+label { 
+  display:block; 
+  margin-top:10px; 
+  font-weight:bold; 
+}
+
+
+.recaptcha {
+  display: flex;
+  justify-content: center;
+}
+
+.recaptcha img {
+  width: 80%;
+  height: auto;
+}
+
+
+button {
+  margin-top:15px; 
+  width:100%; 
+  padding:10px; 
+  border:0; 
+  border-radius:4px; 
+  color:white; 
+  cursor:pointer;
+}
+
+button:disabled { 
+  background:#703232; 
+  cursor:not-allowed; 
+}
+
+
+.oculto {
+  display:none;
+}
+
+
+
+
+
+
+
+.separador {
+  border-top: 1px solid #999;
+  text-align: center;
+  margin: 20px 0;
+}
+
+.social {
+  display: flex;
+  justify-content: center;
+   width: 100px;   
+  height: 150px; 
+
+}
+
+.form-container {
+   background-color: #314C69;
+   padding: 30px 75px;
+   border-radius: 20px;
+   box-shadow: 0px 4px 15px rgba(0,0,0,0.4); 
+   width: 320px;
+   color: #D9D9D9;
+ }
+ .form-container h2 {
+   text-align: center;
+   margin-bottom: 20px;
+   font-size: 28px;
+ }
+ .inputLogin{
+   margin-bottom: 15px;
+   text-align: left;
+ }
+ .inputLogin label {
+   display: block;
+   font-size: 14px;
+   margin-bottom: 5px;
+   
+ }
+.inputLogin input {
+   background: #B3B3B3;
+   width: calc(100% - 20px); /* deja espacio a ambos lados */
+   padding: 10px;
+   border-radius: 6px;
+   border: none;
+   outline: none;
+   font-size: 14px;
+   display: block;
+   margin: 0 auto; /* centra el input */
+   text-align: left;
+ }
+
+.btn-login {
+  background-color: #E95E23; /* color inicial */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 7px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(241, 101, 41, 0.3);
+}
+
+.btn-login:hover {
+  background: linear-gradient(
+    45deg,
+    #f16529,
+    #d62222,
+    #ff0000,
+    #f16529
+  );
+  background-size: 300% 300%;
+  animation: gradientMovimiento 4s ease infinite;
+  transform: scale(1.08);
+  box-shadow: 0 6px 15px rgba(33, 57, 90, 0.5);
+}
+
+@keyframes gradientMovimiento {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+    .social-login {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin: 15px 0;
+    }
+
+    .social-login img {
+      width: 40px;
+      height: 40px;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+    .social-login img:hover {
+    transform: scale(1.5);
+}
+    .login-link {
+      margin-top: 10px;
+      font-size: 14px;
+      text-align: center;
+      
+    }
+    .login-link a {
+      color: #f16529;
+      font-size: 20px;
+      text-decoration: none;
+    }
+
+    .login-link a:hover {
+      text-decoration: underline;
+    }
+
+
+input.error-input {
+  border: 2px solid red;
+  outline: none;
+  transition: border 0.3s ease;
+}
+
+input.success-input {
+  border: 2px solid green;
+  outline: none;
+  transition: border 0.3s ease;
+}
+
+.error {
+  color: red;
+  font-size: 0.9rem;
+  margin-top: 4px;
+}
+
+/* Contenedor en fila: checkbox primero, label después */
+.recordarme {
+  display: flex;
+  align-items: center;   
+  gap: 8px;              
+  margin-top: 10px;
+  flex-wrap: nowrap;     /* evita que el label baje a la siguiente línea */
+}
+
+/*  estilo compacto del checkbox */
+.recordarme input[type="checkbox"] {
+  width: 14px;
+  height: 14px;
+  accent-color: #f16529; 
+}
+
+.recordarme label {
+  margin: 0;
+}
+.inputLogin input::placeholder {
+  color: #F3F3F3;
+  opacity: 1;
+}
+
+
+/* Estilos del header y logo */
+.header {
+  position: absolute;      
+  top: 20px;                
+  left: 50px;               
+}
+
+.logo {
+  height: 178px;            
+  width: auto;              
+}
+
+
+/* --- Mensaje de éxito --- */
+.mensaje-exito-central {
+  display: none; /* oculto por defecto */
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* centrar el contenedor */
+  min-width: 300px;        /* ancho mínimo */
+  max-width: 600px;        /* ancho máximo */
+  padding: 30px 40px;      /* espacio interno */
+  border-radius: 15px;     /* bordes redondeados */
+  background-color: rgba(49, 76, 105, 0.85); /* fondo difuminado */
+  backdrop-filter: blur(8px); /* difumina el fondo detrás */
+  box-shadow: 0px 4px 20px rgba(0,0,0,0.4); /* sombra para destacar */
+  z-index: 9999;
+  text-align: center;
+}
+
+.mensaje-exito-central.visible {
+  display: flex; 
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.mensaje-exito-central h2 {
+  font-size: 24px;
+  color: #B3B3B3; 
+  margin: 0;
+  animation: pop 0.6s ease;
+}
+
+@keyframes pop {
+  0% { transform: scale(0.8); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
