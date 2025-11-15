@@ -11,7 +11,7 @@
         rel="stylesheet">
     <link rel="stylesheet" href="css/nav-sidebar-main-footer.css">
     <link rel="stylesheet" href="css/game-page.css">
-    <link rel="stylesheet" href="css/flappy.css">
+    <link rel="stylesheet" href="css/flappy-bird.css">
     <title>Flappy Bird</title>
 </head>
 
@@ -206,36 +206,22 @@
             <section class="game-section">
                 <div class="game-container">
                     <div class="game-window">
-                        <div class="flappy-container">
 
-                            <!-- Juego -->
-                            <div class="flappy-game" id="flappyGame">
-                                <!-- Capas parallax-->
-                                <div class="flappy-layer layer-1"></div>
-                                <div class="flappy-layer layer-2"></div>
-                                <div class="flappy-layer layer-3"></div>
-                                <div class="flappy-layer layer-4"></div>
-                                <div class="flappy-layer layer-5"></div>
-                                    
-                                <div class="flappy-obstacles" id="flappyObstacles"></div>
-                                    
-                                <div class="flappy-player" id="flappyPlayer"></div>
-                                    
-                                <div class="game-over" id="gameOver">
-                                    <h2>¡Juego Terminado!</h2>
-                                    <p id="gameOverMessage"></p>
-                                    <button class="btn-restart">Jugar de nuevo</button>
-                                </div>
-                            </div>
-
-                            <div class="buttons">
-                                <button id="play-btn"> Jugar </button>
-                                <button id="stop-btn">Detener</button>
-                            </div>
+                        <div class="background-layer layer1"></div>
+                        <div class="background-layer layer2"></div>
+                        <div class="background-layer layer3"></div>
+                        <div class="background-layer layer4"></div>
+                               
+                        <div class="flappy-player" id="flappyPlayer"></div>
+                            
+                        <div class="game-over" id="gameOver">
+                            <h2>¡Juego Terminado!</h2>
+                            <p id="gameOverMessage"></p>
+                            <button class="btn-restart">Jugar de nuevo</button>
                         </div>
-                        </div>
+                        
                     </div>
-                        <div class="game-info-bar">
+                    <div class="game-info-bar">
                         <span class="game-title">Flappy Bird</span>
                         <div class="game-icons">
                             <img src="images/buttons/share.png" alt="Compartir" class="game-icon">
@@ -642,10 +628,12 @@
 
         </main>
 
-        <script src="js/sidebar-navbar.js"></script>
-        <script src="js/comentarios.js"></script>
-        <script src="js/footer.js"></script>
-        <script src="js/like.js"></script>
-        <script src="js/flappy/flappy.js" defer></script>
 </body>
+
+</html>
+<script src="js/sidebar-navbar.js"></script>
+<script src="js/comentarios.js"></script>
+<script src="js/footer.js"></script>
+<script src="js/like.js"></script>
+<script src="js/flappy-bird.js"></script>
 </html>

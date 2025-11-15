@@ -1,72 +1,70 @@
-.flappy-container {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-.flappy-game {
-    position: relative;
-    width: 600px;
-    height: 400px;
+.game-window {
+    width: 800px;
+    height: 448px;
+    border-radius: 8px;
     overflow: hidden;
-    background-color: #87CEEB;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
 }
 
-.flappy-layer {
+.background-layer {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 200%;
-    height: 100%;
-    background-repeat: repeat-x;
-    background-size: auto 100%;
-    background-position: 0 0;
-    will-change: transform, background-position;
+    width: 800px;
+    height: 448px;
+    background-size: cover;
 }
 
-.layer-1 {
-    z-index: 1;
-    background-image: url(../images/flappy/Layers/glacial_mountains.png);
+@keyframes background-move {
+    0% {
+        background-position-x: 0px;
+    } 100% {
+        background-position-x: -800px;
+    }
 }
 
-.layer-2 {
-    z-index: 2;
-    background-image: url(../images/flappy/Layers/glacial_mountains_lightened.png);
-}
-
-.layer-3 {
-    z-index: 3;
-    background-image: url(../images/flappy/Layers/clouds_mg_1.png);
-}
-
-.layer-4 {
-    z-index: 4;
-    background-image: url(../images/flappy/Layers/clouds_mg_1_lightened.png);
-}
-
-.layer-5 {
-    z-index: 5;
-    background-image: url(../images/flappy/Layers/cloud_lonely.png);
+@keyframes player-move {
+    0% {
+        background-position-x: 0px;
+    } 100% {
+        background-position-x: -192px;
+    }
 }
 
 /* Jugador */
 .flappy-player {
     position: absolute;
-    left: 120px;
-    top: 200px;
-    width: 60px;
-    height: 60px;
-    background-image: url('../images/flappy/personaje/pngwing.com.png');
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transform-origin: center;
-    z-index: 120;
+    left: 180px;
+    top: 266px;
+    width: 48px;
+    height: 48px;
+    background: url("../images/Flappy Bird/Characters/tiny-fish/Idle.png") left center;
+    animation: player-move 1s steps(2) infinite;
 }
+
+.layer1 {
+    animation: background-move 15s linear infinite;
+    background-image: url("../images/Flappy Bird/Background/Background1.png");
+}
+
+.layer2 {
+    animation: background-move 12s linear infinite;
+    background-image: url("../images/Flappy Bird/Background/Background2.png");
+}
+
+.layer3 {
+    animation: background-move 9s linear infinite;
+    background-image: url("../images/Flappy Bird/Background/Background3.png");
+}
+
+.layer4 {
+    animation: background-move 6s linear infinite;
+    background-image: url("../images/Flappy Bird/Background/Background4.png");
+}
+
+
+
+
 
 /* Obstaculos */
 .flappy-obstacles {
@@ -78,23 +76,3 @@
 }
 
 .flappy-ui { position:absolute; top:8px; left:8px; z-index:130; color:#064; font-weight:700; }
-
-
-.game-over {
-  display:none;
-  position:absolute;
-  left:50%; top:50%;
-  transform:translate(-50%,-50%);
-  background: rgba(255,255,255,0.96);
-  padding: 12px;
-  border-radius:8px;
-  z-index:999;
-}
-
-/* Botones */
-#play-btn, #stop-btn {
-  padding:8px 12px;
-  border-radius:8px;
-  cursor:pointer;
-}
-
