@@ -1,7 +1,8 @@
 .game-window {
     width: 800px;
     height: 448px;
-    border-radius: 8px;
+    position: relative;
+    /* border-radius: 8px; */
     overflow: hidden;
     display: flex;
     justify-content: center;
@@ -34,8 +35,8 @@
 /* Jugador */
 .flappy-player {
     position: absolute;
-    left: 180px;
-    top: 266px;
+    left: 10%;
+    top: 50%;
     width: 48px;
     height: 48px;
     background: url("../images/Flappy Bird/Characters/tiny-fish/Idle.png") left center;
