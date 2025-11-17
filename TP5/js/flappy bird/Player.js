@@ -1,6 +1,6 @@
 "use strict";
 
-class Player {
+export class Player {
   constructor(initialY = 170) {
     this.x = 0;
     this.y = initialY;

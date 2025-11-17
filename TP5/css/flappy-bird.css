@@ -2,7 +2,6 @@
     width: 800px;
     height: 448px;
     position: relative;
-    /* border-radius: 8px; */
     overflow: hidden;
     display: flex;
     justify-content: center;
@@ -64,9 +63,6 @@
 }
 
 
-
-
-
 /* Obstaculos */
 .flappy-obstacles {
     position: absolute;
@@ -77,3 +73,18 @@
 }
 
 .flappy-ui { position:absolute; top:8px; left:8px; z-index:130; color:#064; font-weight:700; }
+
+
+.buttonsContainer {
+    position: absolute;
+    top: 10px;
+    left: 752px;
+    background-color: #064;
+}
+/* 
+#play-pause-button {
+    /* background-image: ; */
+
+                            /* <button id="play-pause-button"></button>
+                            <button id="meun-button"></button>     */
+

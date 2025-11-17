@@ -1,10 +1,11 @@
 "use strict";
 
+import { Player } from "./Player.js";
+
 // Crea la instancia de FlappyBird cuando el DOM esté cargado
 document.addEventListener('DOMContentLoaded', () => {
   new FlappyBird();
 });
-
 
 class FlappyBird {
   constructor() {
@@ -50,8 +51,6 @@ class FlappyBird {
     // start loop
     requestAnimationFrame((ts) => this.loop(ts));
 
-    // Si la ventana cambia de tamaño, reajusta posición visible del jugador
-    window.addEventListener('resize', () => this.updatePlayerDom());
   }
 
   // Realiza el flap (salto)
