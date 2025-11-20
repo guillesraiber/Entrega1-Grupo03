@@ -16,13 +16,9 @@ class FlappyBird {
     this.running = false;
     this.lastTs = null;
 
-    // Elementos DOM
-    this.playBtn = document.getElementById('play-btn');
-    this.stopBtn = document.getElementById('stop-btn');
-    this.playerEl = document.getElementById('flappyPlayer');
-    this.gameEl = document.getElementById('flappyGame');
+    this.startElements();
 
-    // Selección de capas con filtro (si falta alguna, no rompe)
+    // selección de capas con filtro (si falta alguna, no rompe)
     const rawLayers = [
       { selector: '.layer1', speed: 0.18 },
       { selector: '.layer2', speed: 0.36 },
@@ -36,6 +32,13 @@ class FlappyBird {
     }).filter(Boolean);
 
     this.init();
+  }
+
+  startElements() {
+    this.playBtn = document.getElementById('play-btn');
+    this.stopBtn = document.getElementById('stop-btn');
+    this.playerEl = document.getElementById('flappyPlayer');
+    this.gameEl = document.getElementById('flappyGame');
   }
 
   init() {
