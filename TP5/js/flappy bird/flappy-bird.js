@@ -11,34 +11,26 @@ class FlappyBird {
   constructor() {
     // Config y estado
     this.cfg = { worldSpeed: 2.4 };
-    this.player = new Player(170);
+    this.player = new Player(200);
     this.worldX = 0;
     this.running = false;
     this.lastTs = null;
 
     this.startElements();
 
-    // selección de capas con filtro (si falta alguna, no rompe)
-    const rawLayers = [
-      { selector: '.layer1', speed: 0.18 },
-      { selector: '.layer2', speed: 0.36 },
-      { selector: '.layer3', speed: 0.56 },
-      { selector: '.layer4', speed: 0.78 },
-      { selector: '.layer5', speed: 1.00 }
-    ];
-    this.layers = rawLayers.map(r => {
-      const el = document.querySelector(r.selector);
-      return el ? { el, speed: r.speed } : null;
-    }).filter(Boolean);
-
     this.init();
+
+    // Auto-start the game so input (flap) and physics are active immediately
+    this.play();
+    this.flap();
   }
 
   startElements() {
     this.playBtn = document.getElementById('play-btn');
     this.stopBtn = document.getElementById('stop-btn');
-    this.playerEl = document.getElementById('flappyPlayer');
-    this.gameEl = document.getElementById('flappyGame');
+    this.playerElem = document.getElementById('flappyPlayer');
+    // Try id first, fall back to class selector (HTML uses class="game-window")
+    this.gameEl = document.getElementById('game-window') || document.querySelector('.game-window');
   }
 
   init() {
@@ -47,9 +39,9 @@ class FlappyBird {
     window.addEventListener('mousedown', () => this.flap());
     window.addEventListener('touchstart', e => { e.preventDefault(); this.flap(); }, { passive:false });
 
-    // Botones
-    this.playBtn.addEventListener('click', () => this.play());
-    this.stopBtn.addEventListener('click', () => this.stop());
+    // // Botones
+    // this.playBtn.addEventListener('click', () => this.play());
+    // this.stopBtn.addEventListener('click', () => this.stop());
 
     // start loop
     requestAnimationFrame((ts) => this.loop(ts));
@@ -77,12 +69,12 @@ class FlappyBird {
 
   // Actualiza la posición visual del jugador
   updatePlayerDom() {
-    if (!this.playerEl || !this.gameEl) return;
+    if (!this.playerElem || !this.gameEl) return;
     const screenLeft = Math.round(this.gameEl.clientWidth * 0.2);
-    this.playerEl.style.left = screenLeft + 'px';
-    this.playerEl.style.top = Math.round(this.player.y) + 'px';
+    this.playerElem.style.left = screenLeft + 'px';
+    this.playerElem.style.top = Math.round(this.player.y) + 'px';
     const tilt = this.player.getTilt();
-    this.playerEl.style.transform = `rotate(${tilt}deg)`;
+    this.playerElem.style.transform = `rotate(${tilt}deg)`;
   }
 
   // Loop principal (siempre corriendo para evitar dependencia de start instantáneo)
@@ -92,27 +84,15 @@ class FlappyBird {
     this.lastTs = ts;
 
     if (this.running) {
-      // avanzar mundo
-      this.worldX += this.cfg.worldSpeed * dt;
 
       // física jugador
       this.player.applyGravity(dt);
       this.player.updatePosition(dt);
-      // límites
-      this.player.constrainToGameBounds(this.gameEl.clientHeight);
+      // límites: use game element height if available, otherwise fallback to window height
+      const gameHeight = this.gameEl ? this.gameEl.clientHeight : window.innerHeight;
+      this.player.constrainToGameBounds(gameHeight);
     }
 
-    // actualizar parallax: fondo mueve background-position X (técnica del Tema5)
-    this.layers.forEach(layer => {
-      // Calculamos offset en px
-      const offset = - Math.round(this.worldX * layer.speed);
-      // Aplicamos a backgroundPositionX; si no soporta, usamos backgroundPosition
-      try {
-        layer.el.style.backgroundPositionX = offset + 'px';
-      } catch (e) {
-        layer.el.style.backgroundPosition = offset + 'px 0';
-      }
-    });
 
     this.updatePlayerDom();
     requestAnimationFrame((ts) => this.loop(ts));

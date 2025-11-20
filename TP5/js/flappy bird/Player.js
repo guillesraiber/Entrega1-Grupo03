@@ -5,8 +5,8 @@ export class Player {
     this.x = 0;
     this.y = initialY;
     this.vy = 0;
-    this.gravity = 0.45;
-    this.flap = -9;
+    this.gravity = 0.40;
+    this.flapStrength = 9;
     this.width = 44;
     this.height = 34;
   }
@@ -28,7 +28,7 @@ export class Player {
 
   // Realiza el "flap" (salto)
   flap() {
-    this.vy = this.flap;
+    this.vy = -this.flapStrength;
   }
 
   // Reinicia la posición y velocidad del jugador

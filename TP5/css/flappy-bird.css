@@ -36,32 +36,36 @@
     position: absolute;
     left: 10%;
     top: 50%;
-    width: 110px;
-    height: 110px;
+    width: 80px;
+    height: 40px;
     background: url("../images/Flappy Bird/Characters/tiny-fish/Idle.png") left center;
     animation: player-move 0.64s steps(4) infinite;
 }
 
 .layer1 {
     animation: background-move 15s linear infinite;
-    background-image: url("../images/Flappy Bird/Background/Background1.png");
+    background-image: url("../images/Flappy Bird/Background/Oscuro/1.png");
 }
 
 .layer2 {
     animation: background-move 12s linear infinite;
-    background-image: url("../images/Flappy Bird/Background/Background2.png");
+    background-image: url("../images/Flappy Bird/Background/Oscuro/2.png");
 }
 
 .layer3 {
     animation: background-move 9s linear infinite;
-    background-image: url("../images/Flappy Bird/Background/Background3.png");
+    background-image: url("../images/Flappy Bird/Background/Oscuro/3.png");
 }
 
 .layer4 {
-    animation: background-move 6s linear infinite;
-    background-image: url("../images/Flappy Bird/Background/Background4.png");
+    animation: background-move 7.5s linear infinite;
+    background-image: url("../images/Flappy Bird/Background/Oscuro/4.png");
 }
 
+.layer5 {
+    animation: background-move 4s linear infinite;
+    background-image: url("../images/Flappy Bird/Background/Oscuro/5.png");
+}
 
 /* Obstaculos */
 .flappy-obstacles {
