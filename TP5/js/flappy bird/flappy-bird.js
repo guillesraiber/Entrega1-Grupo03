@@ -2,15 +2,13 @@
 
 import { Player } from "./Player.js";
 
-// Crea la instancia de FlappyBird cuando el DOM esté cargado
+// creo el juago cuando se carga la pagina
 document.addEventListener('DOMContentLoaded', () => {
   new FlappyBird();
 });
 
 class FlappyBird {
   constructor() {
-    // Config y estado
-    this.cfg = { worldSpeed: 2.4 };
     this.player = new Player(200);
     this.worldX = 0;
     this.running = false;
@@ -20,64 +18,65 @@ class FlappyBird {
 
     this.init();
 
-    // Auto-start the game so input (flap) and physics are active immediately
     this.play();
-    this.flap();
   }
 
   startElements() {
-    this.playBtn = document.getElementById('play-btn');
-    this.stopBtn = document.getElementById('stop-btn');
-    this.playerElem = document.getElementById('flappyPlayer');
-    // Try id first, fall back to class selector (HTML uses class="game-window")
-    this.gameEl = document.getElementById('game-window') || document.querySelector('.game-window');
+    this.playBtn = document.querySelector('#play-btn');
+    this.stopBtn = document.querySelector('#stop-btn');
+    this.playerElem = document.querySelector('#flappyPlayer');
+    this.gameEl = document.querySelector('#game-window');
   }
 
   init() {
-    // Entrada: flap
+    // lo que hace que se aletee
     window.addEventListener('keydown', e => { if (e.code === 'Space') { e.preventDefault(); this.flap(); }});
-    window.addEventListener('mousedown', () => this.flap());
-    window.addEventListener('touchstart', e => { e.preventDefault(); this.flap(); }, { passive:false });
+    this.gameEl.addEventListener('mousedown', () => this.flap());
+    // toque como si fuera tactil/celular
+    this.gameEl.addEventListener('touchstart', e => { e.preventDefault(); this.flap(); }, { passive:false });
 
     // // Botones
     // this.playBtn.addEventListener('click', () => this.play());
     // this.stopBtn.addEventListener('click', () => this.stop());
 
-    // start loop
+    // empezar loop
     requestAnimationFrame((ts) => this.loop(ts));
 
   }
 
-  // Realiza el flap (salto)
+  // aleteo
   flap() {
     if (!this.running) return;
     this.player.flap();
   }
 
-  // Inicia el juego
+  // empezar
   play() {
     this.running = true;
     this.lastTs = null;
     this.worldX = 0;
-    this.player.reset(170);
+    this.player.reset(200);
+    
+    // aletea al empezar para que no caiga automaticamente
+    this.flap();
   }
 
-  // Detiene el juego
+  // frenar el juego
   stop() {
     this.running = false;
   }
 
-  // Actualiza la posición visual del jugador
+  // actualiza posicion del jugador
   updatePlayerDom() {
     if (!this.playerElem || !this.gameEl) return;
-    const screenLeft = Math.round(this.gameEl.clientWidth * 0.2);
+    const screenLeft = Math.round(this.gameEl.clientWidth * 0.1);
     this.playerElem.style.left = screenLeft + 'px';
     this.playerElem.style.top = Math.round(this.player.y) + 'px';
     const tilt = this.player.getTilt();
     this.playerElem.style.transform = `rotate(${tilt}deg)`;
   }
 
-  // Loop principal (siempre corriendo para evitar dependencia de start instantáneo)
+  // loop principal de actualizacion del juegp
   loop(ts) {
     if (!this.lastTs) this.lastTs = ts;
     const dt = Math.min((ts - this.lastTs)/16.6667, 4);
@@ -88,12 +87,12 @@ class FlappyBird {
       // física jugador
       this.player.applyGravity(dt);
       this.player.updatePosition(dt);
-      // límites: use game element height if available, otherwise fallback to window height
+      // límites: use game element height si esta, si no usa el windowHeight
       const gameHeight = this.gameEl ? this.gameEl.clientHeight : window.innerHeight;
       this.player.constrainToGameBounds(gameHeight);
     }
 
-
+    // actualiza posicion del jugaodr en pantalla
     this.updatePlayerDom();
     requestAnimationFrame((ts) => this.loop(ts));
   }

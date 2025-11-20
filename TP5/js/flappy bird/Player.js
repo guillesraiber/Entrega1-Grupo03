@@ -1,7 +1,7 @@
 "use strict";
 
 export class Player {
-  constructor(initialY = 170) {
+  constructor(initialY = 200) {
     this.x = 0;
     this.y = initialY;
     this.vy = 0;
@@ -11,33 +11,33 @@ export class Player {
     this.height = 34;
   }
 
-  // Aplica gravedad al jugador
+  // aplicar gravedad
   applyGravity(dt) {
     this.vy += this.gravity * dt;
   }
 
-  // Actualiza la posición vertical del jugador
+  // actualizar posicion en y
   updatePosition(dt) {
     this.y += this.vy * dt;
   }
 
-  // Limita la posición del jugador dentro de los límites de la pantalla
+  // limita la posicion del personaje al limite de la pantalla
   constrainToGameBounds(gameHeight) {
     this.y = Math.max(0, Math.min(gameHeight - this.height, this.y));
   }
 
-  // Realiza el "flap" (salto)
+  // aleteo
   flap() {
     this.vy = -this.flapStrength;
   }
 
-  // Reinicia la posición y velocidad del jugador
-  reset(initialY = 170) {
+  // reinicia posicion y velocidad de caida
+  reset(initialY = 200) {
     this.y = initialY;
     this.vy = 0;
   }
 
-  // Retorna la rotación del jugador basada en su velocidad vertical
+  // la rotación del jugador en base a su velocidad vertical
   getTilt() {
     return Math.max(-45, Math.min(45, this.vy * 3));
   }
