@@ -33,6 +33,14 @@
     }
 }
 
+@keyframes player-die {
+    0% {
+        background-position-x: 0px;
+    } 100% {
+        background-position-x: -660px;
+    }
+}
+
 /* Jugador */
 .flappy-player {
     position: absolute;
@@ -42,6 +50,16 @@
     height: 40px;
     background: url("../images/Flappy Bird/Characters/tiny-fish/Idle.png") left center;
     animation: player-move 0.64s steps(4) infinite;
+
+    cursor: pointer;
+}
+
+.dead {
+    top: 42%;
+    width: 110px;
+    height: 110px;
+    background: url("../images/Flappy Bird/Characters/tiny-fish/Explode.png") left center;
+    animation: player-die 1s steps(6) infinite;
 }
 
 .layer1 {

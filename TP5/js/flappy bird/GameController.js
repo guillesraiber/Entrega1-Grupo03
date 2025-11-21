@@ -2,12 +2,7 @@
 
 import { Player } from "./Player.js";
 
-// creo el juago cuando se carga la pagina
-document.addEventListener('DOMContentLoaded', () => {
-  new FlappyBird();
-});
-
-class FlappyBird {
+export class GameController {
   constructor() {
     this.player = new Player(200);
     this.worldX = 0;
@@ -18,7 +13,9 @@ class FlappyBird {
 
     this.init();
 
-    // this.play();
+    this.play();
+
+
   }
 
   startElements() {
@@ -59,6 +56,10 @@ class FlappyBird {
     
     // aletea al empezar para que no caiga automaticamente
     this.flap();
+  }
+
+  killPlayer() {
+    this.player.die();
   }
 
   // frenar el juego
