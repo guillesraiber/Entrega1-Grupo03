@@ -25,6 +25,18 @@ export class Pipe {
 			seg.style.position = 'absolute';
 			seg.style.left = '0px';
 			seg.style.top = (i * this.segmentHeight) + 'px';
+
+			// Selección aleatoria de imagen por segmento según probabilidades:
+			// 50% normal-pipe, 20% circular-valve-pipe, 20% glass-pipe, 10% broken-pipe
+			const rand = Math.random() * 100;
+			let imgName;
+			if (rand < 50) imgName = 'normal-pipe.png';
+			else if (rand < 70) imgName = 'circular-valve-pipe.png';
+			else if (rand < 90) imgName = 'glass-pipe.png';
+			else imgName = 'broken-pipe.png';
+
+			// Rutas relativas al HTML: 'images/Flappy Bird/Pipes/...'
+			seg.style.backgroundImage = `url("images/Flappy Bird/Pipes/${imgName}")`;
 			this.elem.appendChild(seg);
 		}
 
