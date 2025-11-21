@@ -18,7 +18,7 @@ class FlappyBird {
 
     this.init();
 
-    this.play();
+    // this.play();
   }
 
   startElements() {
@@ -90,10 +90,12 @@ class FlappyBird {
       // límites: use game element height si esta, si no usa el windowHeight
       const gameHeight = this.gameEl ? this.gameEl.clientHeight : window.innerHeight;
       this.player.constrainToGameBounds(gameHeight);
+    
+          // actualiza posicion del jugaodr en pantalla
+      this.updatePlayerDom();
+      requestAnimationFrame((ts) => this.loop(ts));
     }
 
-    // actualiza posicion del jugaodr en pantalla
-    this.updatePlayerDom();
-    requestAnimationFrame((ts) => this.loop(ts));
+
   }
 }

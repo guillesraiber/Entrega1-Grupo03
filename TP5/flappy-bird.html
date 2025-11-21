@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="css/nav-sidebar-main-footer.css">
     <link rel="stylesheet" href="css/game-page.css">
     <link rel="stylesheet" href="css/flappy-bird.css">
-    <title>Flappy Bird</title>
+    <title>Flappy Fish</title>
 </head>
 
 <body>
@@ -215,10 +215,18 @@
                                
                         <div class="flappy-player" id="flappyPlayer"></div>
 
-                        <div class="buttonsContainer">
-                            <!-- <button id="play-pause-button"></button> -->
-                            <button id="game-menu-button"></button>                            
+                        <div class="instructions">
+                            <h1>Flappy fish</h1>
+                            <p> 
+                                Evita que el pez choche contra un tubo presionando
+                                la barra espaciadora o haciendo clic con el mouse.
+                            </p>
+                            <button id="play-btn"> Jugar </button>
                         </div>
+
+                        <!-- <div class="buttonsContainer">
+                            <button id="game-menu-button"></button>                            
+                        </div> -->
                             
                         <div class="game-over" id="gameOver">
                             <h2>¡Juego Terminado!</h2>
@@ -228,7 +236,7 @@
                         
                     </div>
                     <div class="game-info-bar">
-                        <span class="game-title">Flappy Bird</span>
+                        <span class="game-title">Flappy Fish</span>
                         <div class="game-icons">
                             <img src="images/buttons/share.png" alt="Compartir" class="game-icon">
                             <img src="images/buttons/volume.png" alt="Volumen" class="game-icon">
@@ -641,6 +649,7 @@
 <script src="js/comentarios.js"></script>
 <script src="js/footer.js"></script>
 <script src="js/like.js"></script>
+<script src="js/flappy bird/main.js"></script>
 <script type="module" src="js/flappy bird/Player.js"></script>
-<script type="module" src="js/flappy bird/flappy-bird.js"></script>
+<script type="module" src="js/flappy bird/GameController.js"></script>
 </html>
