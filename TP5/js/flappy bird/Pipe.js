@@ -17,7 +17,7 @@ export class Pipe {
 		this.elem.style.width = this.segmentWidth + 'px';
 		this.elem.style.height = (this.segmentHeight * this.slots) + 'px';
 
-		// Crear las piezas del tubo (cada una usa la clase .pipe definida en CSS).
+		// crear las piezas del tubo (cada una usa la clase .pipe definida en CSS).
 		for (let i = 0; i < this.slots; i++) {
 			if (i === this.gapIndex) continue; // dejar el hueco
 			const seg = document.createElement('div');
@@ -26,7 +26,7 @@ export class Pipe {
 			seg.style.left = '0px';
 			seg.style.top = (i * this.segmentHeight) + 'px';
 
-			// Selección aleatoria de imagen por segmento según probabilidades:
+			// selección aleatoria de imagen por segmento según probabilidades:
 			// 50% normal-pipe, 20% circular-valve-pipe, 20% glass-pipe, 10% broken-pipe
 			const rand = Math.random() * 100;
 			let imgName;
@@ -35,7 +35,7 @@ export class Pipe {
 			else if (rand < 90) imgName = 'glass-pipe.png';
 			else imgName = 'broken-pipe.png';
 
-			// Rutas relativas al HTML: 'images/Flappy Bird/Pipes/...'
+			// rutas relativas al HTML: 'images/Flappy Bird/Pipes/...'
 			seg.style.backgroundImage = `url("images/Flappy Bird/Pipes/${imgName}")`;
 			this.elem.appendChild(seg);
 		}
@@ -43,7 +43,7 @@ export class Pipe {
 		this.gameEl.appendChild(this.elem);
 	}
 
-	// Actualiza la posición horizontal del conjunto de tubos.
+	// actualizar posicion de tubo
 	// dt: factor relativo a 60fps (igual que en GameController), speed: px por "frame".
 	update(dt, speed) {
 		this.x -= (speed * dt);
@@ -63,7 +63,7 @@ export class Pipe {
 		return this.gapIndex;
 	}
 
-	// Elimina el DOM asociado
+	// eliminar el DOM asociado
 	destroy() {
 		if (this.elem && this.elem.parentNode) this.elem.parentNode.removeChild(this.elem);
 		this.elem = null;

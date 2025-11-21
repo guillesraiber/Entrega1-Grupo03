@@ -10,7 +10,7 @@ export class GameController {
     this.running = false;
     this.lastTs = null;
 
-    // Tubos (obstáculos)
+    // tubos (obstáculos)
     this.pipes = [];
     this.pipeSpacing = 400; // distancia entre columnas de tubos (ajustable)
     this.pipeSpeed = 2.5; // px por frame (usa el mismo dt que el jugador)
