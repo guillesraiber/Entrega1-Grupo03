@@ -41,6 +41,14 @@
     }
 }
 
+@keyframes player-hit {
+    0% {
+        background-position-x: 0px;
+    } 100% {
+        background-position-x: -220px;
+    }
+}
+
 /* Jugador */
 .flappy-player {
     position: absolute;
@@ -60,6 +68,11 @@
     height: 110px;
     background: url("../images/Flappy Bird/Characters/tiny-fish/Explode.png") left center;
     animation: player-die 1s steps(6) infinite;
+}
+
+.hit {
+    background: url("../images/Flappy Bird/Characters/tiny-fish/Hurt.png") left center;
+    animation: player-hit 0.2s steps(2) infinite;
 }
 
 .layer1 {
