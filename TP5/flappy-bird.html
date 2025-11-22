@@ -217,21 +217,36 @@
 
                         <div class="instructions">
                             <h1>Flappy fish</h1>
-                            <p> 
-                                Evita que el pez choche contra un tubo presionando
-                                la barra espaciadora o haciendo clic con el mouse.
-                            </p>
+                            <p> Evita que el pez choche contra un tubo presionando
+                                la barra espaciadora o haciendo clic con el mouse.</p>
 
                             <div class="health-instructions sub-instruction">
                                 <p> Los corazones son vidas: </p>
-                                <div class="health-icon instruction-icon"></div>
+                                <div class="health-icon interactive-icon"></div>
                             </div>
                             <div class="points-instructions sub-instruction"> 
                                 <p> Las monedas son puntos: </p>
-                                <div class="coin-icon instruction-icon"></div>
+                                <div class="coin-icon interactive-icon"></div>
                             </div>
 
                             <button id="play-btn"> Jugar </button>
+                        </div>
+
+                        <div class="game-stats hidden">
+
+                            <div class="health-container" style="margin-left: 30px;">
+                                <div class="interactive-icon health-icon health-icon-1"></div>
+                                <div class="interactive-icon health-icon health-icon-2"></div>
+                                <div class="interactive-icon health-icon health-icon-3"></div>
+                            </div>
+
+                            <h1 id="points"> 0 </h1>
+
+                            <div class="points-container" style="margin-right: 30px;">
+                                <div class="interactive-icon coin-icon points-coin-icon"></div>
+                                <span class="points-value" id="pointsValue">0</span>
+                            </div>
+
                         </div>
                             
                         <div class="game-over" id="gameOver">

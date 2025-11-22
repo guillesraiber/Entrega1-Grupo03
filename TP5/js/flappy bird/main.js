@@ -3,11 +3,23 @@
 import { GameController } from "./GameController.js";
 
 
-// Si se aprieta al pescado en el manu, explota
+const playButton = document.querySelector('#play-btn');
+
+playButton.addEventListener('click', () => {
+
+  document.querySelector('.game-stats').classList.remove('hidden');
+  document.querySelector('.instructions').classList.add('hidden');
+  new GameController();
+
+});
+
+
+
+// Si se aprieta 3 veces el pescado en el manu, explota
 const playerElem = document.querySelector('#flappyPlayer');
 let hitCount = 0;
 playerElem.addEventListener('click', () => {
-    if (hitCount < 3) {
+    if (hitCount <= 3) {
         hurtPlayer();
     } else {
         hitCount = 0;
@@ -37,12 +49,3 @@ function hurtPlayer() {
 
     }
 }
-
-const playButton = document.querySelector('#play-btn');
-
-playButton.addEventListener('click', () => {
-
-    document.querySelector('.instructions').style.display = 'none';
-    new GameController();
-
-});
