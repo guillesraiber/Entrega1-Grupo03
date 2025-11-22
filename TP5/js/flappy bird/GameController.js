@@ -112,6 +112,29 @@ export class GameController {
     this.playerElem.style.transform = `rotate(${tilt}deg)`;
   }
 
+  endGame() {
+    // detener la lógica del juego (no seguir moviendo el mundo)
+    this.running = false;
+
+    // pausar animaciones de fondo
+    if (this.gameEl) this.gameEl.classList.add('paused');
+
+    // reproducir animación de muerte
+    try { this.player.die(); } catch (e) {}
+
+    // eliminar del DOM después de la animacion (usar 1s como duración de la animacion en Player)
+    setTimeout(() => {
+      if (this.playerElem && this.playerElem.parentNode) this.playerElem.parentNode.removeChild(this.playerElem);
+    }, 2000);
+
+    // mostrar pantalla de game over con mensaje
+    if (this.gameOverEl) {
+      this.gameOverEl.classList.remove('hidden');
+    }
+    if (this.gameOverTitle) this.gameOverTitle.textContent = 'Juego terminado';
+    if (this.gameOverMessage) this.gameOverMessage.textContent = 'Perdiste las 3 vidas';
+  }
+
   // loop principal de actualizacion del juegp
   loop(ts) {
     if (!this.lastTs) this.lastTs = ts;
@@ -120,17 +143,17 @@ export class GameController {
 
     if (this.running) {
 
-      // física jugador
+      // fisica jugador
       this.player.applyGravity(dt);
       this.player.updatePosition(dt);
-      // límites: use game element height si esta, si no usa el windowHeight
+      // limites: use game element height si esta, si no usa el windowHeight
       const gameHeight = this.gameEl ? this.gameEl.clientHeight : window.innerHeight;
       this.player.constrainToGameBounds(gameHeight);
     
-      // actualizar posición del mundo (usa worldX para spawns)
+      // actualizar posicion del mundo (usa worldX para el spawn)
       this.worldX += this.pipeSpeed * dt;
 
-      // actualizar tubos: moverlos y eliminar los que salieron de pantalla
+      // actualizar tubos: mover y eliminar los que salieron de pantalla
       if (this.pipes && this.pipes.length) {
         for (let i = this.pipes.length - 1; i >= 0; i--) {
           const pipe = this.pipes[i];
@@ -183,6 +206,14 @@ export class GameController {
                 if (this.healthIcons[idxToHide]) this.healthIcons[idxToHide].classList.add('hidden');
               }
 
+              // eliminar el pipe que colisionó (DOM + array)
+              try {
+                pipe.destroy();
+              } catch (e) {}
+              // eliminar del array y ajustar el índice para seguir iterando correctamente
+              this.pipes.splice(i, 1);
+              i--;
+
               // resetear jugador al medio vertical
               const midY = Math.round((this.gameEl.clientHeight - this.player.height) / 2);
               this.player.reset(midY);
@@ -190,26 +221,7 @@ export class GameController {
 
               // si no quedan vidas -> terminar juego
               if (this.lives <= 0) {
-                // detener la lógica del juego (no seguir moviendo el mundo)
-                this.running = false;
-
-                // pausar animaciones de fondo
-                if (this.gameEl) this.gameEl.classList.add('paused');
-
-                // reproducir animación de muerte
-                try { this.player.die(); } catch (e) {}
-
-                // eliminar del DOM después de la animación (usar 1s como duración de la animación en Player)
-                setTimeout(() => {
-                  if (this.playerElem && this.playerElem.parentNode) this.playerElem.parentNode.removeChild(this.playerElem);
-                }, 1000);
-
-                // mostrar pantalla de game over con mensaje
-                if (this.gameOverEl) {
-                  this.gameOverEl.classList.remove('hidden');
-                }
-                if (this.gameOverTitle) this.gameOverTitle.textContent = 'Juego terminado';
-                if (this.gameOverMessage) this.gameOverMessage.textContent = 'Perdiste las 3 vidas';
+                this.endGame();
               }
 
             }

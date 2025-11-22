@@ -7,7 +7,7 @@ export class Pipe {
 		this.segmentWidth = 75; // ancho de cada pieza de tubo
 		this.segmentHeight = 98; // alto de cada pieza de tubo
 		this.slots = 5; // cantidad total de posibles segmentos verticales
-		this.gapIndex = (options.gapIndex !== undefined) ? options.gapIndex : Math.floor(Math.random() * this.slots);
+		this.gapIndex = (options.gapIndex !== undefined) ? options.gapIndex : Math.floor(Math.random() * (this.slots - 1)); // indice del hueco
 
 		this.elem = document.createElement('div');
 		this.elem.className = 'pipe-column';
