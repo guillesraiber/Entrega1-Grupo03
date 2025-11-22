@@ -6,7 +6,6 @@
     display: flex;
     align-items: flex-end;
     flex-direction: column;
-    justify-content: flex-end;
 }
 
 
@@ -100,6 +99,29 @@
     background-image: url("../images/Flappy Bird/Background/Oscuro/5.png");
 }
 
+.instruction-icon {
+    width: 40px;
+    height: 40px;
+}
+
+.health-icon {
+    background: url("../images/Flappy Bird/Interactive/360-heart.png") left center;
+    animation: icon-move 0.6s steps(5) infinite;
+}
+
+.coin-icon {
+    background: url("../images/Flappy Bird/Interactive/360-coin.png") left center;
+    animation: icon-move 0.5s steps(5) infinite;
+}
+
+@keyframes icon-move {
+    0% {
+        background-position-x: 0px;
+    } 100% {
+        background-position-x: -200px;
+    }
+}
+
 .pipe {
     position: absolute;
     width: 75px;
@@ -111,7 +133,7 @@
 
 .instructions {
     max-width: 410px;
-    margin: 0px 89px 0 0;
+    margin: 45px 90px 0 0;
     padding: 15px 10px;
     font-weight: bold;
     border-radius: 10px;
@@ -161,6 +183,17 @@
 .instructions button:active {
     transform: scale(1);
 }
+
+.sub-instruction {
+    display: flex;
+    align-items: center;
+    margin: 0 0 10px 0;
+}
+
+.sub-instruction p {
+    margin: 0 10px 0 0;
+}
+
 
 .hidden {
     display: none !important;
