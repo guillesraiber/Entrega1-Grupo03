@@ -125,12 +125,10 @@ export class GameController {
     // eliminar del DOM después de la animacion (usar 1s como duración de la animacion en Player)
     setTimeout(() => {
       if (this.playerElem && this.playerElem.parentNode) this.playerElem.parentNode.removeChild(this.playerElem);
-    }, 2000);
+    }, 1000);
 
     // mostrar pantalla de game over con mensaje
-    if (this.gameOverEl) {
-      this.gameOverEl.classList.remove('hidden');
-    }
+    if (this.gameOverEl) { this.gameOverEl.classList.remove('hidden'); }
     if (this.gameOverTitle) this.gameOverTitle.textContent = 'Juego terminado';
     if (this.gameOverMessage) this.gameOverMessage.textContent = 'Perdiste las 3 vidas';
   }
@@ -191,37 +189,40 @@ export class GameController {
             const gapTop = pipe.getGapIndex() * pipe.segmentHeight;
             const gapBottom = gapTop + pipe.segmentHeight;
 
-            // si el jugador NO está dentro del hueco vertical -> colisión
+            // si el jugador NO está dentro del hueco vertical es una colisión
             if (playerTop < gapTop || playerBottom > gapBottom) {
               // marcar para evitar múltiples impactos del mismo tubo
               pipe._collided = true;
 
               // quitar una vida y reproducir animación de golpe
               this.lives = Math.max(0, this.lives - 1);
-              try { this.player.hurtPlayer(); } catch (e) {}
+              if (this.lives > 0) { this.player.hurtPlayer(); }
 
-              // actualizar iconos de vida (si existen)
+              // actualizar iconos de vida
               if (this.healthIcons && this.healthIcons.length) {
-                const idxToHide = this.lives; // 2-> ocultar idx 2, etc.
+                const idxToHide = this.lives; // indice de vida a ocultar
                 if (this.healthIcons[idxToHide]) this.healthIcons[idxToHide].classList.add('hidden');
               }
 
               // eliminar el pipe que colisionó (DOM + array)
-              try {
-                pipe.destroy();
-              } catch (e) {}
+              pipe.destroy();
+
               // eliminar del array y ajustar el índice para seguir iterando correctamente
               this.pipes.splice(i, 1);
               i--;
 
-              // resetear jugador al medio vertical
-              const midY = Math.round((this.gameEl.clientHeight - this.player.height) / 2);
-              this.player.reset(midY);
-              this.updatePlayerDom();
-
-              // si no quedan vidas -> terminar juego
+              // si no quedan vidas terminar juego
               if (this.lives <= 0) {
                 this.endGame();
+              
+              // si quedan vidas
+              } else {
+                // resetear jugador al medio vertical
+                const midY = Math.round((this.gameEl.clientHeight - this.player.height) / 2);
+                this.player.reset(midY);
+                this.updatePlayerDom();
+                // hacerlo volar para dar mas tiempo a reaccion
+                this.flap();
               }
 
             }
