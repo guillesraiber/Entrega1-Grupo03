@@ -31,9 +31,9 @@
 
 @keyframes player-move {
     0% {
-        background-position-x: 0px;
+        background-position-x: -30px;
     } 100% {
-        background-position-x: -440px;
+        background-position-x: 410px;
     }
 }
 
@@ -47,9 +47,9 @@
 
 @keyframes player-hit {
     0% {
-        background-position-x: 0px;
+        background-position-x: -30px;
     } 100% {
-        background-position-x: -220px;
+        background-position-x: 190px;
     }
 }
 
@@ -58,7 +58,7 @@
     position: absolute;
     left: 10%;
     top: 50%;
-    width: 80px;
+    width: 46px;
     height: 40px;
     background: url("../images/Flappy Bird/Characters/tiny-fish/Idle.png") left center;
     animation: player-move 0.64s steps(4) infinite;
