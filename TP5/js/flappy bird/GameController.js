@@ -10,6 +10,9 @@ export class GameController {
     this.running = false;
     this.lastTs = null;
 
+    // vidas
+    this.lives = 3;
+
     // tubos (obstáculos)
     this.pipes = [];
     this.pipeSpacing = 400; // distancia entre columnas de tubos (ajustable)
@@ -30,6 +33,15 @@ export class GameController {
     this.stopBtn = document.querySelector('#stop-btn');
     this.playerElem = document.querySelector('#flappyPlayer');
     this.gameEl = document.querySelector('#game-window');
+    this.gameOverEl = document.querySelector('#gameOver');
+    this.gameOverTitle = document.querySelector('#game-over-title');
+    this.gameOverMessage = document.querySelector('#game-over-message');
+    // health icons in the UI
+    this.healthIcons = [
+      document.querySelector('.health-icon-1'),
+      document.querySelector('.health-icon-2'),
+      document.querySelector('.health-icon-3')
+    ];
   }
 
   init() {
@@ -121,10 +133,10 @@ export class GameController {
       // actualizar tubos: moverlos y eliminar los que salieron de pantalla
       if (this.pipes && this.pipes.length) {
         for (let i = this.pipes.length - 1; i >= 0; i--) {
-          const p = this.pipes[i];
-          p.update(dt, this.pipeSpeed);
-          if (p.getX() + p.segmentWidth < 0) {
-            p.destroy();
+          const pipe = this.pipes[i];
+          pipe.update(dt, this.pipeSpeed);
+          if (pipe.getX() + pipe.segmentWidth < 0) {
+            pipe.destroy();
             this.pipes.splice(i, 1);
           }
         }
@@ -135,6 +147,74 @@ export class GameController {
         const spawnX = this.gameEl ? this.gameEl.clientWidth : window.innerWidth;
         this.createPipe(spawnX + 10);
         this.lastPipeSpawn = this.worldX;
+      }
+
+      // DETECCIÓN DE COLISIONES: comprobar cada pipe contra el jugador
+      if (this.pipes && this.pipes.length) {
+        const screenLeft = Math.round(this.gameEl.clientWidth * 0.1);
+        const playerLeft = screenLeft;
+        const playerTop = Math.round(this.player.y);
+        const playerRight = playerLeft + this.player.width;
+        const playerBottom = playerTop + this.player.height;
+
+        for (let i = 0; i < this.pipes.length; i++) {
+          const pipe = this.pipes[i];
+          if (!pipe || pipe._collided) continue;
+          const pipeLeft = pipe.getX();
+          const pipeRight = pipeLeft + pipe.segmentWidth;
+
+          // comprobar solapamiento horizontal
+          if (playerRight > pipeLeft && playerLeft < pipeRight) {
+            const gapTop = pipe.getGapIndex() * pipe.segmentHeight;
+            const gapBottom = gapTop + pipe.segmentHeight;
+
+            // si el jugador NO está dentro del hueco vertical -> colisión
+            if (playerTop < gapTop || playerBottom > gapBottom) {
+              // marcar para evitar múltiples impactos del mismo tubo
+              pipe._collided = true;
+
+              // quitar una vida y reproducir animación de golpe
+              this.lives = Math.max(0, this.lives - 1);
+              try { this.player.hurtPlayer(); } catch (e) {}
+
+              // actualizar iconos de vida (si existen)
+              if (this.healthIcons && this.healthIcons.length) {
+                const idxToHide = this.lives; // 2-> ocultar idx 2, etc.
+                if (this.healthIcons[idxToHide]) this.healthIcons[idxToHide].classList.add('hidden');
+              }
+
+              // resetear jugador al medio vertical
+              const midY = Math.round((this.gameEl.clientHeight - this.player.height) / 2);
+              this.player.reset(midY);
+              this.updatePlayerDom();
+
+              // si no quedan vidas -> terminar juego
+              if (this.lives <= 0) {
+                // detener la lógica del juego (no seguir moviendo el mundo)
+                this.running = false;
+
+                // pausar animaciones de fondo
+                if (this.gameEl) this.gameEl.classList.add('paused');
+
+                // reproducir animación de muerte
+                try { this.player.die(); } catch (e) {}
+
+                // eliminar del DOM después de la animación (usar 1s como duración de la animación en Player)
+                setTimeout(() => {
+                  if (this.playerElem && this.playerElem.parentNode) this.playerElem.parentNode.removeChild(this.playerElem);
+                }, 1000);
+
+                // mostrar pantalla de game over con mensaje
+                if (this.gameOverEl) {
+                  this.gameOverEl.classList.remove('hidden');
+                }
+                if (this.gameOverTitle) this.gameOverTitle.textContent = 'Juego terminado';
+                if (this.gameOverMessage) this.gameOverMessage.textContent = 'Perdiste las 3 vidas';
+              }
+
+            }
+          }
+        }
       }
 
       // actualiza posicion del jugaodr en pantalla

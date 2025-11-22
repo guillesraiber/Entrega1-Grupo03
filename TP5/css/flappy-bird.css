@@ -16,6 +16,11 @@
     background-size: cover;
 }
 
+/* Pausar animaciones de fondo (usado en game over) */
+.game-window.paused .background-layer {
+    animation-play-state: paused !important;
+}
+
 @keyframes background-move {
     0% {
         background-position-x: 0px;

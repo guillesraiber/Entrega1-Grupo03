@@ -62,7 +62,7 @@ export class Player {
       this.elem.classList.add("hit");
       setTimeout(() => {
         this.elem.classList.remove("hit");
-      }, 300);
+      }, 1000);
 
     }
 }
