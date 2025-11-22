@@ -208,14 +208,18 @@ export class GameController {
 
       // actualizar tubos: mover y eliminar los que salieron de pantalla
       if (this.pipes && this.pipes.length) {
+
         for (let i = this.pipes.length - 1; i >= 0; i--) {
+
           const pipe = this.pipes[i];
           pipe.update(dt, this.pipeSpeed);
           if (pipe.getX() + pipe.segmentWidth < 0) {
             pipe.destroy();
             this.pipes.splice(i, 1);
           }
+          
         }
+
       }
 
       // spawnear nuevos tubos cuando la distancia se cumple
