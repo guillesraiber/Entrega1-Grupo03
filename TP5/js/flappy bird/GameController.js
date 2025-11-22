@@ -45,11 +45,15 @@ export class GameController {
   }
 
   init() {
-    // lo que hace que se aletee
-    window.addEventListener('keydown', e => { if (e.code === 'Space') { e.preventDefault(); this.flap(); }});
-    this.gameEl.addEventListener('mousedown', () => this.flap());
+    // lo que hace que se aletee: usar funciones enlazadas para poder removerlas luego
+    this._onKeyDown = (e) => { if (e.code === 'Space') { e.preventDefault(); this.flap(); } };
+    this._onMouseDown = () => this.flap();
+    this._onTouchStart = (e) => { e.preventDefault(); this.flap(); };
+
+    window.addEventListener('keydown', this._onKeyDown);
+    if (this.gameEl) this.gameEl.addEventListener('mousedown', this._onMouseDown);
     // toque como si fuera tactil/celular
-    this.gameEl.addEventListener('touchstart', e => { e.preventDefault(); this.flap(); }, { passive:false });
+    if (this.gameEl) this.gameEl.addEventListener('touchstart', this._onTouchStart, { passive:false });
 
     // // Botones
     // this.playBtn.addEventListener('click', () => this.play());
@@ -72,6 +76,12 @@ export class GameController {
     this.lastTs = null;
     this.worldX = 0;
     this.player.reset(200);
+    // asegurar que el jugador esté visible
+    if (this.playerElem) this.playerElem.classList.remove('hidden');
+    // resetear iconos de vida visibles
+    if (this.healthIcons && this.healthIcons.length) {
+      this.healthIcons.forEach(h => { if (h) h.classList.remove('hidden'); });
+    }
     
     // limpiar tubos previos
     if (this.pipes && this.pipes.length) {
@@ -84,6 +94,35 @@ export class GameController {
 
     // aletea al empezar para que no caiga automaticamente
     this.flap();
+  }
+
+  // limpiar y eliminar listeners para poder crear una nueva instancia sin duplicados
+  dispose() {
+    // detener loop
+    this.running = false;
+
+    // remover listeners enlazados
+    try { window.removeEventListener('keydown', this._onKeyDown); } catch (e) {}
+    try { if (this.gameEl) this.gameEl.removeEventListener('mousedown', this._onMouseDown); } catch (e) {}
+    try { if (this.gameEl) this.gameEl.removeEventListener('touchstart', this._onTouchStart); } catch (e) {}
+
+    // destruir todos los pipes
+    if (this.pipes && this.pipes.length) {
+      this.pipes.forEach(p => { try { p.destroy(); } catch (e) {} });
+      this.pipes = [];
+    }
+
+    // asegurar que el overlay de game over esté oculto y quitar pausa de fondos
+    try { if (this.gameOverEl) this.gameOverEl.classList.add('hidden'); } catch (e) {}
+    try { if (this.gameEl) this.gameEl.classList.remove('paused'); } catch (e) {}
+
+    // restaurar elemento jugador si fue escondido
+    try { if (this.playerElem) this.playerElem.classList.remove('hidden'); } catch (e) {}
+
+    // quitar referencias pesadas
+    this._onKeyDown = null;
+    this._onMouseDown = null;
+    this._onTouchStart = null;
   }
 
   // crea y anexa un nuevo Pipe al juego
@@ -124,7 +163,7 @@ export class GameController {
 
     // eliminar del DOM después de la animacion (usar 1s como duración de la animacion en Player)
     setTimeout(() => {
-      if (this.playerElem && this.playerElem.parentNode) this.playerElem.parentNode.removeChild(this.playerElem);
+      this.playerElem.classList.add("hidden");
     }, 1000);
 
     // mostrar pantalla de game over con mensaje

@@ -26,7 +26,7 @@ export class Pipe {
 			seg.style.left = '0px';
 			seg.style.top = (i * this.segmentHeight) + 'px';
 
-			// selección aleatoria de imagen por segmento según probabilidades:
+			// selección aleatoria de imagen por segmento segun probabilidades:
 			// 50% normal-pipe, 20% circular-valve-pipe, 20% glass-pipe, 10% broken-pipe
 			const rand = Math.random() * 100;
 			let imgName;
@@ -50,7 +50,7 @@ export class Pipe {
 		if (this.elem) this.elem.style.left = Math.round(this.x) + 'px';
 	}
 
-	// Método de compatibilidad (llamable desde fuera si se quiere separar lógica/DOM)
+	// metodo de compatibilidad (llamable desde fuera para separar lógica/DOM)
 	render() {
 		if (this.elem) this.elem.style.left = Math.round(this.x) + 'px';
 	}

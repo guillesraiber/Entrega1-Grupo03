@@ -5,13 +5,34 @@ import { GameController } from "./GameController.js";
 
 const playButton = document.querySelector('#play-btn');
 
-playButton.addEventListener('click', () => {
+// Mantener la instancia actual para poder eliminarla al reiniciar
+let currentController = null;
 
+function startNewGame() {
+  // limpiar instancia previa si existe
+  if (currentController && typeof currentController.dispose === 'function') {
+    currentController.dispose();
+  }
   document.querySelector('.game-stats').classList.remove('hidden');
   document.querySelector('.instructions').classList.add('hidden');
-  new GameController();
+  currentController = new GameController();
+}
 
+playButton.addEventListener('click', () => {
+  startNewGame();
 });
+
+// botón de reinicio dentro del overlay de game over
+const restartBtn = document.querySelector('.btn-restart');
+if (restartBtn) {
+  restartBtn.addEventListener('click', () => {
+    // ocultar overlay de game over
+    const gameOverEl = document.querySelector('#gameOver');
+    if (gameOverEl) gameOverEl.classList.add('hidden');
+    // iniciar nueva partida
+    startNewGame();
+  });
+}
 
 
 
