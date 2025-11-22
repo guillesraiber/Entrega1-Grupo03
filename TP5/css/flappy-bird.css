@@ -67,6 +67,7 @@
 }
 
 .dead {
+    left: 7%;
     top: 42%;
     width: 110px;
     height: 110px;
@@ -234,7 +235,6 @@
 }
 
 .game-over {
-    max-width: 410px;
     margin: 128px 232px  0 0;
     padding: 15px 10px;
     font-weight: bold;
