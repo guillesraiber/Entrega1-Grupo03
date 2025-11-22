@@ -160,8 +160,6 @@
 }
 
 
-
-
 .instructions {
     max-width: 410px;
     margin: 45px 90px 0 0;
@@ -248,7 +246,9 @@
     font-size: 19px;
 }
 
-
+.game-over p {
+    margin: 1px 0 10px 0;
+}
 
 .hidden {
     display: none !important;

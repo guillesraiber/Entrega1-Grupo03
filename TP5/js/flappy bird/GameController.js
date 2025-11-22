@@ -13,6 +13,9 @@ export class GameController {
     // vidas
     this.lives = 3;
 
+    // puntaje
+    this.score = 0;
+
     // tubos (obstáculos)
     this.pipes = [];
     this.pipeSpacing = 400; // distancia entre columnas de tubos (ajustable)
@@ -36,7 +39,9 @@ export class GameController {
     this.gameOverEl = document.querySelector('#gameOver');
     this.gameOverTitle = document.querySelector('#game-over-title');
     this.gameOverMessage = document.querySelector('#game-over-message');
-    // health icons in the UI
+    this.finalPointsDisplay = document.querySelector('#final-points');
+    this.pointsEl = document.querySelector('#points');
+    // iconos de vida durante el juego
     this.healthIcons = [
       document.querySelector('.health-icon-1'),
       document.querySelector('.health-icon-2'),
@@ -55,10 +60,6 @@ export class GameController {
     // toque como si fuera tactil/celular
     if (this.gameEl) this.gameEl.addEventListener('touchstart', this._onTouchStart, { passive:false });
 
-    // // Botones
-    // this.playBtn.addEventListener('click', () => this.play());
-    // this.stopBtn.addEventListener('click', () => this.stop());
-
     // empezar loop
     requestAnimationFrame((ts) => this.loop(ts));
 
@@ -76,8 +77,14 @@ export class GameController {
     this.lastTs = null;
     this.worldX = 0;
     this.player.reset(200);
+
+    // resetear puntaje
+    this.score = 0;
+    if (this.pointsEl) this.pointsEl.textContent = String(this.score);
+    
     // asegurar que el jugador esté visible
     if (this.playerElem) this.playerElem.classList.remove('hidden');
+
     // resetear iconos de vida visibles
     if (this.healthIcons && this.healthIcons.length) {
       this.healthIcons.forEach(h => { if (h) h.classList.remove('hidden'); });
@@ -169,7 +176,16 @@ export class GameController {
     // mostrar pantalla de game over con mensaje
     if (this.gameOverEl) { this.gameOverEl.classList.remove('hidden'); }
     if (this.gameOverTitle) this.gameOverTitle.textContent = 'Juego terminado';
-    if (this.gameOverMessage) this.gameOverMessage.textContent = 'Perdiste las 3 vidas';
+    if (this.gameOverMessage) this.gameOverMessage.textContent = 'Perdiste las 3 vidas ';
+    if (this.finalPointsDisplay) this.finalPointsDisplay.textContent = `Puntaje final: ${this.score}`;
+  }
+
+  // sumar punto y actualizar DOM (método separado según lo pedido)
+  addPoint(amount = 1) {
+    this.score += amount;
+    if (this.pointsEl) {
+      this.pointsEl.textContent = String(this.score);
+    }
   }
 
   // loop principal de actualizacion del juegp
@@ -222,6 +238,12 @@ export class GameController {
           if (!pipe || pipe._collided) continue;
           const pipeLeft = pipe.getX();
           const pipeRight = pipeLeft + pipe.segmentWidth;
+
+            // si el jugador paso la columna (derecha del pipe < izquierda del jugador) -> sumar punto
+            if (!pipe._scored && pipeRight < playerLeft) {
+              pipe._scored = true;
+              this.addPoint();
+            }
 
           // comprobar solapamiento horizontal
           if (playerRight > pipeLeft && playerLeft < pipeRight) {
