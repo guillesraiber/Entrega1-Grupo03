@@ -55,4 +55,15 @@ export class Player {
       }, 1000);
     }
   }
+
+  hurtPlayer() {
+    if (!this.elem.classList.contains("hit")) {
+
+      this.elem.classList.add("hit");
+      setTimeout(() => {
+        this.elem.classList.remove("hit");
+      }, 300);
+
+    }
+}
 }

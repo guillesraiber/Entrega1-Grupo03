@@ -8,7 +8,7 @@ const playerElem = document.querySelector('#flappyPlayer');
 let hitCount = 0;
 playerElem.addEventListener('click', () => {
     if (hitCount < 3) {
-        hitPlayer();
+        hurtPlayer();
     } else {
         hitCount = 0;
         explotePlayer();
@@ -27,7 +27,7 @@ function explotePlayer() {
     }
 }
 
-function hitPlayer() {
+function hurtPlayer() {
     if (!playerElem.classList.contains("hit")) {
 
       playerElem.classList.add("hit");
