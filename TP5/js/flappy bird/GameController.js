@@ -2,6 +2,7 @@
 
 import { Player } from "./Player.js";
 import { Pipe } from "./Pipe.js";
+import { Interactable } from "./Interactable.js";
 
 export class GameController {
   constructor() {
@@ -15,6 +16,9 @@ export class GameController {
 
     // puntaje
     this.score = 0;
+
+    // interactuables (monedas / corazones)
+    this.interactables = [];
 
     // tubos (obstáculos)
     this.pipes = [];
@@ -95,9 +99,17 @@ export class GameController {
       this.pipes.forEach(p => p.destroy());
       this.pipes = [];
     }
+    // limpiar interactuables previos
+    if (this.interactables && this.interactables.length) {
+      this.interactables.forEach(i => i.destroy());
+      this.interactables = [];
+    }
     this.lastPipeSpawn = 0;
     // generar un primer conjunto de tubos un poco adelante
     if (this.gameEl) this.createPipe(this.gameEl.clientWidth + 50);
+
+    // generar algun interactuable inicial opcional
+    // (no obligatorio; serán generados junto a nuevos pipes)
 
     // aletea al empezar para que no caiga automaticamente
     this.flap();
@@ -119,6 +131,12 @@ export class GameController {
       this.pipes = [];
     }
 
+    // destruir interactuables
+    if (this.interactables && this.interactables.length) {
+      this.interactables.forEach(i => { try { i.destroy(); } catch (e) {} });
+      this.interactables = [];
+    }
+
     // asegurar que el overlay de game over esté oculto y quitar pausa de fondos
     try { if (this.gameOverEl) this.gameOverEl.classList.add('hidden'); } catch (e) {}
     try { if (this.gameEl) this.gameEl.classList.remove('paused'); } catch (e) {}
@@ -137,6 +155,13 @@ export class GameController {
     const pipe = new Pipe(this.gameEl, startX);
     this.pipes.push(pipe);
     return pipe;
+  }
+
+  // crear un interactuable (coin o heart)
+  createInteractable(startX, type = 'coin') {
+    const it = new Interactable(this.gameEl, startX, type);
+    this.interactables.push(it);
+    return it;
   }
 
   killPlayer() {
@@ -222,11 +247,34 @@ export class GameController {
 
       }
 
+      // actualizar interactuables: mover y eliminar si salen de pantalla
+      if (this.interactables && this.interactables.length) {
+        for (let j = this.interactables.length - 1; j >= 0; j--) {
+          const it = this.interactables[j];
+          it.update(dt, this.pipeSpeed);
+          if (it.getX() + it.width < 0) {
+            try { it.destroy(); } catch (e) {}
+            this.interactables.splice(j, 1);
+          }
+        }
+      }
+
       // spawnear nuevos tubos cuando la distancia se cumple
       if (this.worldX - this.lastPipeSpawn >= this.pipeSpacing) {
         const spawnX = this.gameEl ? this.gameEl.clientWidth : window.innerWidth;
         this.createPipe(spawnX + 10);
         this.lastPipeSpawn = this.worldX;
+        // spawn interactables ocasionalmente junto a los pipes
+        // 30% monedas, 10% corazones
+        const roll = Math.random() * 100;
+        if (roll < 30) {
+          // spawn interactable OFFSET en X para no superponerse con el pipe
+          const offsetX = 150 + Math.floor(Math.random() * 120); // 150-269px delante del pipe
+          this.createInteractable(spawnX + offsetX, 'coin');
+        } else if (roll < 40) {
+          const offsetX = 150 + Math.floor(Math.random() * 120);
+          this.createInteractable(spawnX + offsetX, 'heart');
+        }
       }
 
       // DETECCIÓN DE COLISIONES: comprobar cada pipe contra el jugador
@@ -290,6 +338,36 @@ export class GameController {
                 this.flap();
               }
 
+            }
+          }
+        }
+        // comprobar colisiones con interactuables
+        if (this.interactables && this.interactables.length) {
+          for (let k = this.interactables.length - 1; k >= 0; k--) {
+            const it = this.interactables[k];
+            if (!it || !it.elem) continue;
+            const itLeft = it.getX();
+            const itRight = itLeft + it.width;
+            const itTop = it.getY();
+            const itBottom = itTop + it.height;
+
+            // AABB collision
+            if (playerLeft < itRight && playerRight > itLeft && playerTop < itBottom && playerBottom > itTop) {
+              // recoger
+              try { it.destroy(); } catch (e) {}
+              this.interactables.splice(k, 1);
+
+              if (it.type === 'coin') {
+                this.addPoint();
+              } else if (it.type === 'heart') {
+                // dar vida si no esta al maximo
+                if (this.lives < 3) {
+                  this.lives = Math.min(3, this.lives + 1);
+                  // mostrar icono correspondiente
+                  const idx = this.lives - 1;
+                  if (this.healthIcons && this.healthIcons[idx]) this.healthIcons[idx].classList.remove('hidden');
+                }
+              }
             }
           }
         }
