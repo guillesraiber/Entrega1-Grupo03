@@ -34,6 +34,13 @@ export class Player {
   // aleteo
   flap() {
     this.vy = -this.flapStrength;
+
+    if (this.elem && !this.elem.classList.contains("flap")) {
+      this.elem.classList.add("flap");
+      setTimeout(() => {
+        this.elem.classList.remove("flap");
+      }, 260);
+    }
   }
 
   // reinicia posicion y velocidad de caida
@@ -48,7 +55,7 @@ export class Player {
   }
 
   die() {
-    if (!this.elem.classList.contains("dead")) {
+    if (this.elem && !this.elem.classList.contains("dead")) {
       this.elem.classList.add("dead");
       setTimeout(() => {
         this.elem.classList.remove("dead");
@@ -57,7 +64,7 @@ export class Player {
   }
 
   hurtPlayer() {
-    if (!this.elem.classList.contains("hit")) {
+    if (this.elem && !this.elem.classList.contains("hit")) {
 
       this.elem.classList.add("hit");
       setTimeout(() => {

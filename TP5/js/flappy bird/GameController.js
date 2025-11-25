@@ -50,6 +50,8 @@ export class GameController {
       document.querySelector('.health-icon-2'),
       document.querySelector('.health-icon-3')
     ];
+
+    this.playerElem.classList.remove('natural-flap');
   }
 
   init() {

@@ -8,28 +8,41 @@
     flex-direction: column;
 }
 
-
-.background-layer {
+/* Jugador */
+.flappy-player {
     position: absolute;
-    width: 800px;
-    height: 448px;
-    background-size: cover;
+    left: 10%;
+    top: 50%;
+    width: 46px;
+    height: 40px;
+    cursor: pointer;
+    background: url("../images/Flappy Bird/Characters/tiny-fish/Idle.png") left center;
+    background-position-x: -30px;
 }
 
-/* Pausar animaciones de fondo (usado en game over) */
-.game-window.paused .background-layer {
-    animation-play-state: paused !important;
+.natural-flap {
+    animation: player-flap 0.65s steps(4) infinite;
 }
 
-@keyframes background-move {
-    0% {
-        background-position-x: 0px;
-    } 100% {
-        background-position-x: -800px;
-    }
+.flap {
+    animation: player-flap 0.26s steps(4) infinite;
 }
 
-@keyframes player-move {
+.dead {
+    left: 7%;
+    top: 42%;
+    width: 110px;
+    height: 110px;
+    background: url("../images/Flappy Bird/Characters/tiny-fish/Explode.png") left center;
+    animation: player-die 1s steps(6) infinite;
+}
+
+.hit {
+    background: url("../images/Flappy Bird/Characters/tiny-fish/Hurt.png") left center;
+    animation: player-hit 0.2s steps(2) infinite;
+}
+
+@keyframes player-flap {
     0% {
         background-position-x: -30px;
     } 100% {
@@ -53,31 +66,18 @@
     }
 }
 
-/* Jugador */
-.flappy-player {
+
+/* Fondo parallax */
+.background-layer {
     position: absolute;
-    left: 10%;
-    top: 50%;
-    width: 46px;
-    height: 40px;
-    background: url("../images/Flappy Bird/Characters/tiny-fish/Idle.png") left center;
-    animation: player-move 0.64s steps(4) infinite;
-
-    cursor: pointer;
+    width: 800px;
+    height: 448px;
+    background-size: cover;
 }
 
-.dead {
-    left: 7%;
-    top: 42%;
-    width: 110px;
-    height: 110px;
-    background: url("../images/Flappy Bird/Characters/tiny-fish/Explode.png") left center;
-    animation: player-die 1s steps(6) infinite;
-}
-
-.hit {
-    background: url("../images/Flappy Bird/Characters/tiny-fish/Hurt.png") left center;
-    animation: player-hit 0.2s steps(2) infinite;
+/* Pausa animacion del fondo */
+.game-window.paused .background-layer {
+    animation-play-state: paused !important;
 }
 
 .layer1 {
@@ -105,6 +105,16 @@
     background-image: url("../images/Flappy Bird/Background/Oscuro/5.png");
 }
 
+@keyframes background-move {
+    0% {
+        background-position-x: 0px;
+    } 100% {
+        background-position-x: -800px;
+    }
+}
+
+
+/* Monedas y corazones */
 .interactive-icon {
     width: 40px;
     height: 40px;
@@ -128,6 +138,7 @@
     }
 }
 
+/* Tubos */
 .pipe {
     position: absolute;
     width: 75px;
@@ -137,6 +148,7 @@
     background-image: url("../images/Flappy Bird/Pipes/normal-pipe.png");
 }
 
+/* Contenedor de vidas y puntaje durante el juego */
 .game-stats {
     z-index: 100;
     position: absolute;
@@ -160,6 +172,7 @@
 }
 
 
+/* Menu */
 .instructions {
     max-width: 410px;
     margin: 45px 90px 0 0;
