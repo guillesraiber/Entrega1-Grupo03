@@ -37,6 +37,13 @@
     animation: player-die 1s steps(6) infinite;
 }
 
+.ground-dead {
+    width: 110px;
+    height: 110px;
+    background: url("../images/Flappy Bird/Characters/tiny-fish/Dead.png") left center;
+    animation: player-die-ground 1.3s steps(6) infinite;
+}
+
 .hit {
     background: url("../images/Flappy Bird/Characters/tiny-fish/Hurt.png") left center;
     animation: player-hit 0.2s steps(2) infinite;
@@ -66,6 +73,14 @@
     }
 }
 
+@keyframes player-die-ground {
+    0% {
+        background-position-x: -30px;
+    } 100% {
+        background-position-x: -630px;
+    }
+}
+
 
 /* Fondo parallax */
 .background-layer {
@@ -77,6 +92,10 @@
 
 /* Pausa animacion del fondo */
 .game-window.paused .background-layer {
+    animation-play-state: paused !important;
+}
+
+.paused {
     animation-play-state: paused !important;
 }
 

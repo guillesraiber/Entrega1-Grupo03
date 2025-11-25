@@ -33,7 +33,7 @@ export class Player {
     const hitGround = clampedY >= (gameHeight - this.height);
     this.y = clampedY;
     if (hitGround) {
-      // al tocar el piso, detener la velocidad vertical y marcar en suelo
+      // toca el piso
       this.vy = 0;
       this.onGround = true;
     } else {
@@ -66,13 +66,23 @@ export class Player {
     return Math.max(-45, Math.min(45, this.vy * 3));
   }
 
-  die() {
+die(reason = "") {
+  if (reason === 'groundTouch') {
+    if (this.elem && !this.elem.classList.contains("ground-dead")) {
+      this.elem.classList.add("ground-dead");
+      setTimeout(() => {
+        this.elem.classList.add("paused");
+      }, 1000);
+    }
+  } else {
     if (this.elem && !this.elem.classList.contains("dead")) {
       this.elem.classList.add("dead");
       setTimeout(() => {
         this.elem.classList.remove("dead");
       }, 1000);
     }
+  }
+
   }
 
   hurtPlayer() {

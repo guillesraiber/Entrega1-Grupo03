@@ -16,7 +16,7 @@ export class GameController {
 
     // puntaje
     this.score = 0;
-    this.pointLimit = 2;
+    this.pointLimit = 12;
     // posicion inicial de jugador
     this.startY = 200;
 
@@ -54,7 +54,6 @@ export class GameController {
       document.querySelector('.health-icon-3')
     ];
 
-    this.playerElem.classList.remove('natural-flap');
   }
 
   init() {
@@ -92,6 +91,11 @@ export class GameController {
     
     // asegurar que el jugador esté visible
     if (this.playerElem && this.playerElem.classList.contains('hidden')) this.playerElem.classList.remove('hidden');
+    
+    this.playerElem.classList.remove('natural-flap');
+    this.playerElem.classList.remove('ground-dead');
+    this.playerElem.classList.remove('paused');
+
 
     // resetear iconos de vida visibles
     if (this.healthIcons && this.healthIcons.length) {
@@ -188,60 +192,91 @@ export class GameController {
   }
 
   // terminar juego
-  endGame(won = false) {
+  endGame(won = false, reason = "") {
 
-    this.running = false;
+      if (reason === "touchedGround") {
+        // tocar el suelo: animacion de muerte por choque contra el suelo
+        this.playerElem.style.top = '338px';
+        this.playerElem.style.transform = `rotate(0deg)`;
+        try { this.player.die("groundTouch"); } catch (e) {}
+        setTimeout(() => {
+          
+          if (this.gameEl) this.gameEl.classList.add('paused');
+          // mostrar game over
+          if (this.gameOverEl) { this.gameOverEl.classList.remove('hidden'); }
+          this.running = false;    
+          if (this.gameOverMessage) this.gameOverMessage.textContent = ' Tocaste el suelo ';
+          if (this.finalPointsDisplay) this.finalPointsDisplay.textContent = `Puntaje final: ${this.score}`;
+          
+        }, 1300);
+      } else {
 
-    // pausar fondo parallax
-    if (this.gameEl) this.gameEl.classList.add('paused');
+        this.running = false;    
 
-    // mostrar game over
-    if (this.gameOverEl) { this.gameOverEl.classList.remove('hidden'); }
+        // pausar fondo parallax
+        if (this.gameEl) this.gameEl.classList.add('paused');
 
-    if (won) {
-      // victoria: no matar al jugador
-      try {
-        if (this.playerElem) {
-          this.playerElem.classList.remove('hidden');
-          this.playerElem.classList.add('natural-flap');
+        // mostrar game over
+        if (this.gameOverEl) { this.gameOverEl.classList.remove('hidden'); }
+
+        if (won) {
+          // victoria: no matar al jugador
+          this.winGame();
+
+        } else {
+
+          if (reason === "touchedGround") {
+            // tocar el suelo: animacion de muerte por choque contra el suelo
+            this.playerElem.style.top = '338px';
+            this.playerElem.style.transform = `rotate(0deg)`;
+            try { this.player.die("groundTouch"); } catch (e) {}
+          }
+
+            try { this.player.die(); } catch (e) {}
+
+            // eliminar del DOM después de la animacion, usar 1s como duracion de la animacion en Player
+            setTimeout(() => {
+              try { if (this.playerElem) this.playerElem.classList.add("hidden"); } catch (e) {}
+            }, 1000);
+
+            // mostrar pantalla de game over con mensaje (derrota)
+            if (this.gameOverEl) { this.gameOverEl.classList.remove('hidden'); }
+            if (this.gameOverTitle) this.gameOverTitle.textContent = 'Juego terminado';
+            if (this.gameOverMessage) this.gameOverMessage.textContent = 'Perdiste las 3 vidas ';
+            if (this.finalPointsDisplay) this.finalPointsDisplay.textContent = `Puntaje final: ${this.score}`;
+          
         }
-        // resetear jugador a posicion
-        try { this.player.reset(this.startY); } catch (e) {}
-        this.updatePlayerDom();
-      } catch (e) {}
-
-      // eliminar la pipe mas a la izquierda
-      if (this.pipes && this.pipes.length) {
-        let minIdx = 0;
-        let minX = this.pipes[0].getX();
-        for (let i = 1; i < this.pipes.length; i++) {
-          const px = this.pipes[i].getX();
-          if (px < minX) { minX = px; minIdx = i; }
-        }
-        try { this.pipes[minIdx].destroy(); } catch (e) {}
-        this.pipes.splice(minIdx, 1);
       }
+    
+  }
 
-      // mostrar mensajes de victoria
-      if (this.gameOverTitle) this.gameOverTitle.textContent = '¡Ganaste!';
-      if (this.gameOverMessage) this.gameOverMessage.textContent = 'Se ganó el juego';
-      if (this.finalPointsDisplay) this.finalPointsDisplay.textContent = `Puntaje final: ${this.score}`;
+  winGame() {
+    try {
+      if (this.playerElem) {
+        this.playerElem.classList.remove('hidden');
+        this.playerElem.classList.add('natural-flap');
+      }
+      // resetear jugador a posicion
+      try { this.player.reset(this.startY); } catch (e) { }
+      this.updatePlayerDom();
+    } catch (e) { }
 
-    } else {
-      // derrota: reproducir animación de muerte
-      try { this.player.die(); } catch (e) {}
-
-      // eliminar del DOM después de la animacion (usar 1s como duración de la animacion en Player)
-      setTimeout(() => {
-        try { if (this.playerElem) this.playerElem.classList.add("hidden"); } catch (e) {}
-      }, 1000);
-
-      // mostrar pantalla de game over con mensaje (derrota)
-      if (this.gameOverEl) { this.gameOverEl.classList.remove('hidden'); }
-      if (this.gameOverTitle) this.gameOverTitle.textContent = 'Juego terminado';
-      if (this.gameOverMessage) this.gameOverMessage.textContent = 'Perdiste las 3 vidas ';
-      if (this.finalPointsDisplay) this.finalPointsDisplay.textContent = `Puntaje final: ${this.score}`;
+    // eliminar la pipe mas a la izquierda
+    if (this.pipes && this.pipes.length) {
+      let minIdx = 0;
+      let minX = this.pipes[0].getX();
+      for (let i = 1; i < this.pipes.length; i++) {
+        const px = this.pipes[i].getX();
+        if (px < minX) { minX = px; minIdx = i; }
+      }
+      try { this.pipes[minIdx].destroy(); } catch (e) { }
+      this.pipes.splice(minIdx, 1);
     }
+
+    // mostrar mensajes de victoria
+    if (this.gameOverTitle) this.gameOverTitle.textContent = '¡Ganaste!';
+    if (this.gameOverMessage) this.gameOverMessage.textContent = 'Se ganó el juego';
+    if (this.finalPointsDisplay) this.finalPointsDisplay.textContent = `Puntaje final: ${this.score}`;
   }
 
   // sumar punto y actualizar DOM (método separado según lo pedido)
@@ -291,6 +326,7 @@ export class GameController {
 
     if (this.running) {
 
+
       // fisica jugador
       this.player.applyGravity(dt);
       this.player.updatePosition(dt);
@@ -300,6 +336,11 @@ export class GameController {
     
       // actualizar posicion del mundo (usa worldX para el spawn)
       this.worldX += this.pipeSpeed * dt;
+
+      if (this.player.onGround) {
+        this.endGame(false, "touchedGround");
+        return;
+      }
 
       // actualizar tubos: mover y eliminar los que salieron de pantalla
       if (this.pipes && this.pipes.length) {
