@@ -32,7 +32,6 @@ export class GameController {
 
     this.play();
 
-
   }
 
   startElements() {
@@ -212,6 +211,33 @@ export class GameController {
       this.pointsEl.textContent = String(this.score);
     }
   }
+  
+  addLife() {
+    if (this.lives < 3) {
+      this.lives = Math.min(3, this.lives + 1);
+      // mostrar icono correspondiente
+      const idx = this.lives - 1;
+      if (this.healthIcons && this.healthIcons[idx]) this.healthIcons[idx].classList.remove('hidden');
+    }
+  }
+
+  spawnPipesAndInteractables() {
+      const spawnX = this.gameEl ? this.gameEl.clientWidth : window.innerWidth;
+      this.createPipe(spawnX + 10);
+      this.lastPipeSpawn = this.worldX;
+
+      // spawn interactables ocasionalmente junto a los pipes
+      // 40% monedas, 12% corazones
+      const roll = Math.random() * 100;
+      if (roll < 40) {
+        // spawn interactable OFFSET en X para no superponerse con el pipe
+        const offsetX = 150 + Math.floor(Math.random() * 120); // 150-269px delante del pipe
+        this.createInteractable(spawnX + offsetX, 'coin');
+      } else if (roll < 52) {
+        const offsetX = 150 + Math.floor(Math.random() * 120);
+        this.createInteractable(spawnX + offsetX, 'heart');
+      }
+    }
 
   // loop principal de actualizacion del juegp
   loop(ts) {
@@ -252,50 +278,40 @@ export class GameController {
         for (let j = this.interactables.length - 1; j >= 0; j--) {
           const it = this.interactables[j];
           it.update(dt, this.pipeSpeed);
+
           if (it.getX() + it.width < 0) {
             try { it.destroy(); } catch (e) {}
             this.interactables.splice(j, 1);
           }
+
         }
       }
 
       // spawnear nuevos tubos cuando la distancia se cumple
       if (this.worldX - this.lastPipeSpawn >= this.pipeSpacing) {
-        const spawnX = this.gameEl ? this.gameEl.clientWidth : window.innerWidth;
-        this.createPipe(spawnX + 10);
-        this.lastPipeSpawn = this.worldX;
-        // spawn interactables ocasionalmente junto a los pipes
-        // 30% monedas, 10% corazones
-        const roll = Math.random() * 100;
-        if (roll < 30) {
-          // spawn interactable OFFSET en X para no superponerse con el pipe
-          const offsetX = 150 + Math.floor(Math.random() * 120); // 150-269px delante del pipe
-          this.createInteractable(spawnX + offsetX, 'coin');
-        } else if (roll < 40) {
-          const offsetX = 150 + Math.floor(Math.random() * 120);
-          this.createInteractable(spawnX + offsetX, 'heart');
-        }
+        this.spawnPipesAndInteractables();
       }
 
-      // DETECCIÓN DE COLISIONES: comprobar cada pipe contra el jugador
+      // DETECCION DE COLISIONES: comprobar cada pipe contra el jugador
       if (this.pipes && this.pipes.length) {
-        const screenLeft = Math.round(this.gameEl.clientWidth * 0.1);
-        const playerLeft = screenLeft;
+        const playerLeft = Math.round(this.gameEl.clientWidth * 0.1);
         const playerTop = Math.round(this.player.y);
         const playerRight = playerLeft + this.player.width;
         const playerBottom = playerTop + this.player.height;
 
         for (let i = 0; i < this.pipes.length; i++) {
           const pipe = this.pipes[i];
+
           if (!pipe || pipe._collided) continue;
+
           const pipeLeft = pipe.getX();
           const pipeRight = pipeLeft + pipe.segmentWidth;
 
-            // si el jugador paso la columna (derecha del pipe < izquierda del jugador) -> sumar punto
-            if (!pipe._scored && pipeRight < playerLeft) {
-              pipe._scored = true;
-              this.addPoint();
-            }
+          // si el jugador paso la columna (derecha del pipe < izquierda del jugador) -> sumar punto
+          if (!pipe._scored && pipeRight < playerLeft) {
+            pipe._scored = true;
+            this.addPoint();
+          }
 
           // comprobar solapamiento horizontal
           if (playerRight > pipeLeft && playerLeft < pipeRight) {
@@ -361,12 +377,7 @@ export class GameController {
                 this.addPoint();
               } else if (it.type === 'heart') {
                 // dar vida si no esta al maximo
-                if (this.lives < 3) {
-                  this.lives = Math.min(3, this.lives + 1);
-                  // mostrar icono correspondiente
-                  const idx = this.lives - 1;
-                  if (this.healthIcons && this.healthIcons[idx]) this.healthIcons[idx].classList.remove('hidden');
-                }
+                this.addLife();
               }
             }
           }
@@ -378,6 +389,6 @@ export class GameController {
       requestAnimationFrame((ts) => this.loop(ts));
     }
 
-
   }
+
 }

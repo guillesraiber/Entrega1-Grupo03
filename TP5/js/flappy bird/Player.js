@@ -6,7 +6,7 @@ export class Player {
     this.y = initialY;
     this.vy = 0;
     this.gravity = 0.37;
-    this.flapStrength = 6;
+    this.flapStrength = 5.5;
     this.width = 44;
     this.height = 34;
     this.initElements();

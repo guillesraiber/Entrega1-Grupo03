@@ -38,7 +38,7 @@ if (restartBtn) {
 
 // Si se aprieta 3 veces el pescado en el manu, explota
 const playerElem = document.querySelector('#flappyPlayer');
-let hitCount = 0;
+let hitCount = 1;
 playerElem.addEventListener('click', () => {
     if (hitCount <= 3) {
         hurtPlayer();
