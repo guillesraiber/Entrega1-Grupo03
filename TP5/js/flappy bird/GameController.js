@@ -6,7 +6,7 @@ import { Interactable } from "./Interactable.js";
 
 export class GameController {
   constructor() {
-    this.player = new Player(200);
+    this.player = new Player();
     this.worldX = 0;
     this.running = false;
     this.lastTs = null;
@@ -294,12 +294,36 @@ export class GameController {
         this.spawnPipesAndInteractables();
       }
 
-      // DETECCION DE COLISIONES: comprobar cada pipe contra el jugador
+      // detector de colisiones, comprobar cada pipe e interactuable contra el jugador
       if (this.pipes && this.pipes.length) {
         const playerLeft = Math.round(this.gameEl.clientWidth * 0.1);
         const playerTop = Math.round(this.player.y);
         const playerRight = playerLeft + this.player.width;
         const playerBottom = playerTop + this.player.height;
+
+        // colisiones con interactuables
+        if (this.interactables && this.interactables.length) {
+          for (let k = this.interactables.length - 1; k >= 0; k--) {
+            const it = this.interactables[k];
+            if (!it || !it.elem) continue;
+            const itLeft = it.getX();
+            const itRight = itLeft + it.width;
+            const itTop = it.getY();
+            const itBottom = itTop + it.height;
+
+            if (playerLeft < itRight && playerRight > itLeft && playerTop < itBottom && playerBottom > itTop) {
+              // recoger
+              try { it.destroy(); } catch (e) {}
+              this.interactables.splice(k, 1);
+
+              if (it.type === 'coin') {
+                this.addPoint();
+              } else if (it.type === 'heart') {
+                this.addLife();
+              }
+            }
+          }
+        }
 
         for (let i = 0; i < this.pipes.length; i++) {
           const pipe = this.pipes[i];
@@ -358,32 +382,7 @@ export class GameController {
 
             }
           }
-        }
-        // comprobar colisiones con interactuables
-        if (this.interactables && this.interactables.length) {
-          for (let k = this.interactables.length - 1; k >= 0; k--) {
-            const it = this.interactables[k];
-            if (!it || !it.elem) continue;
-            const itLeft = it.getX();
-            const itRight = itLeft + it.width;
-            const itTop = it.getY();
-            const itBottom = itTop + it.height;
-
-            // AABB collision
-            if (playerLeft < itRight && playerRight > itLeft && playerTop < itBottom && playerBottom > itTop) {
-              // recoger
-              try { it.destroy(); } catch (e) {}
-              this.interactables.splice(k, 1);
-
-              if (it.type === 'coin') {
-                this.addPoint();
-              } else if (it.type === 'heart') {
-                // dar vida si no esta al maximo
-                this.addLife();
-              }
-            }
-          }
-        }
+        } 
       }
 
       // actualiza posicion del jugaodr en pantalla

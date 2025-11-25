@@ -1,7 +1,7 @@
 "use strict";
 
 export class Interactable {
-  // type: 'coin' | 'heart'
+  // tipo 'coin' o 'heart'
   constructor(gameEl, startX, type = 'coin') {
     this.gameEl = gameEl;
     this.x = startX;

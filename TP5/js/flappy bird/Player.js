@@ -9,6 +9,7 @@ export class Player {
     this.flapStrength = 5.5;
     this.width = 44;
     this.height = 34;
+    this.onGround = false;
     this.initElements();
   }
 
@@ -28,12 +29,22 @@ export class Player {
 
   // limita la posicion del personaje al limite de la pantalla
   constrainToGameBounds(gameHeight) {
-    this.y = Math.max(0, Math.min(gameHeight - this.height, this.y));
+    const clampedY = Math.max(0, Math.min(gameHeight - this.height, this.y));
+    const hitGround = clampedY >= (gameHeight - this.height);
+    this.y = clampedY;
+    if (hitGround) {
+      // al tocar el piso, detener la velocidad vertical y marcar en suelo
+      this.vy = 0;
+      this.onGround = true;
+    } else {
+      this.onGround = false;
+    }
   }
 
   // aleteo
   flap() {
     this.vy = -this.flapStrength;
+    this.onGround = false;
 
     if (this.elem && !this.elem.classList.contains("flap")) {
       this.elem.classList.add("flap");
@@ -47,6 +58,7 @@ export class Player {
   reset(initialY = 200) {
     this.y = initialY;
     this.vy = 0;
+    this.onGround = false;
   }
 
   // la rotación del jugador en base a su velocidad vertical

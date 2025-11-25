@@ -9,11 +9,15 @@ export class Pipe {
 		this.slots = 5; // cantidad total de posibles segmentos verticales
 		this.gapIndex = (options.gapIndex !== undefined) ? options.gapIndex : Math.floor(Math.random() * (this.slots - 1)); // indice del hueco
 
+		this.createPipeElem();
+	}
+
+	createPipeElem() {
 		this.elem = document.createElement('div');
 		this.elem.className = 'pipe-column';
 		this.elem.style.position = 'absolute';
 		this.elem.style.left = Math.round(this.x) + 'px';
-		this.elem.style.top = '0px';
+		this.elem.style.top = '-2px';
 		this.elem.style.width = this.segmentWidth + 'px';
 		this.elem.style.height = (this.segmentHeight * this.slots) + 'px';
 
@@ -44,14 +48,8 @@ export class Pipe {
 	}
 
 	// actualizar posicion de tubo
-	// dt: factor relativo a 60fps (igual que en GameController), speed: px por "frame".
 	update(dt, speed) {
 		this.x -= (speed * dt);
-		if (this.elem) this.elem.style.left = Math.round(this.x) + 'px';
-	}
-
-	// metodo de compatibilidad (llamable desde fuera para separar lógica/DOM)
-	render() {
 		if (this.elem) this.elem.style.left = Math.round(this.x) + 'px';
 	}
 
