@@ -16,13 +16,16 @@ export class GameController {
 
     // puntaje
     this.score = 0;
+    this.pointLimit = 2;
+    // posicion inicial de jugador
+    this.startY = 200;
 
-    // interactuables (monedas / corazones)
+    // interactuables (monedas corazones)
     this.interactables = [];
 
-    // tubos (obstáculos)
+    // tubos (obstaculos)
     this.pipes = [];
-    this.pipeSpacing = 400; // distancia entre columnas de tubos (ajustable)
+    this.pipeSpacing = 400; // distancia entre columnas de tubos
     this.pipeSpeed = 2.5; // px por frame (usa el mismo dt que el jugador)
     this.lastPipeSpawn = 0;
 
@@ -81,14 +84,14 @@ export class GameController {
     this.running = true;
     this.lastTs = null;
     this.worldX = 0;
-    this.player.reset(200);
+    this.player.reset(this.startY);
 
     // resetear puntaje
     this.score = 0;
     if (this.pointsEl) this.pointsEl.textContent = String(this.score);
     
     // asegurar que el jugador esté visible
-    if (this.playerElem) this.playerElem.classList.remove('hidden');
+    if (this.playerElem && this.playerElem.classList.contains('hidden')) this.playerElem.classList.remove('hidden');
 
     // resetear iconos de vida visibles
     if (this.healthIcons && this.healthIcons.length) {
@@ -184,26 +187,61 @@ export class GameController {
     this.playerElem.style.transform = `rotate(${tilt}deg)`;
   }
 
-  endGame() {
-    // detener la lógica del juego (no seguir moviendo el mundo)
+  // terminar juego
+  endGame(won = false) {
+
     this.running = false;
 
-    // pausar animaciones de fondo
+    // pausar fondo parallax
     if (this.gameEl) this.gameEl.classList.add('paused');
 
-    // reproducir animación de muerte
-    try { this.player.die(); } catch (e) {}
-
-    // eliminar del DOM después de la animacion (usar 1s como duración de la animacion en Player)
-    setTimeout(() => {
-      this.playerElem.classList.add("hidden");
-    }, 1000);
-
-    // mostrar pantalla de game over con mensaje
+    // mostrar game over
     if (this.gameOverEl) { this.gameOverEl.classList.remove('hidden'); }
-    if (this.gameOverTitle) this.gameOverTitle.textContent = 'Juego terminado';
-    if (this.gameOverMessage) this.gameOverMessage.textContent = 'Perdiste las 3 vidas ';
-    if (this.finalPointsDisplay) this.finalPointsDisplay.textContent = `Puntaje final: ${this.score}`;
+
+    if (won) {
+      // victoria: no matar al jugador
+      try {
+        if (this.playerElem) {
+          this.playerElem.classList.remove('hidden');
+          this.playerElem.classList.add('natural-flap');
+        }
+        // resetear jugador a posicion
+        try { this.player.reset(this.startY); } catch (e) {}
+        this.updatePlayerDom();
+      } catch (e) {}
+
+      // eliminar la pipe mas a la izquierda
+      if (this.pipes && this.pipes.length) {
+        let minIdx = 0;
+        let minX = this.pipes[0].getX();
+        for (let i = 1; i < this.pipes.length; i++) {
+          const px = this.pipes[i].getX();
+          if (px < minX) { minX = px; minIdx = i; }
+        }
+        try { this.pipes[minIdx].destroy(); } catch (e) {}
+        this.pipes.splice(minIdx, 1);
+      }
+
+      // mostrar mensajes de victoria
+      if (this.gameOverTitle) this.gameOverTitle.textContent = '¡Ganaste!';
+      if (this.gameOverMessage) this.gameOverMessage.textContent = 'Se ganó el juego';
+      if (this.finalPointsDisplay) this.finalPointsDisplay.textContent = `Puntaje final: ${this.score}`;
+
+    } else {
+      // derrota: reproducir animación de muerte
+      try { this.player.die(); } catch (e) {}
+
+      // eliminar del DOM después de la animacion (usar 1s como duración de la animacion en Player)
+      setTimeout(() => {
+        try { if (this.playerElem) this.playerElem.classList.add("hidden"); } catch (e) {}
+      }, 1000);
+
+      // mostrar pantalla de game over con mensaje (derrota)
+      if (this.gameOverEl) { this.gameOverEl.classList.remove('hidden'); }
+      if (this.gameOverTitle) this.gameOverTitle.textContent = 'Juego terminado';
+      if (this.gameOverMessage) this.gameOverMessage.textContent = 'Perdiste las 3 vidas ';
+      if (this.finalPointsDisplay) this.finalPointsDisplay.textContent = `Puntaje final: ${this.score}`;
+    }
   }
 
   // sumar punto y actualizar DOM (método separado según lo pedido)
@@ -211,6 +249,10 @@ export class GameController {
     this.score += amount;
     if (this.pointsEl) {
       this.pointsEl.textContent = String(this.score);
+    }
+    // si alcanza el límite de puntos, finalizar como victoria
+    if (this.pointLimit && this.score >= this.pointLimit) {
+      this.endGame(true);
     }
   }
   
