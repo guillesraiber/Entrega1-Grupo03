@@ -132,6 +132,22 @@ document.addEventListener("DOMContentLoaded", () => {
         </div>
       `;
       track.appendChild(blocka);
+
+      const flappyFish = document.createElement("div");
+      flappyFish.className = "game-card";
+      flappyFish.innerHTML = `
+        <img src="images/Flappy Bird/Game Images/flappy_fish_horizontal.png" alt="Flappy Fish" class="game-img" loading="lazy">
+        <div class="game-info">
+          <h4 class="game-title" title="Flappy Fish">Flappy Fish</h4>
+          <div class="game-meta">
+            <span class="game-price free">Gratis</span>
+
+              <button class="play-btn" onclick="window.location.href='flappy-bird.html'">Jugar</button>
+
+          </div>
+        </div>
+      `;
+      track.appendChild(flappyFish);
     }
 
     juegos.forEach(juego => {
